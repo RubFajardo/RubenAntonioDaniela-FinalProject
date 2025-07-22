@@ -1,52 +1,57 @@
-import React, { useEffect } from "react"
-import rigoImageUrl from "../assets/img/rigo-baby.jpg";
-import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import React from 'react';
 
 export const Home = () => {
+  return (
+    <div className="main-container container">
 
-	const { store, dispatch } = useGlobalReducer()
+      <div className="goal-message text-center my-5">
+        <h2>Tu bienestar, nuestro propósito</h2>
+        <p>
+          Somos una plataforma dedicada a ayudarte a construir una vida más saludable. A través del seguimiento de tus hábitos de <strong>ejercicio</strong>, <strong>alimentación</strong> y <strong>sueño</strong>, te guiamos para que logres un mejor equilibrio y bienestar integral.
+        </p>
+      </div>
+      <div id="habitsCarousel" className="carousel slide mb-5" data-bs-ride="carousel">
+        <div className="carousel-inner">
+          <div className="carousel-item active">
+            <img src="https://via.placeholder.com/800x400?text=Ejercicio" className="d-block w-100" alt="Ejercicio" />
+            <div className="carousel-caption d-none d-md-block">
+              <h5>Ejercicio</h5>
+              <p>Mejora tu energía y fortalece tu cuerpo con rutinas personalizadas.</p>
+            </div>
+          </div>
+          <div className="carousel-item">
+            <img src="https://via.placeholder.com/800x400?text=Alimentación" className="d-block w-100" alt="Alimentación" />
+            <div className="carousel-caption d-none d-md-block">
+              <h5>Alimentación</h5>
+              <p>Registra tus comidas y mantén una dieta balanceada y consciente.</p>
+            </div>
+          </div>
+          <div className="carousel-item">
+            <img src="https://via.placeholder.com/800x400?text=Sueño" className="d-block w-100" alt="Sueño" />
+            <div className="carousel-caption d-none d-md-block">
+              <h5>Sueño</h5>
+              <p>Optimiza tus hábitos de descanso para una mente y cuerpo renovados.</p>
+            </div>
+          </div>
+        </div>
+        <button className="carousel-control-prev" type="button" data-bs-target="#habitsCarousel" data-bs-slide="prev">
+          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Anterior</span>
+        </button>
+        <button className="carousel-control-next" type="button" data-bs-target="#habitsCarousel" data-bs-slide="next">
+          <span className="carousel-control-next-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Siguiente</span>
+        </button>
+      </div>
 
-	const loadMessage = async () => {
-		try {
-			const backendUrl = import.meta.env.VITE_BACKEND_URL
+      <div className="contact-container text-center my-5">
+        <h4>Contacto</h4>
+        <p>
+          ¿Tienes dudas? Escríbenos a <a href="mailto:contacto@habitstracker.com">contacto@habitstracker.com</a>
+        </p>
+      </div>      
+    </div>
+  );
+};
 
-			if (!backendUrl) throw new Error("VITE_BACKEND_URL is not defined in .env file")
-
-			const response = await fetch(backendUrl + "/api/hello")
-			const data = await response.json()
-
-			if (response.ok) dispatch({ type: "set_hello", payload: data.message })
-
-			return data
-
-		} catch (error) {
-			if (error.message) throw new Error(
-				`Could not fetch the message from the backend.
-				Please check if the backend is running and the backend port is public.`
-			);
-		}
-
-	}
-
-	useEffect(() => {
-		loadMessage()
-	}, [])
-
-	return (
-		<div className="text-center mt-5">
-			<h1 className="display-4">Hello Rigo!!</h1>
-			<p className="lead">
-				<img src={rigoImageUrl} className="img-fluid rounded-circle mb-3" alt="Rigo Baby" />
-			</p>
-			<div className="alert alert-info">
-				{store.message ? (
-					<span>{store.message}</span>
-				) : (
-					<span className="text-danger">
-						Loading message from the backend (make sure your python 🐍 backend is running)...
-					</span>
-				)}
-			</div>
-		</div>
-	);
-}; 
+export default Home;

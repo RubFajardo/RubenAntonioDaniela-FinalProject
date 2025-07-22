@@ -16,13 +16,15 @@ export const Login = () => {
                 "email": email,
                 "password": password
             }
-            let resp = await fetch("https://silver-trout-v6rx6x944wv536xgr-3001.app.github.dev/api/user/login", {
+            let resp = await fetch("https://verbose-space-journey-r46j4jq9976x2xww-3001.app.github.dev/api/login", {
                 method: "POST",
                 headers: {"Content-type": "application/json"},
                 body: JSON.stringify(user_credentials)
             }) 
 			const data = await resp.json()
 			localStorage.setItem("token", data.token);
+			localStorage.setItem("user", JSON.stringify(data.user));
+
             navigate("/")
         };
     

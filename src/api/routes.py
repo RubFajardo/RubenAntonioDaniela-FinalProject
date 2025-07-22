@@ -29,20 +29,21 @@ def new_user():
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify("usuario registrado")
+    return jsonify("usuario registrado"), 200
 
 @api.route("/login", methods=["POST"])
 def login():
     body = request.get_json()
 
     user = User.query.filter_by(email=body["email"]).first()
+    user_data = user.serialize()
 
     if user is None:
         return jsonify("usuario no encontrado"), 404
     
     if bcrypt.checkpw(body["password"].encode(), user.password.encode()):
-        access_token = create_access_token(identity=user.id)
-        return jsonify({"token": access_token}), 200
+        access_token = create_access_token(identity=str(user_data["id"]))
+        return jsonify({"token": access_token, "user": user_data}), 200
 
     return jsonify("contraseña incorrecta"), 401
 
