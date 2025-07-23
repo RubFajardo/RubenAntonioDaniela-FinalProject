@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.full-section {
+  width: 100%;
+  min-height: 100vh;
+  padding: 60px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Colores por sección */
+#vision {
+  background-color: #e3f2fd;
+  text-align: center;
+}
+
+#carrusel-imagenes {
+  background-color: #f8f9fa;
+}
+
+#testimonios {
+  background-color: #f1f8e9;
+}
+
+#contacto {
+  background-color: #e0f7fa;
+}
+
+/* Imágenes del carrusel */
+.carousel-item img {
+  height: 500px;
+  object-fit: cover;
+  width: 100%;
+}
+
+/* Testimonios */
+.testimonial {
+  font-size: 1.3rem;
+  max-width: 800px;
+  margin: auto;
+  padding: 40px;
+  text-align: center;
+  font-style: italic;
+}
