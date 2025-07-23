@@ -1,15 +1,19 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Boolean
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, Boolean, ForeignKey, Integer, Date
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from typing import List
+import datetime
 
 db = SQLAlchemy()
 
 class User(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[int] = mapped_column(String(120), nullable=False)
-    email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
-    password: Mapped[str] = mapped_column(nullable=False)
+    name: Mapped[str] = mapped_column(String(50), nullable=False)
+    email: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
+    password: Mapped[str] = mapped_column(String(120), nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
+
+    daily: Mapped[List["Daily"]] = relationship(back_populates="user")
 
 
     def serialize(self):
@@ -19,3 +23,45 @@ class User(db.Model):
             "email": self.email,
             # do not serialize the password, its a security breach
         }
+    
+class Daily(db.Model):
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
+    user: Mapped["User"] = relationship(back_populates="daily")
+
+    date: Mapped[datetime.date] = mapped_column(Date, nullable=False)
+    
+    habits: Mapped[List["Habit"]] = relationship(back_populates="daily")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user": self.user_id,
+            "date": self.date,
+            "habits": [habit.serialize() for habit in self.habits]
+        }
+    
+class Habit(db.Model):
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    daily_id: Mapped[int] = mapped_column(ForeignKey("daily.id"))
+    daily: Mapped["Daily"] = relationship(back_populates="habits")
+
+    entreno: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    ejercicio: Mapped[str] = mapped_column(String(20), nullable=False)
+    sueño: Mapped[str] = mapped_column(String(20), nullable=False)
+    calorias: Mapped[int] = mapped_column(Integer, nullable=False)
+    proteinas: Mapped[int] = mapped_column(Integer, nullable=False)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "daily": self.daily_id,
+            "entreno": self.entreno,
+            "ejercicio": self.ejercicio,
+            "sueño": self.sueño,
+            "calorias": self.calorias,
+            "proteinas": self.proteinas,
+        }
+    

@@ -1,5 +1,4 @@
-import React, { useState } from "react"
-import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
@@ -10,7 +9,6 @@ export const Register = () => {
 
 	const navigate = useNavigate();
 
-	const { store, dispatch } = useGlobalReducer()
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		let new_user = {
@@ -18,11 +16,11 @@ export const Register = () => {
 			"email": email,
 			"password": password
 		}
-		let promise = await fetch("https://verbose-space-journey-r46j4jq9976x2xww-3001.app.github.dev/api/register", {
+		let promise = await fetch("https://bug-free-parakeet-jj76wwq7qjw92jj7x-3001.app.github.dev/api/register/", {
 			method: "POST",
 			headers: {"Content-type": "application/json"},
 			body: JSON.stringify(new_user)
-		}) 
+		});
 		navigate("/login")
 	};
 

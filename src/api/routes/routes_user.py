@@ -1,6 +1,3 @@
-"""
-This module takes care of starting the API Server, Loading the DB and Adding the endpoints
-"""
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
@@ -8,7 +5,7 @@ from flask_cors import CORS
 import bcrypt
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
-api = Blueprint('api', __name__)
+api = Blueprint('user_api', __name__)
 
 # Allow CORS requests to this API
 CORS(api)
@@ -57,4 +54,9 @@ def get_user():
     if user is None:
         return jsonify("usuario no encontrado"), 404
     return jsonify({"user": user.serialize()}), 200
+
+@api.route("/users", methods=["GET"])
+def users():
+    all_users = User.query.all()
+    return jsonify({"users": [user.serialize() for user in all_users]})
 
