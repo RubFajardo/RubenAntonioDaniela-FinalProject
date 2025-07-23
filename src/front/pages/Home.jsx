@@ -1,55 +1,67 @@
 import React from 'react';
 
-export const Home = () => {
+const Home = () => {
   return (
-    <div className="main-container container">
-
-      <div className="goal-message text-center my-5">
-        <h2>Tu bienestar, nuestro propósito</h2>
-        <p>
-          Somos una plataforma dedicada a ayudarte a construir una vida más saludable. A través del seguimiento de tus hábitos de <strong>ejercicio</strong>, <strong>alimentación</strong> y <strong>sueño</strong>, te guiamos para que logres un mejor equilibrio y bienestar integral.
+      <div>
+      <section id="vision" className="full-section">
+        <h2 className="mb-4">Seguimiento de Hábitos Saludables</h2>
+        <p className="lead">
+          Mejorar tu bienestar empieza por cuidar tus hábitos. Nuestro enfoque integral se centra en tres pilares fundamentales: una alimentación consciente, actividad física regular y un descanso reparador. Acompañamos tu progreso para ayudarte a alcanzar una vida más saludable y equilibrada.
         </p>
-      </div>
-      <div id="habitsCarousel" className="carousel slide mb-5" data-bs-ride="carousel">
-        <div className="carousel-inner">
-          <div className="carousel-item active">
-            <img src="https://via.placeholder.com/800x400?text=Ejercicio" className="d-block w-100" alt="Ejercicio" />
-            <div className="carousel-caption d-none d-md-block">
-              <h5>Ejercicio</h5>
-              <p>Mejora tu energía y fortalece tu cuerpo con rutinas personalizadas.</p>
+      </section>
+      <section id="carrusel-imagenes" className="full-section">
+        <h2 className="mb-4">Tu Ruta Saludable</h2>
+        <div id="carouselHabitos" className="carousel slide w-100" data-bs-ride="carousel">
+          <div className="carousel-inner">
+            <div className="carousel-item active">
+              <img src="https://via.placeholder.com/1200x500?text=Ejercicio+Físico" className="d-block w-100" alt="Ejercicio" />
+            </div>
+            <div className="carousel-item">
+              <img src="https://via.placeholder.com/1200x500?text=Alimentación+Saludable" className="d-block w-100" alt="Alimentación" />
+            </div>
+            <div className="carousel-item">
+              <img src="https://via.placeholder.com/1200x500?text=Sueño+Reparador" className="d-block w-100" alt="Sueño" />
             </div>
           </div>
-          <div className="carousel-item">
-            <img src="https://via.placeholder.com/800x400?text=Alimentación" className="d-block w-100" alt="Alimentación" />
-            <div className="carousel-caption d-none d-md-block">
-              <h5>Alimentación</h5>
-              <p>Registra tus comidas y mantén una dieta balanceada y consciente.</p>
-            </div>
-          </div>
-          <div className="carousel-item">
-            <img src="https://via.placeholder.com/800x400?text=Sueño" className="d-block w-100" alt="Sueño" />
-            <div className="carousel-caption d-none d-md-block">
-              <h5>Sueño</h5>
-              <p>Optimiza tus hábitos de descanso para una mente y cuerpo renovados.</p>
-            </div>
-          </div>
+          <button className="carousel-control-prev" type="button" data-bs-target="#carouselHabitos" data-bs-slide="prev">
+            <span className="carousel-control-prev-icon"></span>
+          </button>
+          <button className="carousel-control-next" type="button" data-bs-target="#carouselHabitos" data-bs-slide="next">
+            <span className="carousel-control-next-icon"></span>
+          </button>
         </div>
-        <button className="carousel-control-prev" type="button" data-bs-target="#habitsCarousel" data-bs-slide="prev">
-          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span className="visually-hidden">Anterior</span>
-        </button>
-        <button className="carousel-control-next" type="button" data-bs-target="#habitsCarousel" data-bs-slide="next">
-          <span className="carousel-control-next-icon" aria-hidden="true"></span>
-          <span className="visually-hidden">Siguiente</span>
-        </button>
-      </div>
+      </section>
 
-      <div className="contact-container text-center my-5">
-        <h4>Contacto</h4>
-        <p>
-          ¿Tienes dudas? Escríbenos a <a href="mailto:contacto@habitstracker.com">contacto@habitstracker.com</a>
-        </p>
-      </div>      
+      <section id="testimonios" className="full-section">
+        <h2 className="mb-4">Testimonios Reales</h2>
+        <div id="carouselTestimonios" className="carousel slide" data-bs-ride="carousel">
+          <div className="carousel-inner">
+            <div className="carousel-item active">
+              <div className="testimonial">"Desde que uso esta herramienta, mis hábitos han mejorado radicalmente. Me siento con más energía cada día." – Carla R.</div>
+            </div>
+            <div className="carousel-item">
+              <div className="testimonial">"El seguimiento me ayudó a ser constante y ver resultados. Es como tener un coach personal." – Miguel A.</div>
+            </div>
+            <div className="carousel-item">
+              <div className="testimonial">"Ahora duermo mejor, como mejor y hago ejercicio sin sentirlo como una obligación." – Paula G.</div>
+            </div>
+          </div>
+          <button className="carousel-control-prev" type="button" data-bs-target="#carouselTestimonios" data-bs-slide="prev">
+            <span className="carousel-control-prev-icon"></span>
+          </button>
+          <button className="carousel-control-next" type="button" data-bs-target="#carouselTestimonios" data-bs-slide="next">
+            <span className="carousel-control-next-icon"></span>
+          </button>
+        </div>
+      </section>
+      
+      <section id="contacto" className="full-section">
+        <h2 className="mb-3">Contacto</h2>
+        <p className="lead">¿Tienes preguntas? ¡Estamos para ayudarte!</p>
+        <p>Email: <a href="mailto:contacto@habitosaludables.com">contacto@habitosaludables.com</a></p>
+        <p>Teléfono: +34 123 456 789</p>
+        <p>Dirección: Calle Bienestar 123, Madrid, España</p>
+      </section>
     </div>
   );
 };
