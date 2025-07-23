@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Home = () => {
+export const Home = () => {
   return (
       <div>
       <section id="vision" className="full-section">
@@ -66,4 +66,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+
