@@ -13,8 +13,21 @@ CORS(api)
 
 @api.route("/register", methods=["POST"])
 def new_user():
+    
     body = request.get_json()
 
+    if not body.get("name"):
+        return jsonify({"error": "el nombre no puede estar vacio"}), 400
+
+    if not body.get("email") or "@" not in body["email"]:
+        return jsonify({"error": "email no valido o vacio"}), 400
+    
+    if User.query.filter_by(email=body["email"]).first():
+        return jsonify({"error": "email ya registrado"}), 400
+    
+    if not body.get("password"):
+        return jsonify({"error": "la contraseña no puede estar vacia"}), 400
+    
     coded_password = bcrypt.hashpw(body["password"].encode(), bcrypt.gensalt())
 
     new_user = User()
@@ -31,6 +44,12 @@ def new_user():
 @api.route("/login", methods=["POST"])
 def login():
     body = request.get_json()
+
+    if not body.get("email") or "@" not in body["email"]:
+        return jsonify({"error": "email no valido"}), 400
+    
+    if not body.get("password"):
+        return jsonify({"error": "Contraseña requerida."}), 400
 
     user = User.query.filter_by(email=body["email"]).first()
     user_data = user.serialize()
