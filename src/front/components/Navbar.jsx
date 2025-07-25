@@ -8,10 +8,9 @@ export const Navbar = () => {
   useEffect(() => {
     const loggeddUser = localStorage.getItem("user");
     if (loggeddUser) {
-      console.log(loggeddUser)
       setUser(JSON.parse(loggeddUser));
     }
-  }, [user]);
+  }, []);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light px-4">
@@ -27,7 +26,7 @@ export const Navbar = () => {
               <Link className="nav-link" to="/vision">Visión</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/habitos">Hábitos</Link>
+              <Link className="nav-link" to="/habits">Hábitos</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/agenda">Agenda</Link>
