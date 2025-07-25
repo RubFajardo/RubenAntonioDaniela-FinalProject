@@ -21,10 +21,10 @@ export const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link" to="/contacto">Contacto</Link>
+             <a className="nav-link" href="#contacto">Contacto</a>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/vision">Visión</Link>
+              <a className="nav-link" href="#vision">Visión</a>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/habitos">Hábitos</Link>
