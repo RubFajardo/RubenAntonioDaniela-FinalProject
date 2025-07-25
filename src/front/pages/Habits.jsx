@@ -28,8 +28,8 @@ export const Habits = () => {
   });
 
   useEffect(() => {
-    const totalCalories = parseInt(breakfast.calories + lunch.calories + dinner.calories)
-    const totalProtein = parseInt(breakfast.protein + lunch.protein + dinner.protein)
+    const totalCalories = breakfast.calories + lunch.calories + dinner.calories
+    const totalProtein = breakfast.protein + lunch.protein + dinner.protein
 
     setFoodTotal({
       caloriesTotal: totalCalories,
@@ -38,14 +38,16 @@ export const Habits = () => {
   }, [breakfast, lunch, dinner]);
 
   const handleMealChange = (mealType, field, e) => {
+
+    const value = field === "calories" || field === "protein" ? parseInt(e.target.value) || 0 : e.target.value;
     if (mealType === "desayunaste") {
-      setBreakfast({ ...breakfast, [field]: parseInt(e.target.value)})
+      setBreakfast({ ...breakfast, [field]: value})
     }
     else if (mealType === "almorzaste") {
-      setLunch({ ...lunch, [field]: parseInt(e.target.value) })
+      setLunch({ ...lunch, [field]: value })
     }
     else {
-      setDinner({ ...dinner, [field]: parseInt(e.target.value) })
+      setDinner({ ...dinner, [field]: value })
     }
 
 

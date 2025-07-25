@@ -26,7 +26,6 @@ export const Navbar = () => {
                 <a className="nav-link" href="#testimonios">Visión</a>
             </li>
             <li className="nav-item">
-             <a className="nav-link" href="#carrusel-imagenes">Hábitos</a>
               <Link className="nav-link" to="/habits">Hábitos</Link>
             </li>
             <li className="nav-item">
@@ -40,7 +39,7 @@ export const Navbar = () => {
                 localStorage.removeItem("token");
                 localStorage.removeItem("user");
                 navigate("/login");
-
+                setUser(null);
               }}>Cerrar sesión</button></span>
             ) : (
               <Link className="btn btn-outline-primary" to="/login">Iniciar sesión</Link>
