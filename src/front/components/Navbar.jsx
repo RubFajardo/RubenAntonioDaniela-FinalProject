@@ -40,7 +40,7 @@ export const Navbar = () => {
                 localStorage.removeItem("token");
                 localStorage.removeItem("user");
                 navigate("/login");
-
+                setUser(null);
               }}>Cerrar sesión</button></span>
             ) : (
               <Link className="btn btn-outline-primary" to="/login">Iniciar sesión</Link>

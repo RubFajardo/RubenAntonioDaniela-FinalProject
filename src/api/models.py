@@ -7,6 +7,10 @@ import datetime
 db = SQLAlchemy()
 
 class User(db.Model):
+
+    __tableargs__ = (
+        
+    )
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     email: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
@@ -27,12 +31,12 @@ class User(db.Model):
 class Daily(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
 
-    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
     user: Mapped["User"] = relationship(back_populates="daily")
 
     date: Mapped[datetime.date] = mapped_column(Date, nullable=False)
     
-    habits: Mapped[List["Habit"]] = relationship(back_populates="daily")
+    habits: Mapped[List["Habit"]] = relationship(back_populates="daily", cascade="all, delete-orphan")
 
     def serialize(self):
         return {
@@ -43,6 +47,11 @@ class Daily(db.Model):
         }
     
 class Habit(db.Model):
+
+    __tableargs__ = (
+        db.CheckConstraint("calorias >= 0", name="check_calorias_positive"),
+        db.CheckConstraint("proteinas >= 0", name="check_proteinas_positive")
+    )
     id: Mapped[int] = mapped_column(primary_key=True)
 
     daily_id: Mapped[int] = mapped_column(ForeignKey("daily.id"))
