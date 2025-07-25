@@ -3,14 +3,14 @@ import React from 'react';
 export const Home = () => {
   return (
       <div>
-   <section id="vision" className="vision-section d-flex align-items-center justify-content-center text-center">
+      <section id="vision" className="vision-section d-flex align-items-center justify-content-center text-center">
   <div className="vision-overlay">
     <h2 className="vision-title">Seguimiento de Hábitos Saludables</h2>
     <p className="vision-text">
       Mejorar tu bienestar empieza por cuidar tus hábitos. Nuestro enfoque integral se centra en tres pilares fundamentales: una alimentación consciente, actividad física regular y un descanso reparador.
     </p>
   </div>
-      </section>
+</section>
       <section id="carrusel-imagenes" className="full-section">
         <h2 className="mb-4">Tu Ruta Saludable</h2>
         <div id="carouselHabitos" className="carousel slide w-100" data-bs-ride="carousel">

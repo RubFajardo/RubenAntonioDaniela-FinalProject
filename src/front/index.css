@@ -76,15 +76,43 @@ body {
   width: 100%;
 }
 
-/* Testimonios */
-.testimonial {
-  font-size: 1.3rem;
-  max-width: 800px;
-  margin: auto;
-  padding: 40px;
-  text-align: center;
-  font-style: italic;
+#carouselTestimonios .carousel-item {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  min-height: 280px; /* suficiente espacio para imagen + texto */
+  box-sizing: border-box;
 }
+
+#carouselTestimonios .carousel-item img {
+  height: 140px;
+  width: 140px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #ddd;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  display: block;
+}
+
+.testimonial {
+  max-width: 600px;
+  font-style: italic;
+  font-size: 1.25rem;
+  color: #333;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.testimonial strong {
+  font-weight: 700;
+  display: block;
+  margin-top: 15px;
+}
+
+
 html {
   scroll-behavior: smooth;
 }

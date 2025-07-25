@@ -24,7 +24,7 @@ export const Navbar = () => {
              <a className="nav-link" href="#contacto">Contacto</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#vision">Visión</a>
+                <a className="nav-link" href="#testimonios">Visión</a>
             </li>
             <li className="nav-item">
              <a className="nav-link" href="#carrusel-imagenes">Hábitos</a>
