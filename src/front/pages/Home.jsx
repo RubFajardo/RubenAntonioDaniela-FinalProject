@@ -14,13 +14,13 @@ export const Home = () => {
         <div id="carouselHabitos" className="carousel slide w-100" data-bs-ride="carousel">
           <div className="carousel-inner">
             <div className="carousel-item active">
-              <img src="https://via.placeholder.com/1200x500?text=Ejercicio+Físico" className="d-block w-100" alt="Ejercicio" />
+              <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1" className="d-block w-100" alt="Ejercicio" />
             </div>
             <div className="carousel-item">
-              <img src="https://via.placeholder.com/1200x500?text=Alimentación+Saludable" className="d-block w-100" alt="Alimentación" />
+              <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836" alt="Alimentación" />
             </div>
             <div className="carousel-item">
-              <img src="https://via.placeholder.com/1200x500?text=Sueño+Reparador" className="d-block w-100" alt="Sueño" />
+              <img src="https://phantom-elmundo.unidadeditorial.es/c0c11ddcd0e29d02b4c5b826d9bd2c5e/crop/72x0/2803x2048/resize/2560/f/webp/assets/multimedia/imagenes/2022/05/06/16518385882713.jpg" className="d-block w-100" alt="Sueño" />
             </div>
           </div>
           <button className="carousel-control-prev" type="button" data-bs-target="#carouselHabitos" data-bs-slide="prev">

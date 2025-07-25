@@ -47,3 +47,6 @@ body {
   text-align: center;
   font-style: italic;
 }
+html {
+  scroll-behavior: smooth;
+}
