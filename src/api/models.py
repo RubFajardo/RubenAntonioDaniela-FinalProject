@@ -57,7 +57,7 @@ class Habit(db.Model):
     daily_id: Mapped[int] = mapped_column(ForeignKey("daily.id"))
     daily: Mapped["Daily"] = relationship(back_populates="habits")
 
-    entreno: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    entreno: Mapped[bool] = mapped_column(Boolean, nullable=True)
     ejercicio: Mapped[str] = mapped_column(String(20), nullable=False)
     sueño: Mapped[str] = mapped_column(String(20), nullable=False)
     calorias: Mapped[int] = mapped_column(Integer, nullable=False)

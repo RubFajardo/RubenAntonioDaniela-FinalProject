@@ -63,7 +63,7 @@ def login():
 
     return jsonify("contraseña incorrecta"), 401
 
-@api.route("/private", methods=["GET"])
+@api.route("/profile", methods=["GET"])
 @jwt_required()
 def get_user():
 
@@ -74,8 +74,36 @@ def get_user():
         return jsonify("usuario no encontrado"), 404
     return jsonify({"user": user.serialize()}), 200
 
-@api.route("/users", methods=["GET"])
+@api.route("/edit_profile", methods=["PUT"])
+@jwt_required()
+def edit_profile():
+    current_user = get_jwt_identity()
+    user = User.query.get(current_user)
+    body = request.get_json()
+    if "name" in body:
+        user.name = body["name"]
+    if "email" in body:
+        user.email = body["email"]
+    if "password" in body:
+        coded_password = bcrypt.hashpw(body["password"].encode(), bcrypt.gensalt())
+        user.password = coded_password.decode()
+    return jsonify({"message": "Datos de usuario actualizados"}), 200
+
+@api.route("/delete_user", methods=["DELETE"])
+@jwt_required()
+def delete_user():
+    current_user = get_jwt_identity()
+    user = User.query.get(current_user)
+
+    db.session.delete(user)
+    db.session.commit()
+
+    return jsonify({"message": "Usuario eliminado"}), 200
+
+    
+
+""" @api.route("/users", methods=["GET"])
 def users():
     all_users = User.query.all()
-    return jsonify({"users": [user.serialize() for user in all_users]})
+    return jsonify({"users": [user.serialize() for user in all_users]}) """
 
