@@ -1,5 +1,5 @@
 from flask import request, jsonify, Blueprint
-from api.models import db, Daily, Habit
+from api.models import db, Daily, Habit, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
@@ -36,3 +36,33 @@ def new_daily():
     db.session.commit()
 
     return jsonify({"message": "nuevo registro creado"}), 200
+
+@api.route("/daily_habits", methods=["PUT"])
+@jwt_required()
+def edit_habit():
+    current_user = get_jwt_identity()
+    user = User.query.get(current_user)
+
+    body = request.get_json()
+
+    daily = Daily.query.filter_by(user_id=user.id, date=body["date"]).first()
+    habits_data = body.get("habits")
+
+    for habit_data in habits_data:
+        habit_id = habit_data.get("id")
+        habit = Habit.query.filter_by(id=habit_id, daily_id=daily.id).first()
+
+        if "entreno" in habit_data:
+            habit.entreno = habit_data["entreno"]
+        if "ejercicio" in habit_data:
+            habit.ejercicio = habit_data["ejercicio"]
+        if "sueño" in habit_data:
+            habit.sueño = habit_data["sueño"]
+        if "calorias" in habit_data:
+            habit.calorias = habit_data["calorias"]
+        if "proteinas" in habit_data:
+            habit.proteinas = habit_data["proteinas"]
+    
+    db.session.commit()
+
+    return jsonify({"message": "Habitos actualizados"}), 200
