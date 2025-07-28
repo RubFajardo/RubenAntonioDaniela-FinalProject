@@ -8,8 +8,7 @@ export const Login = () => {
         const [password, setPassword] = useState('')
     
         const navigate = useNavigate();
-    
-        const { store, dispatch } = useGlobalReducer()
+
         const handleSubmit = async (e) => {
             e.preventDefault();
             let user_credentials = {
@@ -24,6 +23,7 @@ export const Login = () => {
 			const data = await resp.json()
 			localStorage.setItem("token", data.token);
 			localStorage.setItem("user", JSON.stringify(data.user));
+			window.dispatchEvent(new Event("userChanged"));
 
             navigate("/")
         };
