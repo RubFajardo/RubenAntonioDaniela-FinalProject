@@ -6,10 +6,18 @@ export const Navbar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const loggeddUser = localStorage.getItem("user");
-    if (loggeddUser) {
-      setUser(JSON.parse(loggeddUser));
-    }
+    const checkUser = () => {
+      const loggedUser = localStorage.getItem("user");
+      setUser(loggedUser ? JSON.parse(loggedUser) : null);
+    };
+
+    checkUser()
+
+    window.addEventListener("userChanged", checkUser);
+
+    return () => {
+      window.removeEventListener("userChanged", checkUser);
+    };
   }, []);
 
   return (
@@ -38,6 +46,7 @@ export const Navbar = () => {
               <span className="navbar-text">Bienvenido, {user.name} <button className="btn btn-outline-danger ms-3" onClick={() => {
                 localStorage.removeItem("token");
                 localStorage.removeItem("user");
+                window.dispatchEvent(new Event("userChanged"));
                 navigate("/login");
               }}>Cerrar sesión</button></span>
             ) : (

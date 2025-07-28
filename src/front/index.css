@@ -5,12 +5,14 @@ body {
 
 .full-section {
   width: 100%;
-  min-height: 100vh;
-  padding: 60px 30px;
+  min-height: 60vh;
+  padding: 40x 0px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0; 
+  padding: 0px 0px;
 }
 
 /* Colores por sección */
@@ -26,8 +28,7 @@ body {
 
 .vision-section {
   position: relative;
-  background-image: url('https://images.unsplash.com/photo-1554284126-aa88f22d8b74?auto=format&fit=crop&w=1600&q=80'); /* Imagen de estilo saludable */
-  background-size: cover;
+  background-image: url('https://images.unsplash.com/photo-1554284126-aa88f22d8b74?auto=format&fit=crop&w=1600&q=80'); 
   background-position: center;
   background-repeat: no-repeat;
   min-height: 100vh;
@@ -56,18 +57,36 @@ body {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); 
 }
 
-
-#carrusel-imagenes {
-  background-color: #f8f9fa;
+.carrusel-ruta-saludable {
+  position: relative;
+  background-color: #000;
+  color: #fff;
 }
 
+.titulo-sobre-carrusel {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+}
+
+.titulo-sobre-carrusel h2 {
+  font-size: 2.5rem;
+  color: #ffff
+}
+
+
 #testimonios {
-  background-color: #f1f8e9;
+  background-color: #f8f9fa;
 }
 
 #contacto {
   background-color: #e0f7fa;
 }
+
+
 
 /* Imágenes del carrusel */
 .carousel-item img {
@@ -76,6 +95,12 @@ body {
   width: 100%;
 }
 
+.contacto {
+  background-color: #e0f7fa;
+  padding: 40px 20px;   /* 🔽 Reduce el espacio interno */
+  min-height: 60;     /* ❌ Elimina el alto mínimo si estaba heredado */
+  text-align: center;
+}
 
 html {
   scroll-behavior: smooth;

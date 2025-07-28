@@ -105,7 +105,7 @@ export const Habits = () => {
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4">¡Tus hábitos saludables de hoy!</h2>
+      <h2 className="text-center mb-4">¡Tus hábitos saludables de hoy!</h2>git 
 
       <form onSubmit={handleSubmit}>
         <div className="card p-4 mb-4 shadow-sm">
