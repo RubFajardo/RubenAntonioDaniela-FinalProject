@@ -5,7 +5,7 @@ export const Home = () => {
         <div>
               <section id="vision" className="vision-section d-flex align-items-center justify-content-center text-center">
                 <div className="vision-overlay">
-                    <h2 className="vision-title">NUEVOS CAMBIOS</h2>
+                    <h2 className="vision-title">CAMBIO2</h2>
                         <p className="vision-text">
                               Mejorar tu bienestar empieza por cuidar tus hábitos. Nuestro enfoque integral se centra en tres pilares fundamentales: una alimentación consciente, actividad física regular y un descanso reparador.
                                   </p>
