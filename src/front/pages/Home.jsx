@@ -11,9 +11,11 @@ export const Home = () => {
                                   </p>
                                     </div>
                                     </section>
-                                          <section id="carrusel-imagenes" className="full-section">
-                                                  <h2 className="mb-4">Tu Ruta Saludable</h2>
-                                                          <div id="carouselHabitos" className="carousel slide w-100" data-bs-ride="carousel">
+                                         <section id="carrusel-imagenes" className="full-section carrusel-ruta-saludable">
+  <div className="titulo-sobre-carrusel">
+    <h2>Tu Ruta Saludable</h2>
+  </div>
+  <div id="carouselHabitos" className="carousel slide w-100" data-bs-ride="carousel">
                                                                     <div className="carousel-inner">
                                                                                 <div className="carousel-item active">
                                                                                               <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1" className="d-block w-100" alt="Ejercicio" />
