@@ -2,70 +2,73 @@ import React from 'react';
 
 export const Home = () => {
   return (
-      <div>
-      <section id="vision" className="vision-section d-flex align-items-center justify-content-center text-center">
-  <div className="vision-overlay">
-    <h2 className="vision-title">Seguimiento de Hábitos Saludables</h2>
-    <p className="vision-text">
-      Mejorar tu bienestar empieza por cuidar tus hábitos. Nuestro enfoque integral se centra en tres pilares fundamentales: una alimentación consciente, actividad física regular y un descanso reparador.
-    </p>
+        <div>
+              <section id="vision" className="vision-section d-flex align-items-center justify-content-center text-center">
+                <div className="vision-overlay">
+                    <h2 className="vision-title">Seguimiento de Hábitos Saludables</h2>
+                        <p className="vision-text">
+                              Mejorar tu bienestar empieza por cuidar tus hábitos. Nuestro enfoque integral se centra en tres pilares fundamentales: una alimentación consciente, actividad física regular y un descanso reparador.
+                                  </p>
+                                    </div>
+                                    </section>
+                                         <section id="carrusel-imagenes" className="full-section carrusel-ruta-saludable">
+  <div className="titulo-sobre-carrusel">
+    <h2>Tu Ruta Saludable</h2>
   </div>
-</section>
-      <section id="carrusel-imagenes" className="full-section">
-        <h2 className="mb-4">Tu Ruta Saludable</h2>
-        <div id="carouselHabitos" className="carousel slide w-100" data-bs-ride="carousel">
-          <div className="carousel-inner">
-            <div className="carousel-item active">
-              <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1" className="d-block w-100" alt="Ejercicio" />
-            </div>
-            <div className="carousel-item">
-              <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836" alt="Alimentación" />
-            </div>
-            <div className="carousel-item">
-              <img src="https://phantom-elmundo.unidadeditorial.es/c0c11ddcd0e29d02b4c5b826d9bd2c5e/crop/72x0/2803x2048/resize/2560/f/webp/assets/multimedia/imagenes/2022/05/06/16518385882713.jpg" className="d-block w-100" alt="Sueño" />
-            </div>
-          </div>
-          <button className="carousel-control-prev" type="button" data-bs-target="#carouselHabitos" data-bs-slide="prev">
-            <span className="carousel-control-prev-icon"></span>
-          </button>
-          <button className="carousel-control-next" type="button" data-bs-target="#carouselHabitos" data-bs-slide="next">
-            <span className="carousel-control-next-icon"></span>
-          </button>
-        </div>
-      </section>
+  <div id="carouselHabitos" className="carousel slide w-100" data-bs-ride="carousel">
+                                                                    <div className="carousel-inner">
+                                                                                <div className="carousel-item active">
+                                                                                              <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1" className="d-block w-100" alt="Ejercicio" />
+                                                                                                          </div>
+                                                                                                                      <div className="carousel-item">
+                                                                                                                                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836" alt="Alimentación" />
+                                                                                                                                                </div>
+                                                                                                                                                            <div className="carousel-item">
+                                                                                                                                                                          <img src="https://phantom-elmundo.unidadeditorial.es/c0c11ddcd0e29d02b4c5b826d9bd2c5e/crop/72x0/2803x2048/resize/2560/f/webp/assets/multimedia/imagenes/2022/05/06/16518385882713.jpg" className="d-block w-100" alt="Sueño" />
+                                                                                                                                                                                      </div>
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                                          <button className="carousel-control-prev" type="button" data-bs-target="#carouselHabitos" data-bs-slide="prev">
+                                                                                                                                                                                                                      <span className="carousel-control-prev-icon"></span>
+                                                                                                                                                                                                                                </button>
+                                                                                                                                                                                                                                          <button className="carousel-control-next" type="button" data-bs-target="#carouselHabitos" data-bs-slide="next">
+                                                                                                                                                                                                                                                      <span className="carousel-control-next-icon"></span>
+                                                                                                                                                                                                                                                                </button>
+                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                              </section>
 
-      <section id="testimonios" className="full-section">
-        <h2 className="mb-4">Testimonios Reales</h2>
-        <div id="carouselTestimonios" className="carousel slide" data-bs-ride="carousel">
-          <div className="carousel-inner">
-            <div className="carousel-item active">
-              <div className="testimonial">"Desde que uso esta herramienta, mis hábitos han mejorado radicalmente. Me siento con más energía cada día." – Carla R.</div>
-            </div>
-            <div className="carousel-item">
-              <div className="testimonial">"El seguimiento me ayudó a ser constante y ver resultados. Es como tener un coach personal." – Miguel A.</div>
-            </div>
-            <div className="carousel-item">
-              <div className="testimonial">"Ahora duermo mejor, como mejor y hago ejercicio sin sentirlo como una obligación." – Paula G.</div>
-            </div>
-          </div>
-          <button className="carousel-control-prev" type="button" data-bs-target="#carouselTestimonios" data-bs-slide="prev">
-            <span className="carousel-control-prev-icon"></span>
-          </button>
-          <button className="carousel-control-next" type="button" data-bs-target="#carouselTestimonios" data-bs-slide="next">
-            <span className="carousel-control-next-icon"></span>
-          </button>
-        </div>
-      </section>
-      
-      <section id="contacto" className="full-section">
-        <h2 className="mb-3">Contacto</h2>
-        <p className="lead">¿Tienes preguntas? ¡Estamos para ayudarte!</p>
-        <p>Email: <a href="mailto:contacto@habitosaludables.com">contacto@habitosaludables.com</a></p>
-        <p>Teléfono: +34 123 456 789</p>
-        <p>Dirección: Calle Bienestar 123, Madrid, España</p>
-      </section>
-    </div>
-  );
-};
+                                                                                                                                                                                                                                                                                    <section id="testimonios" className="full-section">
+                                                                                                                                                                                                                                                                                            <h2 className="mb-4">Testimonios Reales</h2>
+                                                                                                                                                                                                                                                                                                    <div id="carouselTestimonios" className="carousel slide" data-bs-ride="carousel">
+                                                                                                                                                                                                                                                                                                              <div className="carousel-inner">
+                                                                                                                                                                                                                                                                                                                          <div className="carousel-item active">
+                                                                                                                                                                                                                                                                                                                                        <div className="testimonial">"Desde que uso esta herramienta, mis hábitos han mejorado radicalmente. Me siento con más energía cada día." – Carla R.</div>
+                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                <div className="carousel-item">
+                                                                                                                                                                                                                                                                                                                                                                              <div className="testimonial">"El seguimiento me ayudó a ser constante y ver resultados. Es como tener un coach personal." – Miguel A.</div>
+                                                                                                                                                                                                                                                                                                                                                                                          </div>
+                                                                                                                                                                                                                                                                                                                                                                                                      <div className="carousel-item">
+                                                                                                                                                                                                                                                                                                                                                                                                                    <div className="testimonial">"Ahora duermo mejor, como mejor y hago ejercicio sin sentirlo como una obligación." – Paula G.</div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                          </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    <button className="carousel-control-prev" type="button" data-bs-target="#carouselTestimonios" data-bs-slide="prev">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                <span className="carousel-control-prev-icon"></span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <button className="carousel-control-next" type="button" data-bs-target="#carouselTestimonios" data-bs-slide="next">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <span className="carousel-control-next-icon"></span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </section>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <section id="contacto" className="contacto">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <h2 className="mb-3">Contacto</h2>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <p className="lead">¿Tienes preguntas? ¡Estamos para ayudarte!</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <p>Email: <a href="mailto:contacto@habitosaludables.com">contacto@habitosaludables.com</a></p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <p>Teléfono: +34 123 456 789</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <p>Dirección: Calle Bienestar 123, Madrid, España</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </section>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        );
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        };
 
 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
