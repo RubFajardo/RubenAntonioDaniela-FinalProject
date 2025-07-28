@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react"
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export const Habits = () => {
-  
+
   const [userName, setUserName] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     const user = JSON.parse(storedUser);
     setUserName(user.name)
   }, [])
-  
+
   const [didTrain, setDidTrain] = useState(null);
   const [trainingType, setTrainingType] = useState('');
   const [sleepQuality, setSleepQuality] = useState('');
@@ -49,7 +50,7 @@ export const Habits = () => {
 
     const value = field === "calories" || field === "protein" ? parseInt(e.target.value) || 0 : e.target.value;
     if (mealType === "desayunaste") {
-      setBreakfast({ ...breakfast, [field]: value})
+      setBreakfast({ ...breakfast, [field]: value })
     }
     else if (mealType === "almorzaste") {
       setLunch({ ...lunch, [field]: value })
@@ -82,7 +83,7 @@ export const Habits = () => {
       return;
     }
 
-    await fetch("https://ominous-parakeet-jj76wwq7q4x735vjj-3001.app.github.dev/daily_habits", {
+    await fetch("https://ominous-parakeet-jj76wwq7q4x735vjj-3001.app.github.dev/api/daily_habits", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -100,12 +101,14 @@ export const Habits = () => {
           }
         ]
       }),
-    });
+    },
+    );
+    navigate("/")
   }
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4">¡Tus hábitos saludables de hoy!</h2>git 
+      <h2 className="text-center mb-4">¡Tus hábitos saludables de hoy!</h2>git
 
       <form onSubmit={handleSubmit}>
         <div className="card p-4 mb-4 shadow-sm">

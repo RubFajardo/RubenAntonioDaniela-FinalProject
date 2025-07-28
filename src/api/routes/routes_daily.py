@@ -66,3 +66,34 @@ def edit_habit():
     db.session.commit()
 
     return jsonify({"message": "Habitos actualizados"}), 200
+
+@api.route("/daily_habits", methods=["GET"])
+@jwt_required()
+def get_daily_habits():
+    current_user = get_jwt_identity()
+    user = User.query.get(current_user)
+
+    daily_habits = Daily.query.filter_by(user_id=user.id).all()
+
+    if not daily_habits:
+        return jsonify({"message": "No hay registros"}), 404
+
+    result = []
+    for daily in daily_habits:
+        habits = Habit.query.filter_by(daily_id=daily.id).all()
+        habits_data = [{
+            "id": habit.id,
+            "entreno": habit.entreno,
+            "ejercicio": habit.ejercicio,
+            "sueño": habit.sueño,
+            "calorias": habit.calorias,
+            "proteinas": habit.proteinas
+        } for habit in habits]
+
+        result.append({
+            "id": daily.id,
+            "date": daily.date,
+            "habits": habits_data
+        })
+
+    return jsonify(result), 200

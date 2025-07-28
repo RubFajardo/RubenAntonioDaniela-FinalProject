@@ -17,7 +17,7 @@ export const Register = () => {
 			"password": password
 		}
 
-		let promise = await fetch("https://bug-free-parakeet-jj76wwq7qjw92jj7x-3001.app.github.dev/api/register", {
+		let promise = await fetch("https://ominous-parakeet-jj76wwq7q4x735vjj-3001.app.github.dev/api/register", {
 
 			method: "POST",
 			headers: {"Content-type": "application/json"},
