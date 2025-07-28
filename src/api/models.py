@@ -15,6 +15,7 @@ class User(db.Model):
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     email: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String(120), nullable=False)
+
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
 
     daily: Mapped[List["Daily"]] = relationship(back_populates="user")
