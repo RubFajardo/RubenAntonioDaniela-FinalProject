@@ -3,7 +3,15 @@ import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import { useNavigate } from "react-router-dom";
 
 export const Habits = () => {
+  
+  const [userName, setUserName] = useState("");
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const user = JSON.parse(storedUser);
+    setUserName(user.name)
+  }, [])
+  
   const [didTrain, setDidTrain] = useState(null);
   const [trainingType, setTrainingType] = useState('');
   const [sleepQuality, setSleepQuality] = useState('');
@@ -67,8 +75,6 @@ export const Habits = () => {
     }
   };
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
   };
@@ -79,7 +85,7 @@ export const Habits = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="card p-4 mb-4 shadow-sm">
-          <h5 className="mb-3">Hola Ruben, ¿Entrenaste hoy?</h5>
+          <h5 className="mb-3">Hola {userName}, ¿Entrenaste hoy?</h5>
           <div className="form-check form-check-inline">
             <input className="form-check-input" type="radio" name="didTrain" id="trainYes" onChange={() => setDidTrain(true)} value="true" checked={didTrain === true} />
             <label className="form-check-label" htmlFor="trainYes">Sí</label>
