@@ -57,9 +57,6 @@ export const Habits = () => {
     else {
       setDinner({ ...dinner, [field]: value })
     }
-
-
-
   }
 
   const getMealState = (mealType) => {
@@ -77,7 +74,34 @@ export const Habits = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  };
+    const today = new Date().toISOString().split('T')[0];
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("No has iniciado sesion");
+      return;
+    }
+
+    await fetch("https://ominous-parakeet-jj76wwq7q4x735vjj-3001.app.github.dev/daily_habits", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      },
+      body: JSON.stringify({
+        date: today,
+        habits: [
+          {
+            entreno: didTrain,
+            ejercicio: trainingType,
+            sueño: sleepQuality,
+            calorias: foodTotal.caloriesTotal,
+            proteinas: foodTotal.proteinTotal,
+          }
+        ]
+      }),
+    });
+  }
 
   return (
     <div className="container mt-5">
