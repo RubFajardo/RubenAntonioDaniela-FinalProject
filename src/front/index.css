@@ -15,7 +15,6 @@ body {
   padding: 0px 0px;
 }
 
-/* Colores por sección */
 #vision {
   background-color: #e3f2fd;
   text-align: center;
@@ -88,7 +87,7 @@ body {
 
 
 
-/* Imágenes del carrusel */
+
 .carousel-item img {
   height: 500px;
   object-fit: cover;
@@ -97,8 +96,8 @@ body {
 
 .contacto {
   background-color: #e0f7fa;
-  padding: 40px 20px;   /* 🔽 Reduce el espacio interno */
-  min-height: 60;     /* ❌ Elimina el alto mínimo si estaba heredado */
+  padding: 40px 20px;  
+  min-height: 60;     
   text-align: center;
 }
 
