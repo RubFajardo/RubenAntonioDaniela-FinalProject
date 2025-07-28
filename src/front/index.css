@@ -5,12 +5,14 @@ body {
 
 .full-section {
   width: 100%;
-  min-height: 100vh;
-  padding: 60px 30px;
+  min-height: 60vh;
+  padding: 40x 0px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0; 
+  padding: 0px 0px;
 }
 
 /* Colores por sección */
@@ -68,6 +70,8 @@ body {
   background-color: #e0f7fa;
 }
 
+
+
 /* Imágenes del carrusel */
 .carousel-item img {
   height: 500px;
@@ -75,6 +79,12 @@ body {
   width: 100%;
 }
 
+.contacto {
+  background-color: #e0f7fa;
+  padding: 40px 20px;   /* 🔽 Reduce el espacio interno */
+  min-height: 60;     /* ❌ Elimina el alto mínimo si estaba heredado */
+  text-align: center;
+}
 
 html {
   scroll-behavior: smooth;
