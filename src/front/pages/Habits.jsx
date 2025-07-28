@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react"
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export const Habits = () => {
+
+  const [userName, setUserName] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const user = JSON.parse(storedUser);
+    setUserName(user.name)
+  }, [])
 
   const [didTrain, setDidTrain] = useState(null);
   const [trainingType, setTrainingType] = useState('');
@@ -41,7 +50,7 @@ export const Habits = () => {
 
     const value = field === "calories" || field === "protein" ? parseInt(e.target.value) || 0 : e.target.value;
     if (mealType === "desayunaste") {
-      setBreakfast({ ...breakfast, [field]: value})
+      setBreakfast({ ...breakfast, [field]: value })
     }
     else if (mealType === "almorzaste") {
       setLunch({ ...lunch, [field]: value })
@@ -49,9 +58,6 @@ export const Habits = () => {
     else {
       setDinner({ ...dinner, [field]: value })
     }
-
-
-
   }
 
   const getMealState = (mealType) => {
@@ -67,21 +73,46 @@ export const Habits = () => {
     }
   };
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const today = new Date().toISOString().split('T')[0];
-    
-  };
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("No has iniciado sesion");
+      return;
+    }
+
+    await fetch("https://ominous-parakeet-jj76wwq7q4x735vjj-3001.app.github.dev/api/daily_habits", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      },
+      body: JSON.stringify({
+        date: today,
+        habits: [
+          {
+            entreno: didTrain,
+            ejercicio: trainingType,
+            sueño: sleepQuality,
+            calorias: foodTotal.caloriesTotal,
+            proteinas: foodTotal.proteinTotal,
+          }
+        ]
+      }),
+    },
+    );
+    navigate("/")
+  }
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4">¡Tus hábitos saludables de hoy!</h2>git 
+      <h2 className="text-center mb-4">¡Tus hábitos saludables de hoy!</h2>git
 
       <form onSubmit={handleSubmit}>
         <div className="card p-4 mb-4 shadow-sm">
-          <h5 className="mb-3">Hola Ruben, ¿Entrenaste hoy?</h5>
+          <h5 className="mb-3">Hola {userName}, ¿Entrenaste hoy?</h5>
           <div className="form-check form-check-inline">
             <input className="form-check-input" type="radio" name="didTrain" id="trainYes" onChange={() => setDidTrain(true)} value="true" checked={didTrain === true} />
             <label className="form-check-label" htmlFor="trainYes">Sí</label>

@@ -6,6 +6,7 @@ export const Register = () => {
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+	const [question, setQuestion] = useState('')
 
 	const navigate = useNavigate();
 
@@ -16,7 +17,9 @@ export const Register = () => {
 			"email": email,
 			"password": password
 		}
-		let promise = await fetch("https://verbose-space-journey-r46j4jq9976x2xww-3001.app.github.dev/api/register", {
+
+		let promise = await fetch("https://ominous-parakeet-jj76wwq7q4x735vjj-3001.app.github.dev/api/register", {
+
 			method: "POST",
 			headers: {"Content-type": "application/json"},
 			body: JSON.stringify(new_user)
@@ -31,7 +34,7 @@ export const Register = () => {
 				<div className="mb-3">
 					<label htmlFor="name" className="form-label">Nombre</label>
 					<input
-						type="name"
+						type="text"
 						className="form-control"
 						id="name"
 						onChange={(e) => setName(e.target.value)}
@@ -58,6 +61,17 @@ export const Register = () => {
 						onChange={(e) => setPassword(e.target.value)}
 						id="password"
 						value={password}
+						required
+					/>
+				</div>
+				<div className="mb-3">
+					<label htmlFor="email" className="form-label">Pregunta Secreta</label>
+					<input
+						type="text"
+						className="form-control"
+						id="question"
+						onChange={(e) => setQuestion(e.target.value)}
+						value={question}
 						required
 					/>
 				</div>
