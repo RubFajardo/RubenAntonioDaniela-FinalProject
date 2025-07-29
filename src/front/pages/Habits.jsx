@@ -82,12 +82,24 @@ export const Habits = () => {
       alert("No has iniciado sesion");
       return;
     }
-
+    console.log({
+        date: today,
+        habits: [
+          {
+            entreno: didTrain,
+            ejercicio: trainingType,
+            sueño: sleepQuality,
+            calorias: foodTotal.caloriesTotal,
+            proteinas: foodTotal.proteinTotal,
+          }
+        ]
+      })
+      console.log(token)
     await fetch("https://ominous-parakeet-jj76wwq7q4x735vjj-3001.app.github.dev/api/daily_habits", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
+        'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify({
         date: today,
@@ -103,7 +115,7 @@ export const Habits = () => {
       }),
     },
     );
-    navigate("/")
+   
   }
 
   return (
