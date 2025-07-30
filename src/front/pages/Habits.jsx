@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react"
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import { Navigate, useNavigate } from "react-router-dom";
 
+
 export const Habits = () => {
+
+  const apiUrl = import.meta.env.VITE_BACKEND_URL
 
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
@@ -82,8 +85,9 @@ export const Habits = () => {
       alert("No has iniciado sesion");
       return;
     }
-
-    await fetch("https://ominous-parakeet-jj76wwq7q4x735vjj-3001.app.github.dev/api/daily_habits", {
+    
+    
+    await fetch(apiUrl + "/api/daily_habits", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

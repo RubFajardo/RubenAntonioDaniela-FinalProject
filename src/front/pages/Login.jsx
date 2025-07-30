@@ -3,7 +3,9 @@ import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import { useNavigate, Link } from "react-router-dom";
 
 export const Login = () => {
-    
+        
+	   const apiUrl = import.meta.env.VITE_BACKEND_URL; 
+
         const [email, setEmail] = useState('')
         const [password, setPassword] = useState('')
     
@@ -15,7 +17,7 @@ export const Login = () => {
                 "email": email,
                 "password": password
             }
-            let resp = await fetch("https://ominous-parakeet-jj76wwq7q4x735vjj-3001.app.github.dev/api/login", {
+            let resp = await fetch (apiUrl + "/api/login", {
                 method: "POST",
                 headers: {"Content-type": "application/json"},
                 body: JSON.stringify(user_credentials)
@@ -28,7 +30,7 @@ export const Login = () => {
             navigate("/")
         };
     
-
+		
     return (
 		<div className="container mt-5">
 			<h2>Inicia Sesion</h2>
