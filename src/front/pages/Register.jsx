@@ -6,6 +6,7 @@ export const Register = () => {
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+	const [question, setQuestion] = useState('')
 
 	const navigate = useNavigate();
 
@@ -60,6 +61,17 @@ export const Register = () => {
 						onChange={(e) => setPassword(e.target.value)}
 						id="password"
 						value={password}
+						required
+					/>
+				</div>
+				<div className="mb-3">
+					<label htmlFor="email" className="form-label">Pregunta Secreta</label>
+					<input
+						type="text"
+						className="form-control"
+						id="question"
+						onChange={(e) => setQuestion(e.target.value)}
+						value={question}
 						required
 					/>
 				</div>
