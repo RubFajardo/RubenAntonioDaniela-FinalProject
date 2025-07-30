@@ -16,6 +16,7 @@ def new_daily():
     current_user_id = get_jwt_identity()
     body = request.get_json()
 
+    print(body)
     new_daily = Daily(user_id=current_user_id, date=body["date"])
 
     db.session.add(new_daily)

@@ -6,6 +6,7 @@ export const Login = () => {
     
         const [email, setEmail] = useState('')
         const [password, setPassword] = useState('')
+		const backendUrl = import.meta.env.VITE_BACKEND_URL
     
         const navigate = useNavigate();
 
@@ -15,7 +16,7 @@ export const Login = () => {
                 "email": email,
                 "password": password
             }
-            let resp = await fetch("https://ominous-parakeet-jj76wwq7q4x735vjj-3001.app.github.dev/api/login", {
+            let resp = await fetch(backendUrl + "api/login", {
                 method: "POST",
                 headers: {"Content-type": "application/json"},
                 body: JSON.stringify(user_credentials)
