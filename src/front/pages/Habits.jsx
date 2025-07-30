@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react"
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import { Navigate, useNavigate } from "react-router-dom";
 
+
 export const Habits = () => {
+
+  const apiUrl = import.meta.env.VITE_BACKEND_URL
 
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();

@@ -2,6 +2,8 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
+    
+	const apiUrl = import.meta.env.VITE_BACKEND_URL
 
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
@@ -18,7 +20,7 @@ export const Register = () => {
 			"password": password
 		}
 
-		let promise = await fetch("https://ominous-parakeet-jj76wwq7q4x735vjj-3001.app.github.dev/api/register", {
+		let promise = await fetch(apiUrl + "/api/register", {
 
 			method: "POST",
 			headers: {"Content-type": "application/json"},
