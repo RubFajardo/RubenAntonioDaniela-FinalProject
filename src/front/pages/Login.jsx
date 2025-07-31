@@ -3,7 +3,7 @@ import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import { useNavigate, Link } from "react-router-dom";
 
 export const Login = () => {
-    
+
         const [email, setEmail] = useState('')
         const [password, setPassword] = useState('')
 		const backendUrl = import.meta.env.VITE_BACKEND_URL
@@ -29,7 +29,7 @@ export const Login = () => {
             navigate("/")
         };
     
-
+		
     return (
 		<div className="container mt-5">
 			<h2>Inicia Sesion</h2>
