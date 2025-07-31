@@ -101,6 +101,12 @@ body {
   text-align: center;
 }
 
+.contacto p {
+  margin: 8px 0;
+  line-height: 1.2;
+}
+
+
 html {
   scroll-behavior: smooth;
 }
