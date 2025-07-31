@@ -2,14 +2,12 @@ import React, { useState, useEffect } from "react"
 import { useNavigate, Link } from "react-router-dom";
 
 export const Agenda = () => {
+const token = localStorage.getItem("token")
 
-    const token = localStorage.getItem("token");
-    if (!token) {
-        return alert("pagina solo para usuarios logeados")
-    }
-
-    const userName = JSON.parse(localStorage.getItem("user"));
-
+if (!token) {
+    return alert ("necesitas iniciar sesión para acceder a este campo")
+}
+const user = JSON.parse(localStorage.getItem("user"))
     return (
         <div className="container mt-5">
             <div className="card mx-auto shadow" style={{ maxWidth: '500px' }}>
@@ -21,8 +19,8 @@ export const Agenda = () => {
                         width="150"
                         height="150"
                     />
-                    <h3 className="card-title">{userName.name}</h3>
-                    <p className="card-text text-muted">{userName.email}</p>
+                    <h3 className="card-title">Prueba</h3>
+                    <p className="card-text text-muted">Pruebaemail@gmail.com</p>
                 </div>
             </div>
         </div>

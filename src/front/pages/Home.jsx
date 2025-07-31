@@ -35,29 +35,45 @@ export const Home = () => {
                                         </button>
                                 </div>
                         </section>
+<section id="testimonios" className="full-section bg-light py-5">
+  <h2 className="mb-4 text-center">Testimonios Reales</h2>
+  <div className="container">
+    <div className="row justify-content-center g-4">
+      <div className="col-md-4 d-flex">
+        <div className="card sticky-note bg-white text-dark border-0 shadow-sm p-4 w-100 h-100 d-flex flex-column justify-content-between">
+          <div className="card-body">
+            <p className="card-text fst-italic">
+              "Desde que sigo sus consejos, tengo más energía y duermo mejor. ¡Gracias por tanto contenido útil!"
+            </p>
+          </div>
+          <p className="text-end fw-bold mb-0 px-3 pb-3">— Laura G.</p>
+        </div>
+      </div>
+      <div className="col-md-4 d-flex">
+        <div className="card sticky-note bg-white text-dark border-0 shadow-sm p-4 w-100 h-100 d-flex flex-column justify-content-between">
+          <div className="card-body">
+            <p className="card-text fst-italic">
+              "Increíble lo fácil que es aplicar pequeños hábitos que cambian tu vida. ¡Muy recomendable!"
+            </p>
+          </div>
+          <p className="text-end fw-bold mb-0 px-3 pb-3">— Marcos L.</p>
+        </div>
+      </div>
+      <div className="col-md-4 d-flex">
+        <div className="card sticky-note bg-white text-dark border-0 shadow-sm p-4 w-100 h-100 d-flex flex-column justify-content-between">
+          <div className="card-body">
+            <p className="card-text fst-italic">
+              "Gracias a esta página, logré incorporar rutinas saludables que antes me parecían imposibles."
+            </p>
+          </div>
+          <p className="text-end fw-bold mb-0 px-3 pb-3">— Natalia R.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-                        <section id="testimonios" className="full-section">
-                                <h2 className="mb-4">Testimonios Reales</h2>
-                                <div id="carouselTestimonios" className="carousel slide" data-bs-ride="carousel">
-                                        <div className="carousel-inner">
-                                                <div className="carousel-item active">
-                                                        <div className="testimonial">"Desde que uso esta herramienta, mis hábitos han mejorado radicalmente. Me siento con más energía cada día." – Carla R.</div>
-                                                </div>
-                                                <div className="carousel-item">
-                                                        <div className="testimonial">"El seguimiento me ayudó a ser constante y ver resultados. Es como tener un coach personal." – Miguel A.</div>
-                                                </div>
-                                                <div className="carousel-item">
-                                                        <div className="testimonial">"Ahora duermo mejor, como mejor y hago ejercicio sin sentirlo como una obligación." – Paula G.</div>
-                                                </div>
-                                        </div>
-                                        <button className="carousel-control-prev" type="button" data-bs-target="#carouselTestimonios" data-bs-slide="prev">
-                                                <span className="carousel-control-prev-icon"></span>
-                                        </button>
-                                        <button className="carousel-control-next" type="button" data-bs-target="#carouselTestimonios" data-bs-slide="next">
-                                                <span className="carousel-control-next-icon"></span>
-                                        </button>
-                                </div>
-                        </section>
+
 
                         <section id="contacto" className="contacto">
                                 <h2 className="mb-3">Contacto</h2>

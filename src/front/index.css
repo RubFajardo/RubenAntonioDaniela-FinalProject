@@ -101,6 +101,25 @@ body {
   text-align: center;
 }
 
+.contacto p {
+  margin: 8px 0;
+  line-height: 1.2;
+}
+
+.sticky-note {
+  border-left: 4px solid #000;
+  transition: transform 0.3s ease;
+  border-radius: 8px;
+  min-height: 260px; 
+  background-color: #fff;
+}
+
+.sticky-note:hover {
+  transform: translateY(-5px);
+}
+
+
+
 html {
   scroll-behavior: smooth;
 }
