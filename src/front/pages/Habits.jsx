@@ -131,26 +131,6 @@ export const Habits = () => {
       }),
     },
     );
-    await fetch(backendUrl + "api/daily_habits", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': 'Bearer ' + token
-      },
-      body: JSON.stringify({
-        date: today,
-        habits: [
-          {
-            entreno: didTrain,
-            ejercicio: trainingType,
-            sueño: sleepQuality,
-            calorias: foodTotal.caloriesTotal,
-            proteinas: foodTotal.proteinTotal,
-          }
-        ]
-      }),
-    },
-    );
     navigate("/");
   }
 
