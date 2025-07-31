@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
     
-	const apiUrl = import.meta.env.VITE_BACKEND_URL
+	const backendUrl = import.meta.env.VITE_BACKEND_URL
 
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
@@ -20,7 +20,7 @@ export const Register = () => {
 			"password": password
 		}
 
-		let promise = await fetch(apiUrl + "/api/register", {
+		let promise = await fetch(backendUrl + "api/register", {
 
 			method: "POST",
 			headers: {"Content-type": "application/json"},
