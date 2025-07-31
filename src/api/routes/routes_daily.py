@@ -3,6 +3,7 @@ from api.models import db, Daily, Habit, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from datetime import datetime
 
 api = Blueprint('daily_api', __name__)
 
@@ -70,7 +71,7 @@ def edit_habit():
 
 @api.route("/daily_habits", methods=["GET"])
 @jwt_required()
-def get_daily_habits():
+def all_habits():
     current_user = get_jwt_identity()
     user = User.query.get(current_user)
 
@@ -93,7 +94,71 @@ def get_daily_habits():
 
         result.append({
             "id": daily.id,
-            "date": daily.date,
+            "date": daily.date.strftime("%Y-%m-%d"),
+            "habits": habits_data
+        })
+
+    return jsonify(result), 200
+
+@api.route("/daily_habits/<string:date>", methods=["GET"])
+@jwt_required()
+def get_daily_habits(date):
+    current_user = get_jwt_identity()
+    user = User.query.get(current_user)
+
+    target_date = datetime.strptime(date, "%Y-%m-%d").date()
+
+    daily = Daily.query.filter_by(date=target_date, user_id=user.id).first()
+
+    if not daily:
+        return jsonify({"message": "Registro no encontrado"}), 404
+
+    habits = Habit.query.filter_by(daily_id=daily.id).all()
+    habits_data = [{
+        "id": habit.id,
+        "entreno": habit.entreno,
+        "ejercicio": habit.ejercicio,
+        "sueño": habit.sueño,
+        "calorias": habit.calorias,
+        "proteinas": habit.proteinas
+    } for habit in habits]
+
+    return jsonify({
+        "id": daily.id,
+        "date": daily.date.strftime("%Y-%m-%d"),
+        "habits": habits_data
+    }), 200
+
+@api.route("/daily_habits/<string:start_date>/<string:end_date>", methods=["GET"])
+@jwt_required()
+def get_habits_range(start_date, end_date):
+    current_user = get_jwt_identity()
+    user = User.query.get(current_user)
+
+    if not start_date or not end_date:
+        return jsonify({"message": "Fechas de inicio y fin son requeridas"}), 400
+
+    start_dt = datetime.strptime(start_date, "%Y-%m-%d").date()
+    end_dt = datetime.strptime(end_date, "%Y-%m-%d").date()
+
+    if start_dt > end_dt:
+        return jsonify({"message": "La fecha de inicio no puede ser posterior a la fecha de fin"}), 400
+
+    daily_records = Daily.query.filter(
+        Daily.user_id == user.id,
+        Daily.date.between(start_dt, end_dt)
+    ).all()
+
+    if not daily_records:
+        return jsonify({"message": "No se encontraron registros en el rango especificado"}), 404
+
+    result = []
+    for daily in daily_records:
+        habits = Habit.query.filter_by(daily_id=daily.id).all()
+        habits_data = [habit.serialize() for habit in habits]
+        result.append({
+            "id": daily.id,
+            "date": daily.date.strftime("%Y-%m-%d"),
             "habits": habits_data
         })
 

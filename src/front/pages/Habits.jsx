@@ -92,7 +92,7 @@ export const Habits = () => {
     if (didTrain === true && trainingType === '') {
       return alert("Por favor, selecciona el tipo de entrenamiento.");
     }
-    if (didtrain === false && trainingType !== '') {
+    if (didTrain === false && trainingType !== '') {
       return alert("Si no entrenaste, no es necesario seleccionar el tipo de entrenamiento.");
     }
     if (sleepQuality === '') {
@@ -131,7 +131,7 @@ export const Habits = () => {
       }),
     },
     );
-
+    navigate("/");
   }
 
   return (
