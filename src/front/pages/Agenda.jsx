@@ -19,8 +19,8 @@ const user = JSON.parse(localStorage.getItem("user"))
                         width="150"
                         height="150"
                     />
-                    <h3 className="card-title">Prueba</h3>
-                    <p className="card-text text-muted">Pruebaemail@gmail.com</p>
+                    <h3 className="card-title">{user.name}</h3>
+                    <p className="card-text text-muted">{user.email}</p>
                 </div>
             </div>
         </div>
