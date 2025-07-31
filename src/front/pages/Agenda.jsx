@@ -3,6 +3,12 @@ import { useNavigate, Link } from "react-router-dom";
 
 export const Agenda = () => {
 
+    const token = localStorage.getItem("token");
+    if (!token) {
+        return alert("pagina solo para usuarios logeados")
+    }
+
+    const userName = JSON.parse(localStorage.getItem("user"));
 
     return (
         <div className="container mt-5">
@@ -15,8 +21,8 @@ export const Agenda = () => {
                         width="150"
                         height="150"
                     />
-                    <h3 className="card-title">Prueba</h3>
-                    <p className="card-text text-muted">Pruebaemail@gmail.com</p>
+                    <h3 className="card-title">{userName.name}</h3>
+                    <p className="card-text text-muted">{userName.email}</p>
                 </div>
             </div>
         </div>

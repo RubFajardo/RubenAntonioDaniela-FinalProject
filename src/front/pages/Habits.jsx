@@ -90,7 +90,7 @@ export const Habits = () => {
     if (didTrain === true && trainingType === '') {
       return alert("Por favor, selecciona el tipo de entrenamiento.");
     }
-    if (didtrain === false && trainingType !== '') {
+    if (didTrain === false && trainingType !== '') {
       return alert("Si no entrenaste, no es necesario seleccionar el tipo de entrenamiento.");
     }
     if (sleepQuality === '') {
@@ -129,7 +129,27 @@ export const Habits = () => {
       }),
     },
     );
-
+    await fetch(backendUrl + "api/daily_habits", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({
+        date: today,
+        habits: [
+          {
+            entreno: didTrain,
+            ejercicio: trainingType,
+            sueño: sleepQuality,
+            calorias: foodTotal.caloriesTotal,
+            proteinas: foodTotal.proteinTotal,
+          }
+        ]
+      }),
+    },
+    );
+    navigate("/");
   }
 
   return (
