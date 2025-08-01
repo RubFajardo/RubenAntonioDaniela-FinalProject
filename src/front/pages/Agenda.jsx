@@ -37,7 +37,7 @@ export const Agenda = () => {
         const result = await fetch(url, {
             headers: {
                 "Content-type": "application/json",
-                "Authorization": `Bearer ${token}`
+                "Authorization": "Bearer " + token
             }
         });
         const data = await result.json();
@@ -80,24 +80,18 @@ export const Agenda = () => {
             </div>
             <div>
                 <ul>
-                    {dateHabits.length === 0 && <li>No hay registros</li>}
-                    {dateHabits.map((day) => (
-                        <li key={day.id}>
-                            <strong>Fecha:</strong> {day.date}
-                            <ul>
-                                {day.habits.length === 0 && <li>No hay hábitos para esta fecha</li>}
-                                {day.habits.map((habit) => (
-                                    <li key={habit.id}>
-                                        <strong>Ejercicio:</strong> {habit.ejercicio} |{" "}
-                                        <strong>Sueño:</strong> {habit.sueño} |{" "}
-                                        <strong>Entreno:</strong> {habit.entreno ? "Sí" : "No"} |{" "}
-                                        <strong>Calorías:</strong> {habit.calorias} |{" "}
-                                        <strong>Proteínas:</strong> {habit.proteinas}
-                                    </li>
-                                ))}
-                            </ul>
-                        </li>
-                    ))}
+                    {dateHabits.map((habit, index) => {
+                        return (
+                            <li key={index}>
+                                <p><strong>Fecha:</strong> {habit.date}</p>
+                                <p><strong>Entrenaste:</strong> {habit.habits.entreno ? "Sí" : "No"}</p>
+                                <p><strong>Tipo de Entrenamiento:</strong> {habit.habits.ejercicio}</p>
+                                <p><strong>Calidad del Sueño:</strong> {habit.habits.sueño}</p>
+                                <p><strong>Calorías Consumidas:</strong> {habit.habits.calorias}</p>
+                                <p><strong>Proteínas Consumidas:</strong> {habit.habits.proteinas}</p>
+                            </li>
+                        );
+                    })}
                 </ul>
             </div>
         </div>
