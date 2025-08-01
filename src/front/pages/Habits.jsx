@@ -14,6 +14,11 @@ export const Habits = () => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+    if (!storedUser) {
+      alert("Debes iniciar sesión para acceder a esta página.");
+      navigate("/login");
+      return;
+    }
     const user = JSON.parse(storedUser);
     setUserName(user.name)
     fetchHabits();
