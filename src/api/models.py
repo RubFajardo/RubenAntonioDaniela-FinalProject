@@ -52,7 +52,7 @@ class Habit(db.Model):
     )
     id: Mapped[int] = mapped_column(primary_key=True)
 
-    daily_id: Mapped[int] = mapped_column(ForeignKey("daily.id"))
+    daily_id: Mapped[int] = mapped_column(ForeignKey("daily.id"), unique=True, nullable=False)
     daily: Mapped["Daily"] = relationship(back_populates="habits")
 
     entreno: Mapped[bool] = mapped_column(Boolean, nullable=True)

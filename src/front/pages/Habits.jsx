@@ -9,12 +9,41 @@ export const Habits = () => {
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
   const backendUrl = import.meta.env.VITE_BACKEND_URL
+  const today = new Date().toISOString().split('T')[0];
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     const user = JSON.parse(storedUser);
     setUserName(user.name)
+    fetchHabits();
   }, [])
+
+  const fetchHabits = async () => {
+    if (!token) {
+      alert("No has iniciado sesion");
+      return;
+    }
+
+    const result = await fetch(backendUrl + "api/daily_habits/" + today, {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
+
+    if (result.ok) {
+      const data = await result.json();
+      const habits = data.habits;
+
+      setDidTrain(habits.entreno);
+      setTrainingType(habits.ejercicio || '');
+      setSleepQuality(habits.sueño || '');
+      setFoodTotal({
+        caloriesTotal: habits.calorias || 0,
+        proteinTotal: habits.proteinas || 0
+      });
+    }
+  };
 
   const [didTrain, setDidTrain] = useState(null);
   const [trainingType, setTrainingType] = useState('');
@@ -76,10 +105,29 @@ export const Habits = () => {
     }
   };
 
+  const dailyExists = async () => {
+    const result = await fetch(backendUrl + "api/daily_habits/" + today, {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
+    if (result.ok){
+      return true;
+    }
+    else return false;
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const today = new Date().toISOString().split('T')[0];
-    const token = localStorage.getItem("token");
+    const exists = await dailyExists()
+    if (exists) {
+      const confirmUpdate = window.confirm("Ya has registrado tus hábitos hoy. ¿Deseas actualizarlos?");
+      if (!confirmUpdate) {
+        return;
+      }
+    }
+
+    const method = exists ? "PUT" : "POST";
 
     if (!token) {
       alert("No has iniciado sesion");
@@ -111,8 +159,8 @@ export const Habits = () => {
       return alert("Por favor, verifica las proteínas ingresadas, es un valor muy alto.");
     }
 
-    await fetch(backendUrl + "api/daily_habits", {
-      method: "POST",
+    await fetch(backendUrl + "api/daily_habits/" + today, {
+      method: method,
       headers: {
         "Content-Type": "application/json",
         'Authorization': 'Bearer ' + token
