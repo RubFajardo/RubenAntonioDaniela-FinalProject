@@ -52,10 +52,10 @@ def login():
         return jsonify({"error": "Contraseña requerida."}), 400
 
     user = User.query.filter_by(email=body["email"]).first()
-    user_data = user.serialize()
-
     if user is None:
         return jsonify("usuario no encontrado"), 404
+    
+    user_data = user.serialize()
     
     if bcrypt.checkpw(body["password"].encode(), user.password.encode()):
         access_token = create_access_token(identity=str(user_data["id"]))
