@@ -42,17 +42,25 @@ export const Agenda = () => {
         });
         const data = await result.json();
 
-        if (startDay === endDay) {
-            setDateHabits([data]);
-        }
-        else {
+        if (startDay !== endDay) {
             setDateHabits(data || []);
         }
+        else {
+            setDateHabits([data]);
+        }
+
         return data;
     }
 
     useEffect(() => {
-        daily(new Date(), new Date());
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth();
+        const lastDay = new Date(year, month + 1, 0);
+
+        setStartDate(today);
+        setEndDate(lastDay);
+        daily(today, lastDay);
     }, []);
 
     return (
