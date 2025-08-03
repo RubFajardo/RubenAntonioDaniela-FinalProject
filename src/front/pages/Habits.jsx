@@ -151,14 +151,14 @@ export const Habits = () => {
     if (sleepQuality === '') {
       return alert("Por favor, indica la calidad de tu sueño.");
     }
-    if (breakfast.calories <= 0 && lunch.calories <= 0 && dinner.calories <= 0) {
-      return alert("Por favor, ingresa al menos una comida con calorías.");
+    if (breakfast.calories < 0 && lunch.calories < 0 && dinner.calories < 0) {
+      return alert("Las calorias no pueden ser negativas.");
     }
     if (breakfast.calories > 5000 || lunch.calories > 5000 || dinner.calories > 5000) {
       return alert("Por favor, verifica las caalorias ingresadas, es un valor muy alto.");
     }
-    if (breakfast.protein <= 0 && lunch.protein <= 0 && dinner.protein <= 0) {
-      return alert("Por favor, ingresa al menos una comida con proteínas.");
+    if (breakfast.protein < 0 && lunch.protein < 0 && dinner.protein < 0) {
+      return alert("Las proteinas no pueden ser negativas.");
     }
     if (breakfast.protein > 500 || lunch.protein > 500 || dinner.protein > 500) {
       return alert("Por favor, verifica las proteínas ingresadas, es un valor muy alto.");
@@ -172,15 +172,13 @@ export const Habits = () => {
       },
       body: JSON.stringify({
         date: today,
-        habits: [
-          {
+        habits: {
             entreno: didTrain,
             ejercicio: trainingType,
             sueño: sleepQuality,
             calorias: foodTotal.caloriesTotal,
             proteinas: foodTotal.proteinTotal,
           }
-        ]
       }),
     },
     );

@@ -100,10 +100,3 @@ def delete_user():
 
     return jsonify({"message": "Usuario eliminado"}), 200
 
-    
-
-""" @api.route("/users", methods=["GET"])
-def users():
-    all_users = User.query.all()
-    return jsonify({"users": [user.serialize() for user in all_users]}) """
-

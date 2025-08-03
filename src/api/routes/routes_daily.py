@@ -28,17 +28,15 @@ def new_daily(date):
     db.session.add(new_daily)
     db.session.flush()
 
-    habits = body.get("habits", [])
-
-    habits_data = habits[0]
+    habits = body.get("habits", {})
 
     habit = Habit(
         daily_id=new_daily.id,
-        entreno=habits_data["entreno"],
-        ejercicio=habits_data["ejercicio"],
-        sueño=habits_data["sueño"],
-        calorias=habits_data["calorias"],
-        proteinas=habits_data["proteinas"]
+        entreno=habits["entreno"],
+        ejercicio=habits["ejercicio"],
+        sueño=habits["sueño"],
+        calorias=habits["calorias"],
+        proteinas=habits["proteinas"]
     )
         
     db.session.add(habit)
@@ -60,21 +58,19 @@ def edit_habit(date):
     
     body = request.get_json()
 
-    habits = body.get("habits", [])
+    habits = body.get("habits", {})
     if not habits:
         return jsonify({"message": "No se recibieron habitos para actualizar"}), 400
-    
-    habit_data = habits[0]
 
     habit = Habit.query.filter_by(daily_id=daily.id).first()
     if not habit:
         return jsonify({"message": "No hay habitos registrados para esta fecha"}), 404
     
-    habit.entreno = habit_data.get("entreno", habit.entreno)
-    habit.ejercicio = habit_data.get("ejercicio", habit.ejercicio)
-    habit.sueño = habit_data.get("sueño", habit.sueño)
-    habit.calorias = habit_data.get("calorias", habit.calorias)
-    habit.proteinas = habit_data.get("proteinas", habit.proteinas)
+    habit.entreno = habits["entreno"]
+    habit.ejercicio = habits["ejercicio"]
+    habit.sueño = habits["sueño"]
+    habit.calorias = habits["calorias"]
+    habit.proteinas = habits["proteinas"]
 
     db.session.commit()
 
@@ -124,8 +120,8 @@ def get_habits_range(start_date, end_date):
 
     result = []
     for daily in daily_records:
-        habits = Habit.query.filter_by(daily_id=daily.id).all()
-        habits_data = [habit.serialize() for habit in habits]
+        habit = Habit.query.filter_by(daily_id=daily.id).first()
+        habits_data = habit.serialize() if habit else None
         result.append({
             "id": daily.id,
             "date": daily.date.strftime("%Y-%m-%d"),
