@@ -43,11 +43,10 @@ def new_user():
 
 @api.route("/login", methods=["POST"])
 def login():
-    body = request.get_json()
 
+    body = request.get_json()
     if not body.get("email") or "@" not in body["email"]:
         return jsonify({"error": "email no valido"}), 400
-    
     if not body.get("password"):
         return jsonify({"error": "Contraseña requerida."}), 400
 
