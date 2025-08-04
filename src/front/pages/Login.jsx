@@ -57,7 +57,8 @@ export const Login = () => {
 					/>
 				</div>
 				<button type="submit" className="btn btn-primary">Iniciar Sesion</button>
-                <Link className="nav-link" to="/register"><button className="btn btn-primary mt-3">Registrarse</button></Link>
+				<p className="mt-3 d-flex h6">¿Eres nuevo?<Link to="/register" className="ms-2 text-primary text-decoration-underline">¡Regístrate!</Link></p>
+				<Link to="/recovery" className="text-primary text-decoration-underline mt-3 d-flex h6">¿Olvidaste tu contraseña?</Link>
 			</form>
 		</div>
 	);

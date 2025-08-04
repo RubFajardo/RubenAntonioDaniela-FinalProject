@@ -9,6 +9,7 @@ export const Register = () => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [question, setQuestion] = useState('')
+	const [questionAnswer, setQuestionAnswer] = useState('')
 
 	const navigate = useNavigate();
 
@@ -17,7 +18,9 @@ export const Register = () => {
 		let new_user = {
 			"name": name,
 			"email": email,
-			"password": password
+			"password": password,
+			"secret_question": question,
+			"question_answer": questionAnswer,
 		}
 
 		let promise = await fetch(backendUrl + "api/register", {
@@ -67,16 +70,30 @@ export const Register = () => {
 					/>
 				</div>
 				<div className="mb-3">
-					<label htmlFor="email" className="form-label">Pregunta Secreta</label>
+					<label htmlFor="securityQuestion" className="form-label">Escoge una pregunta secreta</label>
+					<select
+						id="securityQuestion"
+						className="form-control"
+						value={question}
+						onChange={(e) => setQuestion(e.target.value)}>
+						<option value="Nombre de la primera mascota">Nombre de la primera mascota</option>
+						<option value="Comida favorita">Comida favorita</option>
+						<option value="Ciudad donde naciste">Ciudad donde naciste</option>
+						<option value="Película favorita">Película favorita</option>
+					</select>
+				</div>
+				<div className="mb-3">
+					<label htmlFor="questionAnswer" className="form-label">Respuesta:</label>
 					<input
 						type="text"
 						className="form-control"
-						id="question"
-						onChange={(e) => setQuestion(e.target.value)}
-						value={question}
+						onChange={(e) => setQuestionAnswer(e.target.value)}
+						id="questionAnswer"
+						value={questionAnswer}
 						required
 					/>
 				</div>
+				
 				<button type="submit" className="btn btn-primary">Registrarse</button>
 			</form>
 		</div>
