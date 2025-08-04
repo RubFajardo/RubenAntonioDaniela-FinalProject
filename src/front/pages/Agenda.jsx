@@ -23,6 +23,15 @@ export const Agenda = () => {
     const [view, setView] = useState("month");
     const [habits, setHabits] = useState([]);
 
+    const [profilePic, setProfilePic] = useState("https://cdn-icons-png.flaticon.com/512/16/16480.png");
+
+    const changeProfilePic = () => {
+        const newUrl = prompt("Ingresa la URL de la nueva foto de perfil:");
+        if (newUrl) {
+            setProfilePic(newUrl);
+        }
+    };
+
     const formatDate = (d) => {
         const year = d.getFullYear();
         const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -31,7 +40,6 @@ export const Agenda = () => {
     }
 
     const fetchMonthHabits = async () => {
-
         const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
         const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
         const start = formatDate(startOfMonth);
@@ -63,7 +71,7 @@ export const Agenda = () => {
     };
 
     useEffect(() => {
-        if (view == "month") {
+        if (view === "month") {
             fetchMonthHabits()
         }
     }, [date, view]);
@@ -79,14 +87,16 @@ export const Agenda = () => {
             <div className="row justify-content-around mb-4">
                 <div className="card shadow" style={{ width: '400px', flexShrink: 0 }}>
                     <div className="card-body text-center">
+                        {/* Usamos el estado para la foto */}
                         <img
-                            src="https://cdn-icons-png.flaticon.com/512/16/16480.png"
+                            src={profilePic}
                             alt="Profile"
                             className="rounded-circle mb-3"
                             width="150"
                             height="150"
                         />
-                        <button><i className="fa-solid fa-pencil"></i></button>
+                        <button onClick={changeProfilePic}><i className="fa-solid fa-pencil"></i></button>
+
                         <h3 className="card-title">{user.name}</h3>
                         <p className="card-text text-muted">{user.email}</p>
                     </div>
@@ -112,7 +122,6 @@ export const Agenda = () => {
                                     <li><strong>Sueño:</strong> {habit.habits?.sueño}</li>
                                     <li><strong>Calorías:</strong> {habit.habits?.calorias}</li>
                                     <li><strong>Proteínas:</strong> {habit.habits?.proteinas}</li>
-
                                 </ul>
                             </div>
                         </div>
