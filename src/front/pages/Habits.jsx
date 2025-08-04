@@ -243,7 +243,6 @@ export const Habits = () => {
                   type="text"
                   className="form-control mb-3"
                   id={`meal${idx}`}
-                  required
                   value={mealState.meal}
                   onChange={(e) => handleMealChange(meal, "meal", e)}
                 />

@@ -19,10 +19,13 @@ export const Agenda = () => {
         }
     }, [token, navigate]);
 
+    if (!token || !user) {
+        return null;
+    }
+
     const [date, setDate] = useState(new Date());
     const [view, setView] = useState("month");
     const [habits, setHabits] = useState([]);
-
     const [profilePic, setProfilePic] = useState("https://cdn-icons-png.flaticon.com/512/16/16480.png");
 
     const changeProfilePic = () => {
@@ -39,9 +42,9 @@ export const Agenda = () => {
         return `${year}-${month}-${day}`;
     }
 
-    const fetchMonthHabits = async () => {
-        const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-        const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    const fetchMonthHabits = async (targetDate) => {
+        const startOfMonth = new Date(targetDate.getFullYear(), targetDate.getMonth(), 1);
+        const endOfMonth = new Date(targetDate.getFullYear(), targetDate.getMonth() + 1, 0);
         const start = formatDate(startOfMonth);
         const end = formatDate(endOfMonth);
 
@@ -53,11 +56,17 @@ export const Agenda = () => {
             },
         });
         const data = await response.json();
-        setHabits(data);
+        console.log("data del mes:", data)
+        if (Array.isArray(data)) {
+            setHabits(data);
+        } else {
+            setHabits([]);
+        }
     };
 
     const fetchDayHabits = async (selectedDate) => {
         const formattedDate = formatDate(selectedDate);
+
         const response = await fetch(backendUrl + "/api/daily_habits/" + formattedDate, {
             method: "GET",
             headers: {
@@ -66,25 +75,35 @@ export const Agenda = () => {
             },
         });
         const data = await response.json();
-        console.log(formattedDate);
-        setHabits([data]);
+        console.log("data del día:", data)
+        if (Array.isArray(data) && data.length === 0) {
+            setHabits([]);
+        } else if (data.habits && Object.keys(data.habits).length > 0) {
+            setHabits([data]);
+        } else {
+            setHabits([]);
+        }
     };
 
     useEffect(() => {
         if (view === "month") {
-            fetchMonthHabits()
+            fetchMonthHabits(date)
         }
     }, [date, view]);
 
-    const onSelectDate = (selectedDate) => {
+    const onSelectDay = (selectedDate) => {
         setDate(selectedDate);
         setView("day");
         fetchDayHabits(selectedDate);
     };
 
-    const onSelectMonth = ({ activeStartDate }) => {
-        setDate(new Date(activeStartDate.getFullYear(), activeStartDate.getMonth(), 1));
-        setView("month");
+    const onActiveStartDate = ({ activeStartDate }) => {
+        setDate(activeStartDate);
+        if (view === "day") {
+            fetchDayHabits(activeStartDate);
+        } else {
+            fetchMonthHabits(activeStartDate);
+        }
     };
 
     return (
@@ -101,37 +120,54 @@ export const Agenda = () => {
                             height="150"
                         />
                         <button onClick={changeProfilePic}><i className="fa-solid fa-pencil"></i></button>
-
                         <h3 className="card-title">{user.name}</h3>
                         <p className="card-text text-muted">{user.email}</p>
                     </div>
                 </div>
                 <div className="shadow px-0" style={{ width: '400px', flexShrink: 0 }}>
-                    <Calendar onChange={onSelectDate} onActiveStartDateChange={onSelectMonth}/>
+                    <Calendar
+                        onClickDay={onSelectDay}
+                        prev2Label={null}
+                        minDetail="decade"
+                        next2Label={null}
+                        onActiveStartDateChange={({ activeStartDate }) => {
+                            setDate(activeStartDate);
+                            if (view === "month") {
+                                fetchMonthHabits(activeStartDate);
+                            } else {
+                                fetchDayHabits(activeStartDate);
+                            }
+                        }} />
                 </div>
             </div>
+            <p>Tus hábitos de {view === "day" ? date.toLocaleDateString("es-ES", { weekday: "long", day: "numeric" }) : date.toLocaleDateString("es-ES", { month: "long" })} : </p>
             {view === "day" && (
                 <button className="btn btn-secondary mb-3" onClick={() => { setView("month") }}>
                     Mostrar todo el mes
                 </button>
             )}
             <div className={`d-flex overflow-auto gap-3 p-3 ${view === "day" ? "dayCardContainer" : "monthCardContainer"}`}>
-                {habits.map((habit, index) => {
-                    return (
-                        <div key={index} className={`card shadow ${view === "day" ? "dayCard" : "monthCard"}`}>
-                            <div className="card-body">
-                                <h5 className="card-title text-primary">{habit.date}</h5>
-                                <ul className="list-unstyled mb-0">
-                                    <li><strong>Entreno:</strong> {habit.habits?.entreno ? "Si" : "No"}</li>
-                                    <li><strong>Ejercicio:</strong> {habit.habits?.ejercicio}</li>
-                                    <li><strong>Sueño:</strong> {habit.habits?.sueño}</li>
-                                    <li><strong>Calorías:</strong> {habit.habits?.calorias}</li>
-                                    <li><strong>Proteínas:</strong> {habit.habits?.proteinas}</li>
-                                </ul>
+                {habits.length === 0 ? (
+                    <p className="text-muted">
+                        No se encontraron hábitos para este {view === "day" ? "día" : "mes"}.
+                    </p>
+                ) : (
+                    habits.map((habit, index) => (
+                            <div key={index} className={`card shadow ${view === "day" ? "dayCard" : "monthCard"}`}>
+                                <div className="card-body">
+                                    <h5 className="card-title text-primary">{habit.date}</h5>
+                                    <ul className="list-unstyled mb-0">
+                                        <li><strong>Entreno:</strong> {habit.habits?.entreno ? "Sí" : "No"}</li>
+                                        <li><strong>Ejercicio:</strong> {habit.habits?.ejercicio || "N/A"}</li>
+                                        <li><strong>Sueño:</strong> {habit.habits?.sueño || "N/A"}</li>
+                                        <li><strong>Calorías:</strong> {habit.habits?.calorias || "N/A"}</li>
+                                        <li><strong>Proteínas:</strong> {habit.habits?.proteinas || "N/A"}</li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
+                        )
                     )
-                })}
+                )}
             </div>
         </div>
     );

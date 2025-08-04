@@ -85,12 +85,10 @@ def get_daily_habits(date):
     target_date = datetime.strptime(date, "%Y-%m-%d").date()
 
     daily = Daily.query.filter_by(date=target_date, user_id=user.id).first()
-
     if not daily:
-        return jsonify({"message": "Registro no encontrado"}), 404
+        return jsonify([]), 200
 
     habit = Habit.query.filter_by(daily_id=daily.id).first()
-
     if not habit:
         return jsonify({"message": "No hay hábitos registrados para esta fecha"}), 404
 
@@ -116,7 +114,7 @@ def get_habits_range(start_date, end_date):
 
     daily_records = Daily.query.filter(Daily.user_id == user.id, Daily.date.between(start_dt, end_dt)).all()
     if not daily_records:
-        return jsonify({"message": "No se encontraron registros en el rango especificado"}), 404
+        return jsonify([]), 200
 
     result = []
     for daily in daily_records:
