@@ -13,6 +13,7 @@ import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { Habits } from "./pages/Habits";
 import { Agenda } from "./pages/Agenda";
+import { PasswordRecovery } from "./pages/RecoverPassword";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
@@ -30,6 +31,7 @@ export const router = createBrowserRouter(
         <Route path= "/register" element={<Register />} />
         <Route path= "/login" element={<Login />} />
         <Route path= "/agenda" element={<Agenda />} />
+        <Route path= "/recovery" element={<PasswordRecovery />} />
         <Route path= "/habits" element={<Habits />} />
         <Route path="/single/:theId" element={ <Single />} />  {/* Dynamic route for single items */}
         <Route path="/demo" element={<Demo />} />

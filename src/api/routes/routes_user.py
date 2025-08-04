@@ -28,13 +28,22 @@ def new_user():
     if not body.get("password"):
         return jsonify({"error": "la contraseña no puede estar vacia"}), 400
     
+    if not body.get("secret_question"):
+        return jsonify({"error": "Debe incluir una pregunta secreta"}), 400
+    
+    if not body.get("question_answer"):
+        return jsonify({"error": "Debe incluir la respuesta de su pregunta"}), 400
+    
     coded_password = bcrypt.hashpw(body["password"].encode(), bcrypt.gensalt())
+    coded_question_answer = bcrypt.hashpw(body["question_answer"].encode(), bcrypt.gensalt())
 
     new_user = User()
     new_user.name = body["name"]
     new_user.email = body["email"]
     new_user.password = coded_password.decode()
     new_user.is_active = True
+    new_user.secret_question = body["secret_question"]
+    new_user.question_answer = coded_question_answer.decode()
 
     db.session.add(new_user)
     db.session.commit()
@@ -99,3 +108,77 @@ def delete_user():
 
     return jsonify({"message": "Usuario eliminado"}), 200
 
+    
+
+""""@api.route("/users", methods=["GET"])
+def users():
+    all_users = User.query.all()
+    return jsonify({"users": [user.serialize() for user in all_users]})  """
+
+
+@api.route("/recover/email", methods=["POST"])
+def recovery_find_email():
+    body = request.get_json()
+
+    if not body.get("email") or "@" not in body["email"]:
+        return jsonify({"error": "email no valido"}), 400
+    
+
+    user = User.query.filter_by(email=body["email"]).first()
+
+    if user is None:
+        return jsonify({"error": "usuario no encontrado"}), 404
+    
+    user_data = user.serialize()
+
+
+    return jsonify({"user": user_data}), 200
+
+@api.route("/recover/verify", methods=["POST"])
+def recovery_verify_answer():
+    body = request.get_json()
+
+    if not body.get("email") or "@" not in body["email"]:
+        return jsonify({"error": "email no valido"}), 400
+    
+    if not body.get("question_answer"):
+        return jsonify({"error": "Necesita enviar una respuesta"}), 400
+    
+
+    user = User.query.filter_by(email=body["email"]).first()
+
+    if user is None:
+        return jsonify("usuario no encontrado"), 404
+    
+    if bcrypt.checkpw(body["question_answer"].encode(), user.question_answer.encode()):
+        return jsonify("Respuesta correcta"), 200
+
+
+    return jsonify({"message": "respuesta incorrecta"}), 401
+
+@api.route("/recover/reset-password", methods=["PUT"])
+def recovery_update_password():
+
+    body = request.get_json()
+
+    if not body.get("email") or "@" not in body["email"]:
+        return jsonify({"error": "email no valido"}), 400
+    
+    if not body.get("new_password"):
+        return jsonify({"error": "la contraseña no puede estar vacia"}), 400
+    
+
+    user = User.query.filter_by(email=body["email"]).first()
+    coded_new_password = bcrypt.hashpw(body["new_password"].encode(), bcrypt.gensalt())
+
+    if user is None:
+        return jsonify("usuario no encontrado"), 404
+    
+    user.password = coded_new_password.decode()
+
+    try:
+        db.session.commit()
+        return jsonify({"success": True, "message": "Contraseña actualizada exitosamente"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"success": False, "message": "Error al actualizar la contraseña"}), 500

@@ -12,6 +12,8 @@ class User(db.Model):
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     email: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String(120), nullable=False)
+    secret_question: Mapped[str] = mapped_column(String(100), nullable=False)
+    question_answer: Mapped[str] = mapped_column(String(100), nullable=False)
 
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
 
@@ -23,6 +25,7 @@ class User(db.Model):
             "id": self.id,
             "name": self.name,
             "email": self.email,
+            "secret_question": self.secret_question,
             # do not serialize the password, its a security breach
         }
     
