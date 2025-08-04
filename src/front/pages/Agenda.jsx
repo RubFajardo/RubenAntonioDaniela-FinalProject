@@ -82,6 +82,8 @@ export const Agenda = () => {
         fetchDayHabits(selectedDate);
     };
 
+    console.log (habits)
+
     return (
         <div className="container mt-5">
             <div className="row justify-content-around mb-4">
