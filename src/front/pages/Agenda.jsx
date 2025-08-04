@@ -82,6 +82,11 @@ export const Agenda = () => {
         fetchDayHabits(selectedDate);
     };
 
+    const onSelectMonth = ({ activeStartDate }) => {
+        setDate(new Date(activeStartDate.getFullYear(), activeStartDate.getMonth(), 1));
+        setView("month");
+    };
+
     return (
         <div className="container mt-5">
             <div className="row justify-content-around mb-4">
@@ -102,7 +107,7 @@ export const Agenda = () => {
                     </div>
                 </div>
                 <div className="shadow px-0" style={{ width: '400px', flexShrink: 0 }}>
-                    <Calendar onChange={onSelectDate} />
+                    <Calendar onChange={onSelectDate} onActiveStartDateChange={onSelectMonth}/>
                 </div>
             </div>
             {view === "day" && (
