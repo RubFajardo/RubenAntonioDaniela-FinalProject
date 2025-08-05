@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useNavigate, Link } from "react-router-dom";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import "../styles/calendarStyles.css";
+import "../styles/agendaStyles.css";
 
 export const Agenda = () => {
 
@@ -56,7 +56,13 @@ export const Agenda = () => {
             },
         });
         const data = await response.json();
-        console.log("data del mes:", data)
+        if (response.status === 401) {
+            alert("Tu sesion ha expirado, por favor inicia sesion nuevamente.");
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+            navigate("/login");
+            return;
+        }
         if (Array.isArray(data)) {
             setHabits(data);
         } else {
@@ -75,7 +81,13 @@ export const Agenda = () => {
             },
         });
         const data = await response.json();
-        console.log("data del día:", data)
+        if (response.status === 401) {
+            alert("Tu sesion ha expirado, por favor inicia sesion nuevamente.");
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+            navigate("/login");
+            return;
+        }
         if (Array.isArray(data) && data.length === 0) {
             setHabits([]);
         } else if (data.habits && Object.keys(data.habits).length > 0) {
@@ -106,6 +118,10 @@ export const Agenda = () => {
         }
     };
 
+    useEffect(() => {
+
+    }, [])
+
     return (
         <div className="container mt-5">
             <div className="row justify-content-around mb-4">
@@ -134,25 +150,36 @@ export const Agenda = () => {
                             setDate(activeStartDate);
                             if (view === "month") {
                                 fetchMonthHabits(activeStartDate);
-                            } else {
+                            } else if (view === "day") {
                                 fetchDayHabits(activeStartDate);
                             }
-                        }} />
+                            setView("month")
+                        }}
+                        onViewChange={({ view }) => {
+                            setView(view);
+                        }}
+                    />
                 </div>
             </div>
-            <p>Tus hábitos de {view === "day" ? date.toLocaleDateString("es-ES", { weekday: "long", day: "numeric" }) : date.toLocaleDateString("es-ES", { month: "long" })} : </p>
+            {(view == "day" || view == "month") ? (
+                <p>
+                    {view === "day" && `Tus hábitos del día ${date.toLocaleDateString("es-ES", { weekday: "long", day: "numeric", month: "long" })}:`}
+                    {view === "month" && `Tus hábitos de ${date.toLocaleDateString("es-ES", { month: "long", year: "numeric" })}:`}
+                </p>
+            ) : null}
             {view === "day" && (
                 <button className="btn btn-secondary mb-3" onClick={() => { setView("month") }}>
                     Mostrar todo el mes
                 </button>
             )}
             <div className={`d-flex overflow-auto gap-3 p-3 ${view === "day" ? "dayCardContainer" : "monthCardContainer"}`}>
-                {habits.length === 0 ? (
-                    <p className="text-muted">
-                        No se encontraron hábitos para este {view === "day" ? "día" : "mes"}.
-                    </p>
-                ) : (
-                    habits.map((habit, index) => (
+                {(view === "day" || view === "month") && (
+                    habits.length === 0 ? (
+                        <p className="text-muted">
+                            No se encontraron hábitos para este {view === "day" ? "día" : "mes"}.
+                        </p>
+                    ) : (
+                        habits.map((habit, index) => (
                             <div key={index} className={`card shadow ${view === "day" ? "dayCard" : "monthCard"}`}>
                                 <div className="card-body">
                                     <h5 className="card-title text-primary">{habit.date}</h5>
@@ -165,6 +192,7 @@ export const Agenda = () => {
                                     </ul>
                                 </div>
                             </div>
+                        )
                         )
                     )
                 )}

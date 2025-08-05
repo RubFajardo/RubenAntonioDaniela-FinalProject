@@ -38,6 +38,17 @@ export const Habits = () => {
 
     if (result.ok) {
       const data = await result.json();
+      if (result.status === 401) {
+            alert("Tu sesion ha expirado, por favor inicia sesion nuevamente.");
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+            navigate("/login");
+            return;
+        }
+      if (!data.habits){
+        console.log("No hay datos registrados para esta fecha");
+        return;
+      }
       const habits = data.habits;
 
       setDidTrain(habits.entreno);

@@ -22,6 +22,12 @@ export const Login = () => {
                 body: JSON.stringify(user_credentials)
             }) 
 			const data = await resp.json()
+
+			if (!resp.ok){
+				alert(data.error || "Error al iniciar sesion");
+				return;
+			}
+			
 			localStorage.setItem("token", data.token);
 			localStorage.setItem("user", JSON.stringify(data.user));
 			window.dispatchEvent(new Event("userChanged"));

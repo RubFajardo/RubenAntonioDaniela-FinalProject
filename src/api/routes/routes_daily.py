@@ -86,7 +86,7 @@ def get_daily_habits(date):
 
     daily = Daily.query.filter_by(date=target_date, user_id=user.id).first()
     if not daily:
-        return jsonify([]), 200
+        return jsonify({"habits": None}), 200
 
     habit = Habit.query.filter_by(daily_id=daily.id).first()
     if not habit:
@@ -127,3 +127,25 @@ def get_habits_range(start_date, end_date):
         })
 
     return jsonify(result), 200
+
+@api.route("/all_habits", methods=["GET"])
+@jwt_required()
+def get_all_habits():
+    current_user = get_jwt_identity()
+    user = User.query.get(current_user)
+
+    if not user:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+
+    all_records = Daily.query.filter_by(user_id=user.id).all()
+
+    habits_list = []
+    for daily_record in all_records:
+        habit = Habit.query.filter_by(daily_id=daily_record.id).first()
+        if habit:
+            habits_list.append({
+                "date": daily_record.date.isoformat(),
+                "habits": habit.serialize()
+            })
+
+    return jsonify(habits_list), 200

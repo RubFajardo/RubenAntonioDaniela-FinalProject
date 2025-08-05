@@ -71,17 +71,6 @@ def login():
 
     return jsonify("contraseña incorrecta"), 401
 
-@api.route("/profile", methods=["GET"])
-@jwt_required()
-def get_user():
-
-    current_user = get_jwt_identity()
-    user = User.query.get(current_user)
-
-    if user is None:
-        return jsonify("usuario no encontrado"), 404
-    return jsonify({"user": user.serialize()}), 200
-
 @api.route("/edit_profile", methods=["PUT"])
 @jwt_required()
 def edit_profile():
@@ -108,51 +97,37 @@ def delete_user():
 
     return jsonify({"message": "Usuario eliminado"}), 200
 
-    
-
-""""@api.route("/users", methods=["GET"])
-def users():
-    all_users = User.query.all()
-    return jsonify({"users": [user.serialize() for user in all_users]})  """
-
 
 @api.route("/recover/email", methods=["POST"])
 def recovery_find_email():
-    body = request.get_json()
 
+    body = request.get_json()
     if not body.get("email") or "@" not in body["email"]:
         return jsonify({"error": "email no valido"}), 400
     
-
     user = User.query.filter_by(email=body["email"]).first()
-
     if user is None:
         return jsonify({"error": "usuario no encontrado"}), 404
     
     user_data = user.serialize()
 
-
     return jsonify({"user": user_data}), 200
 
 @api.route("/recover/verify", methods=["POST"])
 def recovery_verify_answer():
-    body = request.get_json()
 
+    body = request.get_json()
     if not body.get("email") or "@" not in body["email"]:
         return jsonify({"error": "email no valido"}), 400
-    
     if not body.get("question_answer"):
         return jsonify({"error": "Necesita enviar una respuesta"}), 400
     
-
     user = User.query.filter_by(email=body["email"]).first()
-
     if user is None:
         return jsonify("usuario no encontrado"), 404
     
     if bcrypt.checkpw(body["question_answer"].encode(), user.question_answer.encode()):
         return jsonify("Respuesta correcta"), 200
-
 
     return jsonify({"message": "respuesta incorrecta"}), 401
 
@@ -160,17 +135,13 @@ def recovery_verify_answer():
 def recovery_update_password():
 
     body = request.get_json()
-
     if not body.get("email") or "@" not in body["email"]:
         return jsonify({"error": "email no valido"}), 400
-    
     if not body.get("new_password"):
         return jsonify({"error": "la contraseña no puede estar vacia"}), 400
     
-
     user = User.query.filter_by(email=body["email"]).first()
     coded_new_password = bcrypt.hashpw(body["new_password"].encode(), bcrypt.gensalt())
-
     if user is None:
         return jsonify("usuario no encontrado"), 404
     
