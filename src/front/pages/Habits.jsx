@@ -39,13 +39,13 @@ export const Habits = () => {
     if (result.ok) {
       const data = await result.json();
       if (result.status === 401) {
-            alert("Tu sesion ha expirado, por favor inicia sesion nuevamente.");
-            localStorage.removeItem("user");
-            localStorage.removeItem("token");
-            navigate("/login");
-            return;
-        }
-      if (!data.habits){
+        alert("Tu sesion ha expirado, por favor inicia sesion nuevamente.");
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        navigate("/login");
+        return;
+      }
+      if (!data.habits) {
         console.log("No hay datos registrados para esta fecha");
         return;
       }
@@ -58,9 +58,9 @@ export const Habits = () => {
         caloriesTotal: habits.calorias || 0,
         proteinTotal: habits.proteinas || 0
       });
-      setBreakfast(habits.breakfast)
-      setLunch(habits.lunch)
-      setDinner(habits.dinner)
+      setBreakfast(prev => ({ ...prev, meal: habits.breakfast || '' }));
+      setLunch(prev => ({ ...prev, meal: habits.lunch || '' }));
+      setDinner(prev => ({ ...prev, meal: habits.dinner || '' }));
     }
   };
 
@@ -136,7 +136,7 @@ export const Habits = () => {
     const data = await result.json()
     return data.habits !== null;
   };
-    
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const exists = await dailyExists()
@@ -267,7 +267,7 @@ export const Habits = () => {
       return data[0][0][0]
     } catch (err) {
       console.error("Translation error:", err);
-      return text; 
+      return text;
     }
   };
 
