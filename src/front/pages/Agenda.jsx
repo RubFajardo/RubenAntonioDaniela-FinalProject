@@ -118,9 +118,18 @@ export const Agenda = () => {
         }
     };
 
-    useEffect(() => {
+    const tilesColor = ({date, view}) => {
+        if (view !== "month") return null;
 
-    }, [])
+        const formattedDate = formatDate(date);
+
+        const hasHabits = habits.find(h => h.date === formattedDate);
+        if (!hasHabits || !hasHabits.habits) return null;
+
+        if (hasHabits.habits.entreno === true) return "tile-with-entreno"
+        if (hasHabits.habits.entreno === false) return "tile-with-habits"
+        return null;
+    }
 
     return (
         <div className="container mt-5">
@@ -158,6 +167,7 @@ export const Agenda = () => {
                         onViewChange={({ view }) => {
                             setView(view);
                         }}
+                        tileClassName={tilesColor}
                     />
                 </div>
             </div>

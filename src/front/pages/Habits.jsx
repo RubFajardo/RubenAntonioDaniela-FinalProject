@@ -129,13 +129,14 @@ export const Habits = () => {
       headers: {
         "Authorization": "Bearer " + token
       }
-    });
-    if (result.ok) {
-      return true;
-    }
-    else return false;
-  }
+    })
 
+    if (!result.ok) return false;
+
+    const data = await result.json()
+    return data.habits !== null;
+  };
+    
   const handleSubmit = async (e) => {
     e.preventDefault();
     const exists = await dailyExists()

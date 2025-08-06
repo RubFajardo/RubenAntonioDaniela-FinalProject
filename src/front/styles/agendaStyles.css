@@ -62,3 +62,11 @@
 .dayCard {
   width: 400px;
 }
+
+.tile-with-habits {
+  background-color: yellow !important;
+}
+
+.tile-with-entreno {
+  background-color: green !important;
+}
