@@ -63,6 +63,9 @@ class Habit(db.Model):
     sueño: Mapped[str] = mapped_column(String(20), nullable=False)
     calorias: Mapped[int] = mapped_column(Integer, nullable=False)
     proteinas: Mapped[int] = mapped_column(Integer, nullable=False)
+    breakfast: Mapped[str] = mapped_column(String(50), nullable=False)
+    lunch: Mapped[str] = mapped_column(String(50), nullable=False)
+    dinner: Mapped[str] = mapped_column(String(50), nullable=False)
 
     def serialize(self):
         return {
@@ -73,5 +76,8 @@ class Habit(db.Model):
             "sueño": self.sueño,
             "calorias": self.calorias,
             "proteinas": self.proteinas,
+            "breakfast": self.breakfast,
+            "lunch": self.lunch,
+            "dinner": self.dinner,
         }
     

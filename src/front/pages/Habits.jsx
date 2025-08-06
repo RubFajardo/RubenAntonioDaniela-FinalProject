@@ -58,6 +58,9 @@ export const Habits = () => {
         caloriesTotal: habits.calorias || 0,
         proteinTotal: habits.proteinas || 0
       });
+      setBreakfast(habits.breakfast)
+      setLunch(habits.lunch)
+      setDinner(habits.dinner)
     }
   };
 
@@ -189,11 +192,14 @@ export const Habits = () => {
           sueño: sleepQuality,
           calorias: foodTotal.caloriesTotal,
           proteinas: foodTotal.proteinTotal,
+          breakfast: breakfast.meal,
+          lunch: lunch.meal,
+          dinner: dinner.meal
         }
       }),
     },
     );
-    navigate("/");
+    navigate("/agenda");
   }
 
 
@@ -308,7 +314,7 @@ export const Habits = () => {
         </div>
 
         <div className="card p-4 mb-4 shadow-sm">
-          <h5 className="mb-4">Hagamos un recuento de tus calorías</h5>
+          <h5 className="mb-4">Hagamos un recuento de tus comidas</h5>
 
           {["desayunaste", "almorzaste", "cenaste"].map((meal, idx) => {
             const mealState = getMealState(meal);

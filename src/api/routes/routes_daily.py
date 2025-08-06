@@ -36,7 +36,10 @@ def new_daily(date):
         ejercicio=habits["ejercicio"],
         sueño=habits["sueño"],
         calorias=habits["calorias"],
-        proteinas=habits["proteinas"]
+        proteinas=habits["proteinas"],
+        breakfast=habits["breakfast"],
+        lunch=habits["lunch"],
+        dinner=habits["dinner"],
     )
         
     db.session.add(habit)
@@ -71,6 +74,9 @@ def edit_habit(date):
     habit.sueño = habits["sueño"]
     habit.calorias = habits["calorias"]
     habit.proteinas = habits["proteinas"]
+    habit.breakfast = habits["breakfast"]
+    habit.lunch = habits["lunch"]
+    habit.dinner = habits["dinner"]
 
     db.session.commit()
 

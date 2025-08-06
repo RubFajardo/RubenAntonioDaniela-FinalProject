@@ -1,14 +1,8 @@
 """empty message
 
-<<<<<<<< HEAD:migrations/versions/cc9aad2af11d_.py
-Revision ID: cc9aad2af11d
+Revision ID: eb9114e74c24
 Revises: 
-Create Date: 2025-08-05 15:59:08.304796
-========
-Revision ID: 7742792208da
-Revises: 
-Create Date: 2025-08-04 19:01:48.419590
->>>>>>>> Daniela:migrations/versions/7742792208da_.py
+Create Date: 2025-08-06 17:41:38.394551
 
 """
 from alembic import op
@@ -16,11 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-<<<<<<<< HEAD:migrations/versions/cc9aad2af11d_.py
-revision = 'cc9aad2af11d'
-========
-revision = '7742792208da'
->>>>>>>> Daniela:migrations/versions/7742792208da_.py
+revision = 'eb9114e74c24'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -54,6 +44,9 @@ def upgrade():
     sa.Column('sueño', sa.String(length=20), nullable=False),
     sa.Column('calorias', sa.Integer(), nullable=False),
     sa.Column('proteinas', sa.Integer(), nullable=False),
+    sa.Column('breakfast', sa.String(length=50), nullable=False),
+    sa.Column('lunch', sa.String(length=50), nullable=False),
+    sa.Column('dinner', sa.String(length=50), nullable=False),
     sa.ForeignKeyConstraint(['daily_id'], ['daily.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('daily_id')
