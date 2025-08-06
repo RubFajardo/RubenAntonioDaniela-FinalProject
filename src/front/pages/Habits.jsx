@@ -127,7 +127,7 @@ export const Habits = () => {
         "Authorization": "Bearer " + token
       }
     });
-    if (result.ok){
+    if (result.ok) {
       return true;
     }
     else return false;
@@ -184,17 +184,85 @@ export const Habits = () => {
       body: JSON.stringify({
         date: today,
         habits: {
-            entreno: didTrain,
-            ejercicio: trainingType,
-            sueño: sleepQuality,
-            calorias: foodTotal.caloriesTotal,
-            proteinas: foodTotal.proteinTotal,
-          }
+          entreno: didTrain,
+          ejercicio: trainingType,
+          sueño: sleepQuality,
+          calorias: foodTotal.caloriesTotal,
+          proteinas: foodTotal.proteinTotal,
+        }
       }),
     },
     );
     navigate("/");
   }
+
+
+  const getNutrientsAPI = async (meal) => {
+    const mealState = getMealState(meal);
+
+    try {
+
+      const translatedFood = await translatorAPI(mealState.meal);
+
+      const res = await fetch("https://trackapi.nutritionix.com/v2/natural/nutrients", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-app-id": import.meta.env.VITE_NUTRITIONIX_APP_ID,
+          "x-app-key": import.meta.env.VITE_NUTRITIONIX_API_KEY,
+        },
+        body: JSON.stringify({ query: translatedFood })
+      });
+
+      const data = await res.json();
+      const food = data.foods[0];
+
+      if (!data.foods || data.foods.length === 0) {
+        alert("No se encontró información para ese alimento.");
+        return;
+      }
+
+      switch (meal) {
+        case "desayunaste":
+          setBreakfast(prev => ({
+            ...prev,
+            calories: food.nf_calories,
+            protein: food.nf_protein
+          }));
+          break;
+        case "almorzaste":
+          setLunch(prev => ({
+            ...prev,
+            calories: food.nf_calories,
+            protein: food.nf_protein
+          }));
+          break;
+        case "cenaste":
+          setDinner(prev => ({
+            ...prev,
+            calories: food.nf_calories,
+            protein: food.nf_protein
+          }));
+          break;
+        default:
+          break;
+      }
+    } catch (err) {
+      console.error("Nutritionix error:", err);
+      alert("No se pudo obtener la info nutricional");
+    }
+  };
+
+  const translatorAPI = async (text) => {
+    try {
+      const res = await fetch("https://translate.googleapis.com/translate_a/single?client=gtx&sl=es&tl=en&dt=t&q=" + text);
+      const data = await res.json()
+      return data[0][0][0]
+    } catch (err) {
+      console.error("Translation error:", err);
+      return text; 
+    }
+  };
 
   return (
     <div className="container mt-5">
@@ -217,7 +285,7 @@ export const Habits = () => {
           <h6 className="mb-3">¿Qué entrenaste hoy?</h6>
           {["Tren Superior", "Tren Inferior", "Cardio"].map((part, index) => (
             <div className="form-check" key={index}>
-              <input className="form-check-input" type="radio" onChange={() => setTrainingType(`${part}`)} name="trainingType" id={`type${index}`} value={part} checked={trainingType === part} disabled={didTrain === false}/>
+              <input className="form-check-input" type="radio" onChange={() => setTrainingType(`${part}`)} name="trainingType" id={`type${index}`} value={part} checked={trainingType === part} disabled={didTrain === false} />
               <label className="form-check-label" htmlFor={`type${index}`}>{part}</label>
             </div>
           ))}
@@ -257,10 +325,13 @@ export const Habits = () => {
                   value={mealState.meal}
                   onChange={(e) => handleMealChange(meal, "meal", e)}
                 />
+                <button type="button" onClick={() => getNutrientsAPI(meal)} className="btn btn-sm btn btn-warning mt-1 mb-3">
+                  Obtener calorías y proteínas
+                </button>
 
                 <div className="row g-3 align-items-center">
                   <div className="col-md-4">
-                    <label htmlFor={`cal${idx}`} className="form-label">Calorías estimadas:</label>
+                    <label htmlFor={`cal${idx}`} className="form-label">Calorías:</label>
                     <input
                       type="number"
                       className="form-control"
@@ -270,7 +341,7 @@ export const Habits = () => {
                     />
                   </div>
                   <div className="col-md-4">
-                    <label htmlFor={`prot${idx}`} className="form-label">Proteínas estimadas:</label>
+                    <label htmlFor={`prot${idx}`} className="form-label">Proteínas:</label>
                     <input
                       type="number"
                       className="form-control"
@@ -287,7 +358,7 @@ export const Habits = () => {
         </div>
 
         <div className="text-center mt-5 mb-3">
-          <h4>Total de Calorías y Proteinas hoy: <span className="text-success">{foodTotal.caloriesTotal} kcal y {foodTotal.proteinTotal} gr de Proteina</span></h4>
+          <h4>Total de Calorías y Proteinas hoy: <span className="text-success">{Math.round(foodTotal.caloriesTotal)} kcal y {Math.round(foodTotal.proteinTotal)} gr de Proteina</span></h4>
           <button type="submit" className="btn btn-success btn-lg mt-3">
             Guardar
           </button>
