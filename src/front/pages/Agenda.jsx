@@ -17,6 +17,7 @@ export const Agenda = () => {
             alert("Necesitas iniciar sesión para acceder a este campo");
             navigate("/login");
         }
+        loadProfilePic()
     }, [token, navigate]);
 
     if (!token || !user) {
@@ -27,6 +28,12 @@ export const Agenda = () => {
     const [view, setView] = useState("month");
     const [habits, setHabits] = useState([]);
     const [profilePic, setProfilePic] = useState("https://cdn-icons-png.flaticon.com/512/16/16480.png");
+    const loadProfilePic = () => {
+        const user = JSON.parse(localStorage.getItem("user"))
+        if (user.profile_pic) {
+            setProfilePic(user.profile_pic)
+        }
+    }
 
     const changeProfilePic = () => {
         const newUrl = prompt("Ingresa la URL de la nueva foto de perfil:");
