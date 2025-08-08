@@ -6,6 +6,7 @@ import datetime
 
 db = SQLAlchemy()
 
+
 class User(db.Model):
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -20,15 +21,19 @@ class User(db.Model):
     daily: Mapped[List["Daily"]] = relationship(back_populates="user")
 
 
+    profile_pic: Mapped[str] = mapped_column(String(255), nullable=True)
+
     def serialize(self):
         return {
             "id": self.id,
             "name": self.name,
             "email": self.email,
             "secret_question": self.secret_question,
+            "profile_pic": self.profile_pic
             # do not serialize the password, its a security breach
-        }
-    
+            }
+
+
 class Daily(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
 
@@ -36,8 +41,9 @@ class Daily(db.Model):
     user: Mapped["User"] = relationship(back_populates="daily")
 
     date: Mapped[datetime.date] = mapped_column(Date, nullable=False)
-    
-    habits: Mapped[List["Habit"]] = relationship(back_populates="daily", cascade="all, delete-orphan")
+
+    habits: Mapped[List["Habit"]] = relationship(
+        back_populates="daily", cascade="all, delete-orphan")
 
     def serialize(self):
         return {
@@ -46,7 +52,8 @@ class Daily(db.Model):
             "date": self.date,
             "habits": [habit.serialize() for habit in self.habits]
         }
-    
+
+
 class Habit(db.Model):
 
     __tableargs__ = (
@@ -55,7 +62,8 @@ class Habit(db.Model):
     )
     id: Mapped[int] = mapped_column(primary_key=True)
 
-    daily_id: Mapped[int] = mapped_column(ForeignKey("daily.id"), unique=True, nullable=False)
+    daily_id: Mapped[int] = mapped_column(
+        ForeignKey("daily.id"), unique=True, nullable=False)
     daily: Mapped["Daily"] = relationship(back_populates="habits")
 
     entreno: Mapped[bool] = mapped_column(Boolean, nullable=True)
@@ -80,4 +88,3 @@ class Habit(db.Model):
             "lunch": self.lunch,
             "dinner": self.dinner,
         }
-    
