@@ -65,18 +65,26 @@ def login():
     
     user_data = user.serialize()
     
-    if bcrypt.checkpw(body["password"].encode(), user.password.encode()):
-        access_token = create_access_token(identity=str(user_data["id"]))
-        return jsonify({"token": access_token, "user": user_data}), 200
+    if not bcrypt.checkpw(body["password"].encode(), user.password.encode()):
+        return jsonify("contraseña incorrecta"), 401
+    
+    access_token = create_access_token(identity=str(user_data["id"]))
+    return jsonify({"token": access_token, "user": user_data}), 200
 
-    return jsonify("contraseña incorrecta"), 401
 
 @api.route("/edit_profile", methods=["PUT"])
 @jwt_required()
 def edit_profile():
     current_user = get_jwt_identity()
     user = User.query.get(current_user)
+
+    if not user:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+
     body = request.get_json()
+    if not body:
+        return jsonify({"error": "No se recibieron datos JSON"}), 400
+
     if "name" in body:
         user.name = body["name"]
     if "email" in body:
@@ -84,7 +92,12 @@ def edit_profile():
     if "password" in body:
         coded_password = bcrypt.hashpw(body["password"].encode(), bcrypt.gensalt())
         user.password = coded_password.decode()
-    return jsonify({"message": "Datos de usuario actualizados"}), 200
+    if "profile_pic" in body:
+        user.profile_pic = body["profile_pic"]
+
+    db.session.commit()
+    return jsonify(user.serialize()), 200
+
 
 @api.route("/delete_user", methods=["DELETE"])
 @jwt_required()
