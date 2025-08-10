@@ -1,19 +1,14 @@
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
-from flask_cors import CORS
 import bcrypt
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 api = Blueprint('user_api', __name__)
 
-# Allow CORS requests to this API
-CORS(api)
-
-
 @api.route("/register", methods=["POST"])
 def new_user():
-    
+
     body = request.get_json()
 
     if not body.get("name"):
@@ -21,21 +16,22 @@ def new_user():
 
     if not body.get("email") or "@" not in body["email"]:
         return jsonify({"error": "email no valido o vacio"}), 400
-    
+
     if User.query.filter_by(email=body["email"]).first():
         return jsonify({"error": "email ya registrado"}), 400
-    
+
     if not body.get("password"):
         return jsonify({"error": "la contraseña no puede estar vacia"}), 400
-    
+
     if not body.get("secret_question"):
         return jsonify({"error": "Debe incluir una pregunta secreta"}), 400
-    
+
     if not body.get("question_answer"):
         return jsonify({"error": "Debe incluir la respuesta de su pregunta"}), 400
-    
+
     coded_password = bcrypt.hashpw(body["password"].encode(), bcrypt.gensalt())
-    coded_question_answer = bcrypt.hashpw(body["question_answer"].encode(), bcrypt.gensalt())
+    coded_question_answer = bcrypt.hashpw(
+        body["question_answer"].encode(), bcrypt.gensalt())
 
     new_user = User()
     new_user.name = body["name"]
@@ -50,6 +46,7 @@ def new_user():
 
     return jsonify("usuario registrado"), 200
 
+
 @api.route("/login", methods=["POST"])
 def login():
 
@@ -62,12 +59,12 @@ def login():
     user = User.query.filter_by(email=body["email"]).first()
     if user is None:
         return jsonify("usuario no encontrado"), 404
-    
+
     user_data = user.serialize()
-    
+
     if not bcrypt.checkpw(body["password"].encode(), user.password.encode()):
         return jsonify("contraseña incorrecta"), 401
-    
+
     access_token = create_access_token(identity=str(user_data["id"]))
     return jsonify({"token": access_token, "user": user_data}), 200
 
@@ -90,7 +87,8 @@ def edit_profile():
     if "email" in body:
         user.email = body["email"]
     if "password" in body:
-        coded_password = bcrypt.hashpw(body["password"].encode(), bcrypt.gensalt())
+        coded_password = bcrypt.hashpw(
+            body["password"].encode(), bcrypt.gensalt())
         user.password = coded_password.decode()
     if "profile_pic" in body:
         user.profile_pic = body["profile_pic"]
@@ -99,11 +97,14 @@ def edit_profile():
     return jsonify(user.serialize()), 200
 
 
-@api.route("/delete_user", methods=["DELETE"])
+@api.route("/delete_user/", methods=["DELETE"])
 @jwt_required()
 def delete_user():
     current_user = get_jwt_identity()
     user = User.query.get(current_user)
+
+    if not user:
+        return jsonify({"message": "Usuario no encontrado"}), 404
 
     db.session.delete(user)
     db.session.commit()
@@ -117,14 +118,15 @@ def recovery_find_email():
     body = request.get_json()
     if not body.get("email") or "@" not in body["email"]:
         return jsonify({"error": "email no valido"}), 400
-    
+
     user = User.query.filter_by(email=body["email"]).first()
     if user is None:
         return jsonify({"error": "usuario no encontrado"}), 404
-    
+
     user_data = user.serialize()
 
     return jsonify({"user": user_data}), 200
+
 
 @api.route("/recover/verify", methods=["POST"])
 def recovery_verify_answer():
@@ -134,15 +136,16 @@ def recovery_verify_answer():
         return jsonify({"error": "email no valido"}), 400
     if not body.get("question_answer"):
         return jsonify({"error": "Necesita enviar una respuesta"}), 400
-    
+
     user = User.query.filter_by(email=body["email"]).first()
     if user is None:
         return jsonify("usuario no encontrado"), 404
-    
+
     if bcrypt.checkpw(body["question_answer"].encode(), user.question_answer.encode()):
         return jsonify("Respuesta correcta"), 200
 
     return jsonify({"message": "respuesta incorrecta"}), 401
+
 
 @api.route("/recover/reset-password", methods=["PUT"])
 def recovery_update_password():
@@ -152,12 +155,13 @@ def recovery_update_password():
         return jsonify({"error": "email no valido"}), 400
     if not body.get("new_password"):
         return jsonify({"error": "la contraseña no puede estar vacia"}), 400
-    
+
     user = User.query.filter_by(email=body["email"]).first()
-    coded_new_password = bcrypt.hashpw(body["new_password"].encode(), bcrypt.gensalt())
+    coded_new_password = bcrypt.hashpw(
+        body["new_password"].encode(), bcrypt.gensalt())
     if user is None:
         return jsonify("usuario no encontrado"), 404
-    
+
     user.password = coded_new_password.decode()
 
     try:
