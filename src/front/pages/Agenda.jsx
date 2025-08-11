@@ -185,6 +185,40 @@ export const Agenda = () => {
         }
     };
 
+
+
+
+
+    
+
+    const editProfilePic = async (params) => {
+        const response = await fetch ("https://sturdy-space-halibut-q7vqq7p5v7j5c99pj-3001.app.github.dev/api/edit_profile", {
+             method: "PUT",
+             headers: {
+                "Content-Type": "application/json",
+             },
+             body: JSON.stringify({"profile_pic": params})
+
+        })
+    }
+
+
+
+
+       useEffect(()=> {
+        editProfilePic(profilePic)
+       },[profilePic]) 
+
+
+
+
+
+
+
+
+
+
+
     return (
         <div className="container mt-5">
             <div className="row justify-content-around mb-4">
