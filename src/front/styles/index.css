@@ -1,125 +1,12 @@
 body {
   margin: 0;
   padding: 0;
+  background-color: #222;
 }
-
-.full-section {
-  width: 100%;
-  min-height: 60vh;
-  padding: 40x 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0; 
-  padding: 0px 0px;
-}
-
-#vision {
-  background-color: #e3f2fd;
-  text-align: center;
-}
-
-#vision img {
-  max-width: 100%;
-  height: auto;
-}
-
-.vision-section {
-  position: relative;
-  background-image: url('https://images.unsplash.com/photo-1554284126-aa88f22d8b74?auto=format&fit=crop&w=1600&q=80'); 
-  background-position: center;
-  background-repeat: no-repeat;
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: white;
-}
-.vision-title {
-  font-size: 3.5rem;
-  font-weight: 800;
-  margin-bottom: 30px;
-  text-transform: uppercase;
-  line-height: 1.2;
-}
-.vision-text {
-  font-size: 1.5rem;
-  font-weight: 500;
-  line-height: 1.6;
-}
-
-.vision-title,
-.vision-text {
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); 
-}
-
-.carrusel-ruta-saludable {
-  position: relative;
-  background-color: #000;
-  color: #fff;
-}
-
-.titulo-sobre-carrusel {
-  position: absolute;
-  top: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  text-align: center;
-}
-
-.titulo-sobre-carrusel h2 {
-  font-size: 2.5rem;
-  color: #ffff
-}
-
-
-#testimonios {
-  background-color: #f8f9fa;
-}
-
-#contacto {
-  background-color: #e0f7fa;
-}
-
-
-
-
-.carousel-item img {
-  height: 500px;
-  object-fit: cover;
-  width: 100%;
-}
-
-.contacto {
-  background-color: #e0f7fa;
-  padding: 40px 20px;  
-  min-height: 60;     
-  text-align: center;
-}
-
-.contacto p {
-  margin: 8px 0;
-  line-height: 1.2;
-}
-
-.sticky-note {
-  border-left: 4px solid #000;
-  transition: transform 0.3s ease;
-  border-radius: 8px;
-  min-height: 260px; 
-  background-color: #fff;
-}
-
-.sticky-note:hover {
-  transform: translateY(-5px);
-}
-
-
 
 html {
   scroll-behavior: smooth;
 }
+
+
+

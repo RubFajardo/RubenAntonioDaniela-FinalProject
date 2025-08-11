@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom";
+import styles from "../styles/Navbar.module.css";
 
 export const Navbar = () => {
   const [user, setUser] = useState(null);
@@ -21,29 +22,29 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light px-4">
+    <nav className={`navbar navbar-expand-lg px-4 ${styles.nav}`}>
       <div className="container">
-        <Link className="navbar-brand" to="/">HOME</Link>
+        <Link className={styles.navbarBrand} to="/">HOME</Link>
 
         <div className="collapse navbar-collapse" id="navbarContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link" to="/#contacto">Contacto</Link>
+              <Link className={`nav-link ${styles.navLink}`} to="/#contacto">Contacto</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/#vision">Visión</Link>
+              <Link className={`nav-link ${styles.navLink}`} to="/#vision">Visión</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/habits">Hábitos</Link>
+              <Link className={`nav-link ${styles.navLink}`} to="/habits">Hábitos</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/agenda">Agenda</Link>
+              <Link className={`nav-link ${styles.navLink}`} to="/agenda">Agenda</Link>
             </li>
           </ul>
 
-          <div className="d-flex">
+          <div className={styles.user}>
             {user ? (
-              <span className="navbar-text">Bienvenido, {user.name} <button className="btn btn-outline-danger ms-3" onClick={() => {
+              <span>Bienvenido, {user.name} <button className={`btn ${styles.logOut}`} onClick={() => {
                 localStorage.removeItem("token");
                 localStorage.removeItem("user");
                 window.dispatchEvent(new Event("userChanged"));

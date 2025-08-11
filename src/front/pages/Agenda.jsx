@@ -3,6 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import "../styles/agendaStyles.css";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+
 
 export const Agenda = () => {
 
@@ -28,6 +30,7 @@ export const Agenda = () => {
     const [view, setView] = useState("month");
     const [habits, setHabits] = useState([]);
     const [profilePic, setProfilePic] = useState("https://cdn-icons-png.flaticon.com/512/16/16480.png");
+
     const loadProfilePic = () => {
         const user = JSON.parse(localStorage.getItem("user"))
         if (user.profile_pic) {
@@ -125,7 +128,7 @@ export const Agenda = () => {
         }
     };
 
-    const tilesColor = ({date, view}) => {
+    const tilesColor = ({ date, view }) => {
         if (view !== "month") return null;
 
         const formattedDate = formatDate(date);
@@ -138,57 +141,96 @@ export const Agenda = () => {
         return null;
     }
 
+    const chartData = habits.map((h) => ({
+        date: new Date(h.date).toLocaleDateString('es-ES', {
+            weekday: 'short',
+            day: '2-digit'
+        }),
+        Calorias: h.habits?.calorias || 0,
+        Proteinas: h.habits?.proteinas || 0,
+    }));
+
     return (
         <div className="container mt-5">
-            <div className="row justify-content-around mb-4">
-                <div className="card shadow" style={{ width: '400px', flexShrink: 0 }}>
-                    <div className="card-body text-center">
-                        {/* Usamos el estado para la foto */}
-                        <img
-                            src={profilePic}
-                            alt="Profile"
-                            className="rounded-circle mb-3"
-                            width="150"
-                            height="150"
-                        />
-                        <button onClick={changeProfilePic}><i className="fa-solid fa-pencil"></i></button>
-                        <h3 className="card-title">{user.name}</h3>
-                        <p className="card-text text-muted">{user.email}</p>
+
+            {/* Perfil */}
+
+            <div className="profileAndChartContainer">
+                <div className="profileCard">
+                    <div className="profileBody">
+                        <div className="imageAndEdit">
+                            <img src={profilePic} alt="Profile" className="profileImage" />
+                            <button onClick={changeProfilePic} className="editImage">
+                                <i className="fa-solid fa-pencil"></i>
+                            </button>
+                        </div>
+                        <h3 className="CardName">{user.name}</h3>
+                        <p className="CardEmail">{user.email}</p>
                     </div>
                 </div>
-                <div className="shadow px-0" style={{ width: '400px', flexShrink: 0 }}>
-                    <Calendar
-                        onClickDay={onSelectDay}
-                        prev2Label={null}
-                        minDetail="decade"
-                        next2Label={null}
-                        onActiveStartDateChange={({ activeStartDate }) => {
-                            setDate(activeStartDate);
-                            if (view === "month") {
-                                fetchMonthHabits(activeStartDate);
-                            } else if (view === "day") {
-                                fetchDayHabits(activeStartDate);
-                            }
-                            setView("month")
-                        }}
-                        onViewChange={({ view }) => {
-                            setView(view);
-                        }}
-                        tileClassName={tilesColor}
-                    />
-                </div>
+
+                {/* Grafico */}
+
+                {view === "month" && chartData.length > 0 && (
+                    <div className="monthlyChart">
+                        <div className="chartContainer">
+                            <LineChart width={450} height={200} data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+                                <CartesianGrid strokeDasharray="4 4" stroke="#666" />
+                                <XAxis dataKey="date" stroke="#fff" tick={{ fontSize: 12 }} axisLine={{ stroke: '#fff' }} />
+                                <YAxis stroke="#fff" tick={{ fontSize: 12 }} axisLine={{ stroke: '#fff' }} />
+                                <Tooltip contentStyle={{ backgroundColor: '#222', borderRadius: '8px', color: '#fff', border: "1px solid #ffcc00", boxShadow: "0 0 8px 2px #ff6f00" }} labelStyle={{ fontWeight: 'bold' }} cursor={{ stroke: '#fff', strokeWidth: 2 }} />
+                                <Legend verticalAlign="top" align="center" height={36} wrapperStyle={{ fontSize: '14px', fontWeight: 'bold'}} />
+                                <Line type="monotone" dataKey="Calorias" stroke="#ff6f00" dot={{ r: 3, strokeWidth: 0, fill: '#ff6f00' }} activeDot={{ r: 6, strokeWidth: 0, fill: "#ff6f00" }} />
+                                <Line type="monotone" dataKey="Proteinas" stroke="#ffcc00" dot={{ r: 3, strokeWidth: 0, fill: '#ffcc00' }} activeDot={{ r: 6, strokeWidth: 0, fill: "#ffcc00" }} />
+                            </LineChart>
+                            <h4>Resumen mensual de calorías y proteínas</h4>
+                        </div>
+                    </div>
+                )}
             </div>
+
+            {/* Calendario */}
+
+            <div className="calendarContainer" style={{ width: '400px', flexShrink: 0 }}>
+                <Calendar
+                    onClickDay={onSelectDay}
+                    prev2Label={null}
+                    minDetail="decade"
+                    next2Label={null}
+                    onActiveStartDateChange={({ activeStartDate }) => {
+                        setDate(activeStartDate);
+                        if (view === "month") {
+                            fetchMonthHabits(activeStartDate);
+                        } else if (view === "day") {
+                            fetchDayHabits(activeStartDate);
+                        }
+                        setView("month");
+                    }}
+                    onViewChange={({ view }) => {
+                        setView(view);
+                    }}
+                    tileClassName={tilesColor}
+                />
+            </div>
+
+            {/* Título de hábitos */}
+
             {(view == "day" || view == "month") ? (
                 <p>
                     {view === "day" && `Tus hábitos del día ${date.toLocaleDateString("es-ES", { weekday: "long", day: "numeric", month: "long" })}:`}
                     {view === "month" && `Tus hábitos de ${date.toLocaleDateString("es-ES", { month: "long", year: "numeric" })}:`}
                 </p>
             ) : null}
+
+            {/* Botón volver al mes */}
             {view === "day" && (
                 <button className="btn btn-secondary mb-3" onClick={() => { setView("month") }}>
                     Mostrar todo el mes
                 </button>
             )}
+
+            {/* Tarjetas de hábitos */}
+
             <div className={`d-flex overflow-auto gap-3 p-3 ${view === "day" ? "dayCardContainer" : "monthCardContainer"}`}>
                 {(view === "day" || view === "month") && (
                     habits.length === 0 ? (
@@ -209,8 +251,7 @@ export const Agenda = () => {
                                     </ul>
                                 </div>
                             </div>
-                        )
-                        )
+                        ))
                     )
                 )}
             </div>

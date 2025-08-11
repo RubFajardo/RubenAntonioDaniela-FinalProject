@@ -1,5 +1,7 @@
+import styles from "../styles/Footer.module.css"
+
 export const Footer = () => (
-	 <footer className="footer text-center py-4">
+	 <footer className={`footer text-center ${styles.footer}`}>
         <p>&copy; 2025 HabitsTracker. Todos los derechos reservados.</p>
         <div className="tech-icons d-flex justify-content-center gap-3">
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap" width="30" height="30" />
