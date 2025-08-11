@@ -1,5 +1,5 @@
 nav {
-  background: linear-gradient(to bottom, #000, #222);
+  background: linear-gradient(to bottom, rgba(0, 0, 0) 60%, rgba(12, 12, 12) 100%);
   margin-bottom: 5px;
 }
 

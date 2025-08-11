@@ -1,12 +1,9 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #222;
+  background-color: rgba(12, 12, 12);
 }
 
 html {
   scroll-behavior: smooth;
 }
-
-
-

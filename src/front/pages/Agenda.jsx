@@ -3,9 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import "../styles/agendaStyles.css";
-import { Modal } from 'bootstrap';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-
+import { Modal } from 'bootstrap';
 
 export const Agenda = () => {
 
@@ -142,6 +141,15 @@ export const Agenda = () => {
         return null;
     }
 
+    const chartData = habits.map((h) => ({
+        date: new Date(h.date).toLocaleDateString('es-ES', {
+            weekday: 'short',
+            day: '2-digit'
+        }),
+        Calorias: h.habits?.calorias || 0,
+        Proteinas: h.habits?.proteinas || 0,
+    }));
+    
     const deleteUser = async () => {
         if (!token) {
             alert("Tu sesión ha caducado, inicia sesión antes de continuar.");
@@ -188,33 +196,23 @@ export const Agenda = () => {
         }
     };
 
-    const chartData = habits.map((h) => ({
-        date: new Date(h.date).toLocaleDateString('es-ES', {
-            weekday: 'short',
-            day: '2-digit'
-        }),
-        Calorias: h.habits?.calorias || 0,
-        Proteinas: h.habits?.proteinas || 0,
-    }));
-
     return (
         <div className="container mt-5">
-            <div className="row justify-content-around mb-4">
-                <div className="card shadow" style={{ width: '400px', flexShrink: 0 }}>
-                    <div className="card-body text-center">
-                        {/* Usamos el estado para la foto */}
-                        <img
-                            src={profilePic}
-                            alt="Profile"
-                            className="rounded-circle mb-3"
-                            width="150"
-                            height="150"
-                        />
-                        <button onClick={changeProfilePic}><i className="fa-solid fa-pencil"></i></button>
-                        <h3 className="card-title">{user.name}</h3>
-                        <p className="card-text text-muted">{user.email}</p>
-                    </div>
 
+            {/* Perfil */}
+
+            <div className="profileAndChartContainer">
+                <div className="profileCard">
+                    <div className="profileBody">
+                        <div className="imageAndEdit">
+                            <img src={profilePic} alt="Profile" className="profileImage" />
+                            <button onClick={changeProfilePic} className="editImage">
+                                <i className="fa-solid fa-pencil"></i>
+                            </button>
+                        </div>
+                        <h3 className="CardName">{user.name}</h3>
+                        <p className="CardEmail">{user.email}</p>
+                    </div>
                     <button type="button" className="btn btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#deleteUser">
                         Eliminar Cuenta
                     </button>
