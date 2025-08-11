@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import "../styles/agendaStyles.css";
+import { Modal } from 'bootstrap';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 
@@ -141,6 +142,52 @@ export const Agenda = () => {
         return null;
     }
 
+    const deleteUser = async () => {
+        if (!token) {
+            alert("Tu sesión ha caducado, inicia sesión antes de continuar.");
+            return;
+        }
+
+        try {
+            const res = await fetch(`${backendUrl}api/delete_user/`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            });
+
+            if (!res.ok) {
+                const errorData = await res.json();
+                alert(errorData.message || "Error al eliminar usuario");
+                return;
+            }
+
+            const data = await res.json();
+            alert(data.message);
+
+            const modalEl = document.getElementById('deleteUser');
+            const modalInstance = Modal.getInstance(modalEl) || new Modal(modalEl);
+            modalInstance.hide();
+
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) {
+                backdrop.parentNode.removeChild(backdrop);
+            }
+            document.body.classList.remove('modal-open');
+
+            setTimeout(() => {
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                window.dispatchEvent(new Event("userChanged"));
+                navigate("/login");
+            }, 300);
+
+        } catch (err) {
+            console.error("Error eliminando usuario:", err);
+            alert("No se pudo eliminar el usuario");
+        }
+    };
+
     const chartData = habits.map((h) => ({
         date: new Date(h.date).toLocaleDateString('es-ES', {
             weekday: 'short',
@@ -152,20 +199,41 @@ export const Agenda = () => {
 
     return (
         <div className="container mt-5">
+            <div className="row justify-content-around mb-4">
+                <div className="card shadow" style={{ width: '400px', flexShrink: 0 }}>
+                    <div className="card-body text-center">
+                        {/* Usamos el estado para la foto */}
+                        <img
+                            src={profilePic}
+                            alt="Profile"
+                            className="rounded-circle mb-3"
+                            width="150"
+                            height="150"
+                        />
+                        <button onClick={changeProfilePic}><i className="fa-solid fa-pencil"></i></button>
+                        <h3 className="card-title">{user.name}</h3>
+                        <p className="card-text text-muted">{user.email}</p>
+                    </div>
 
-            {/* Perfil */}
-
-            <div className="profileAndChartContainer">
-                <div className="profileCard">
-                    <div className="profileBody">
-                        <div className="imageAndEdit">
-                            <img src={profilePic} alt="Profile" className="profileImage" />
-                            <button onClick={changeProfilePic} className="editImage">
-                                <i className="fa-solid fa-pencil"></i>
-                            </button>
+                    <button type="button" className="btn btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#deleteUser">
+                        Eliminar Cuenta
+                    </button>
+                    <div className="modal fade" id="deleteUser" tabindex="-1" aria-labelledby="deleteUserLabel" aria-hidden="true">
+                        <div className="modal-dialog">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h1 className="modal-title fs-5" id="deleteUserLabel">Eliminar Cuenta</h1>
+                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div className="modal-body">
+                                    ¿Estas seguro de que deseas eliminar tu cuenta? !No podrás recuperarla!
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="button" onClick={() => deleteUser()} className="btn btn-danger">Sí, deseo eliminar mi cuenta</button>
+                                </div>
+                            </div>
                         </div>
-                        <h3 className="CardName">{user.name}</h3>
-                        <p className="CardEmail">{user.email}</p>
                     </div>
                 </div>
 
