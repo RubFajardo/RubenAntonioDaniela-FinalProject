@@ -258,17 +258,17 @@ export const Agenda = () => {
                     Mostrar todo el mes
                 </button>
             )}
-            <div className={`d-flex overflow-auto gap-3 p-3 ${view === "day" ? "dayCardContainer" : "monthCardContainer"}`}>
+            <div className={`habits-container ${view === "month" ? "month-view" : ""}`}>
                 {(view === "day" || view === "month") && (
                     habits.length === 0 ? (
                         <p className="text-muted">
                             No se encontraron hábitos para este {view === "day" ? "día" : "mes"}.
                         </p>
                     ) : (
-                        habits.map((habit, index) => (
-                            <div key={index} className={`card shadow ${view === "day" ? "dayCard" : "monthCard"}`}>
+                        habits.sort((a, b) => new Date(a.date) - new Date(b.date)).map((habit, index) => (
+                            <div key={index} className="habit-card shadow">
                                 <div className="card-body">
-                                    <h5 className="card-title text-primary">{habit.date}</h5>
+                                    <h5 className="card-title">{habit.date}</h5>
                                     <ul className="list-unstyled mb-0">
                                         <li><strong>Entreno:</strong> {habit.habits?.entreno ? "Sí" : "No"}</li>
                                         <li><strong>Ejercicio:</strong> {habit.habits?.ejercicio || "N/A"}</li>
@@ -278,11 +278,12 @@ export const Agenda = () => {
                                     </ul>
                                 </div>
                             </div>
-                        )
-                        )
+                        ))
                     )
                 )}
             </div>
+
+
         </div>
     );
 };
