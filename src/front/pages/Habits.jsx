@@ -179,6 +179,23 @@ export const Habits = () => {
       return alert("Por favor, verifica las proteínas ingresadas, es un valor muy alto.");
     }
 
+    const bodyData = {
+      date: today,
+      habits: {
+        entreno: didTrain,
+        ejercicio: trainingType,
+        sueño: sleepQuality,
+        calorias: foodTotal.caloriesTotal,
+        proteinas: foodTotal.proteinTotal,
+        breakfast: breakfast.meal,
+        lunch: lunch.meal,
+        dinner: dinner.meal
+      }
+    };
+
+    console.log("Body being sent:", JSON.stringify(bodyData));
+
+
     await fetch(backendUrl + "api/daily_habits/" + today, {
       method: method,
       headers: {
@@ -200,6 +217,7 @@ export const Habits = () => {
       }),
     },
     );
+
     navigate("/agenda");
   }
 

@@ -196,6 +196,40 @@ export const Agenda = () => {
         }
     };
 
+
+
+
+
+    
+
+    const editProfilePic = async (params) => {
+        const response = await fetch ("https://sturdy-space-halibut-q7vqq7p5v7j5c99pj-3001.app.github.dev/api/edit_profile", {
+             method: "PUT",
+             headers: {
+                "Content-Type": "application/json",
+             },
+             body: JSON.stringify({"profile_pic": params})
+
+        })
+    }
+
+
+
+
+       useEffect(()=> {
+        editProfilePic(profilePic)
+       },[profilePic]) 
+
+
+
+
+
+
+
+
+
+
+
     return (
         <div className="container mt-5">
 
@@ -297,17 +331,17 @@ export const Agenda = () => {
 
             {/* Tarjetas de hábitos */}
 
-            <div className={`d-flex overflow-auto gap-3 p-3 ${view === "day" ? "dayCardContainer" : "monthCardContainer"}`}>
+            <div className={`habits-container ${view === "month" ? "month-view" : ""}`}>
                 {(view === "day" || view === "month") && (
                     habits.length === 0 ? (
                         <p className="text-muted">
                             No se encontraron hábitos para este {view === "day" ? "día" : "mes"}.
                         </p>
                     ) : (
-                        habits.map((habit, index) => (
-                            <div key={index} className={`card shadow ${view === "day" ? "dayCard" : "monthCard"}`}>
+                        habits.sort((a, b) => new Date(a.date) - new Date(b.date)).map((habit, index) => (
+                            <div key={index} className="habit-card shadow">
                                 <div className="card-body">
-                                    <h5 className="card-title text-primary">{habit.date}</h5>
+                                    <h5 className="card-title">{habit.date}</h5>
                                     <ul className="list-unstyled mb-0">
                                         <li><strong>Entreno:</strong> {habit.habits?.entreno ? "Sí" : "No"}</li>
                                         <li><strong>Ejercicio:</strong> {habit.habits?.ejercicio || "N/A"}</li>
@@ -321,6 +355,8 @@ export const Agenda = () => {
                     )
                 )}
             </div>
+
+
         </div>
     );
 };

@@ -24,7 +24,7 @@ export const Login = () => {
 			const data = await resp.json()
 
 			if (!resp.ok){
-				alert(data.error || "Error al iniciar sesion");
+				alert(data.error || "Contraseña incorrecta");
 				return;
 			}
 			
