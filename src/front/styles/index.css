@@ -1,125 +1,305 @@
-body {
+/*para que todos el mismo size de boxing para eso es el ::before after*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-.full-section {
-  width: 100%;
-  min-height: 60vh;
-  padding: 40x 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0; 
-  padding: 0px 0px;
+body {
+  font-family: 'Orbitron', sans-serif, Arial, sans-serif;
+  background-color: #000;
+  color: #00ff99;
+  overflow-x: hidden;
 }
 
-#vision {
-  background-color: #e3f2fd;
-  text-align: center;
-}
-
-#vision img {
-  max-width: 100%;
-  height: auto;
-}
-
+/* === SECCIÓN VISIÓN === */
 .vision-section {
   position: relative;
-  background-image: url('https://images.unsplash.com/photo-1554284126-aa88f22d8b74?auto=format&fit=crop&w=1600&q=80'); 
+  height: 100vh;
+  background: url('https://images.unsplash.com/photo-1576678927484-cc907957088c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.vision-overlay-transparent {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 3rem;
+  max-width: 800px;
+  border-radius: 20px;
+  animation: fadeInUp 1.2s ease forwards;
+}
+
+.vision-title {
+  font-size: 2.5rem;
+  color: #00ff99;
+  text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99;
+  font-weight: bold;
+  animation: neonPulse 2s infinite alternate;
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: 1rem;
+}
+
+.vision-text {
+  color: #d1fbe6;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* === CARRUSEL === */
+.carrusel-ruta-saludable {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/*habia un franja blanca entre seccion y vision y con eso se elimina*/
+
+.no-gap {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.carousel-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.custom-carousel-item {
+  position: absolute;
+  top: 10%;
+  left: 0;
+  width: 100%;
+  height: 80%; 
   background-position: center;
   background-repeat: no-repeat;
-  min-height: 100vh;
-  width: 100%;
+  background-size: cover;
+  filter: brightness(0.5);
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  border-radius: 0;
+  z-index: 0;
+}
+
+.custom-carousel-item.active {
+  opacity: 1;
+  position: relative;
+  z-index: 1;
+}
+
+/* Texto encima del carrusel */
+.titulo-sobre-carrusel-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  max-width: 800px;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+  color: #00ff99;
+  text-align: center;
+  pointer-events: none;
+}
+
+.carousel-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  animation: neonPulse 2s infinite alternate;
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: 0.3rem;
+}
+
+.carousel-description {
+  font-size: 1.2rem;
+  font-family: 'Orbitron', sans-serif;
+  color: #d1fbe6;
+}
+
+/* Botones del carrusel */
+.carousel-control-prev,
+.carousel-control-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  color: white;
-}
-.vision-title {
-  font-size: 3.5rem;
-  font-weight: 800;
-  margin-bottom: 30px;
-  text-transform: uppercase;
-  line-height: 1.2;
-}
-.vision-text {
-  font-size: 1.5rem;
-  font-weight: 500;
-  line-height: 1.6;
 }
 
-.vision-title,
-.vision-text {
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); 
+.carousel-control-prev {
+  left: 20px;
 }
 
-.carrusel-ruta-saludable {
-  position: relative;
-  background-color: #000;
-  color: #fff;
+.carousel-control-next {
+  right: 20px;
 }
 
-.titulo-sobre-carrusel {
-  position: absolute;
-  top: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  text-align: center;
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 
-.titulo-sobre-carrusel h2 {
-  font-size: 2.5rem;
-  color: #ffff
+.carousel-control-prev-icon {
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg fill="none" stroke="%2300ff99" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 18l-6-6 6-6"/></svg>');
 }
 
-
-#testimonios {
-  background-color: #f8f9fa;
+.carousel-control-next-icon {
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg fill="none" stroke="%2300ff99" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 6l6 6-6 6"/></svg>');
 }
 
-#contacto {
-  background-color: #e0f7fa;
-}
-
-
-
-
-.carousel-item img {
-  height: 500px;
-  object-fit: cover;
-  width: 100%;
-}
-
-.contacto {
-  background-color: #e0f7fa;
-  padding: 40px 20px;  
-  min-height: 60;     
-  text-align: center;
-}
-
-.contacto p {
-  margin: 8px 0;
-  line-height: 1.2;
+/* === TESTIMONIOS === */
+.testimonios-section {
+  background: #0d261d;
+  color: #d1fbe6;
+  padding: 3rem 1rem;
 }
 
 .sticky-note {
-  border-left: 4px solid #000;
+  background: #004d26;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #00ff99cc;
+  border: 2px solid #00ff99;
+  padding: 1.5rem;
   transition: transform 0.3s ease;
-  border-radius: 8px;
-  min-height: 260px; 
-  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  color: white; /* texto blanco */
 }
 
 .sticky-note:hover {
-  transform: translateY(-5px);
+  transform: scale(1.05);
+  box-shadow: 0 0 30px #00ff99;
 }
 
+/* === CONTACTO === */
+.contacto {
+  background: #02130f;
+  color: #00ff99;
+  padding: 3rem 2rem;
+  font-family: 'Orbitron', sans-serif;
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  line-height: 1.3; /* menos espacio entre líneas */
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-shadow:
+    0 0 5px #00ff99,
+    0 0 10px #00ff99;
+}
 
-html {
-  scroll-behavior: smooth;
+.contacto input,
+.contacto textarea {
+  background: transparent;
+  border: 2px solid #00ff99;
+  border-radius: 8px;
+  color: #00ff99;
+  padding: 0.6rem 1rem;
+  margin: 0.5rem 0;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  outline: none;
+  transition: box-shadow 0.3s ease;
+}
+
+.contacto input:focus,
+.contacto textarea:focus {
+  box-shadow:
+    0 0 8px #00ff99,
+    0 0 15px #00ff99;
+  border-color: #00ff99;
+}
+
+.contacto button {
+  background: #00ff99;
+  border: none;
+  border-radius: 12px;
+  color: #000;
+  font-weight: 700;
+  padding: 0.8rem 2rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  font-family: 'Orbitron', sans-serif;
+  box-shadow:
+    0 0 10px #00ff99,
+    0 0 20px #00ff99;
+  transition: background-color 0.3s ease;
+}
+
+.contacto button:hover {
+  background: #00cc77;
+  box-shadow:
+    0 0 20px #00cc77,
+    0 0 30px #00cc77;
+}
+
+/* === ANIMACIONES === */
+@keyframes neonPulse {
+  0% {
+    text-shadow:
+      0 0 5px #00ff99,
+      0 0 10px #00ff99,
+      0 0 20px #00ff99,
+      0 0 40px #00ff99;
+    color: #00ff99;
+  }
+  100% {
+    text-shadow:
+      0 0 10px #00ff99,
+      0 0 20px #00ff99,
+      0 0 30px #00ff99,
+      0 0 50px #00ff99;
+    color: #00ff99;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Utilidades básicas */
+.text-center {
+  text-align: center;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+.py-5 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
