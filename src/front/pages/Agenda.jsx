@@ -29,8 +29,7 @@ export const Agenda = () => {
     const [date, setDate] = useState(new Date());
     const [view, setView] = useState("month");
     const [habits, setHabits] = useState([]);
-    const [profilePic, setProfilePic] = useState("https://cdn-icons-png.flaticon.com/512/16/16480.png");
-
+    const [profilePic, setProfilePic] = useState("");
     const loadProfilePic = () => {
         const user = JSON.parse(localStorage.getItem("user"))
         if (user.profile_pic) {
@@ -203,10 +202,11 @@ export const Agenda = () => {
     
 
     const editProfilePic = async (params) => {
-        const response = await fetch ("https://sturdy-space-halibut-q7vqq7p5v7j5c99pj-3001.app.github.dev/api/edit_profile", {
+        const response = await fetch (backendUrl+"api/edit_profile", {
              method: "PUT",
              headers: {
                 "Content-Type": "application/json",
+                 "Authorization": "Bearer " + token
              },
              body: JSON.stringify({"profile_pic": params})
 
@@ -217,7 +217,10 @@ export const Agenda = () => {
 
 
        useEffect(()=> {
-        editProfilePic(profilePic)
+        if (profilePic) {
+           editProfilePic(profilePic)
+        }
+        
        },[profilePic]) 
 
 
@@ -232,20 +235,20 @@ export const Agenda = () => {
 
     return (
         <div className="container mt-5">
-
-            {/* Perfil */}
-
-            <div className="profileAndChartContainer">
-                <div className="profileCard">
-                    <div className="profileBody">
-                        <div className="imageAndEdit">
-                            <img src={profilePic} alt="Profile" className="profileImage" />
-                            <button onClick={changeProfilePic} className="editImage">
-                                <i className="fa-solid fa-pencil"></i>
-                            </button>
-                        </div>
-                        <h3 className="CardName">{user.name}</h3>
-                        <p className="CardEmail">{user.email}</p>
+            <div className="row justify-content-around mb-4">
+                <div className="card shadow" style={{ width: '400px', flexShrink: 0 }}>
+                    <div className="card-body text-center">
+                        {/* Usamos el estado para la foto */}
+                        <img
+                            src={profilePic || "https://cdn-icons-png.flaticon.com/512/16/16480.png"}
+                            alt="Profile"
+                            className="rounded-circle mb-3"
+                            width="150"
+                            height="150"
+                        />
+                        <button onClick={changeProfilePic}><i className="fa-solid fa-pencil"></i></button>
+                        <h3 className="card-title">{user.name}</h3>
+                        <p className="card-text text-muted">{user.email}</p>
                     </div>
                     <button type="button" className="btn btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#deleteUser">
                         Eliminar Cuenta

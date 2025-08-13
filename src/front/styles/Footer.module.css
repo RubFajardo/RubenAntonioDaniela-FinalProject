@@ -1,11 +1,6 @@
 .footer {
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.952) 60%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(to top, #000 40%, #07130f 60%, #0d261d 100%);
   color: #fff;
-  margin-top: 20px;
-  padding: 2rem 0 1rem 0;
+  padding: 1rem 0 0.5rem 0;
   font-size: 1rem;
-}
-
-.footer p {
-  margin-bottom: 10px;
 }

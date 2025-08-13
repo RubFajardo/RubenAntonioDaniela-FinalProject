@@ -23,9 +23,8 @@ export const Navbar = () => {
 
   return (
     <nav className={`navbar navbar-expand-lg px-4 ${styles.nav}`}>
-      <div className="container">
+      <div className="container pt-2 pb-4">
         <Link className={styles.navbarBrand} to="/">HOME</Link>
-
         <div className="collapse navbar-collapse" id="navbarContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
@@ -42,16 +41,18 @@ export const Navbar = () => {
             </li>
           </ul>
 
+          {/* Usuario */}
+
           <div className={styles.user}>
             {user ? (
-              <span>Bienvenido, {user.name} <button className={`btn ${styles.logOut}`} onClick={() => {
+              <span>Bienvenido, {user.name} <button className={`btn ${styles.logInOut}`} onClick={() => {
                 localStorage.removeItem("token");
                 localStorage.removeItem("user");
                 window.dispatchEvent(new Event("userChanged"));
                 navigate("/login");
               }}>Cerrar sesión</button></span>
             ) : (
-              <Link className="btn btn-outline-primary" to="/login">Iniciar sesión</Link>
+              <Link className={`btn ${styles.logInOut}`} to="/login">Iniciar sesión</Link>
             )}
           </div>
         </div>
