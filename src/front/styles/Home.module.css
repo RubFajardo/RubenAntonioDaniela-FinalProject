@@ -28,7 +28,7 @@
 
 .visionSection {
   position: relative;
-  height: 100vh;
+  height: 70vh;
   background: url('https://images.unsplash.com/photo-1576678927484-cc907957088c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center center/cover no-repeat;
   display: flex;
   justify-content: center;
@@ -67,7 +67,7 @@
 .visionTitle {
   font-size: 2.5rem;
   color: #fff !important;
-  text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99;
+  text-shadow: 0 0 10px #01346A, 0 0 20px #01346A;
   font-weight: bold;
   animation: neonPulse 2s infinite alternate;
   font-family: 'Orbitron', sans-serif;
@@ -80,8 +80,8 @@
   line-height: 1.6;
   font-family: 'Orbitron', sans-serif;
   text-shadow:
-    0 0 5px #00ff99,
-    0 0 10px #00ff99;
+    0 0 5px #01346A,
+    0 0 10px #01346A;
 }
 
 /*  CARRUSEL  */
@@ -90,7 +90,7 @@
   margin: 0;
   padding: 0;
   position: relative;
-  height: 100vh;
+  height: 80vh;
   overflow: hidden;
   background: #0d261d;
 }
@@ -161,8 +161,8 @@
   pointer-events: none;
   color: #fff;
   text-shadow:
-    0 0 5px #00ff99,
-    0 0 10px #00ff99;
+    0 0 5px #01346A,
+    0 0 10px #01346A;
 }
 
 .carouselTitle {
@@ -173,8 +173,8 @@
   margin-bottom: 0.3rem;
   color: #fff !important;
   text-shadow:
-    0 0 5px #00ff99,
-    0 0 10px #00ff99;
+    0 0 5px #01346A,
+    0 0 10px #01346A;
 }
 
 .carouselDescription {
@@ -233,15 +233,15 @@
   color: #fff;
   padding: 3rem 1rem;
   text-shadow:
-    0 0 5px #00ff99,
-    0 0 10px #00ff99;
+    0 0 5px #01346A,
+    0 0 10px #01346A;
 }
 
 .stickyNote {
   background: #004d26;
   border-radius: 15px;
-  box-shadow: 0 0 20px #00ff99cc;
-  border: 1px solid #00ff99;
+  box-shadow: 0 0 20px #01346Acc;
+  border: 1px solid #01346A;
   padding: 1.5rem;
   transition: transform 0.3s ease;
   display: flex;
@@ -253,7 +253,7 @@
 
 .stickyNote:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 30px #00ff99;
+  box-shadow: 0 0 30px #01346A;
 }
 
 
@@ -278,8 +278,8 @@
   font-weight: 700;
   letter-spacing: 1.5px;
   text-shadow:
-    0 0 5px #00ff99,
-    0 0 10px #00ff99;
+    0 0 5px #01346A,
+    0 0 10px #01346A;
 }
 
 .contactoTitle {
@@ -289,9 +289,9 @@
 .contacto input,
 .contacto textarea {
   background: transparent;
-  border: 2px solid #00ff99;
+  border: 2px solid #01346A;
   border-radius: 8px;
-  color: #00ff99;
+  color: #01346A;
   padding: 0.6rem 1rem;
   margin: 0.5rem 0;
   font-family: 'Orbitron', sans-serif;
@@ -303,13 +303,13 @@
 .contacto input:focus,
 .contacto textarea:focus {
   box-shadow:
-    0 0 8px #00ff99,
-    0 0 15px #00ff99;
-  border-color: #00ff99;
+    0 0 8px #01346A,
+    0 0 15px #01346A;
+  border-color: #01346A;
 }
 
 .contacto button {
-  background: #00ff99;
+  background: #01346A;
   border: none;
   border-radius: 12px;
   color: #000;
@@ -319,8 +319,8 @@
   margin-top: 1rem;
   font-family: 'Orbitron', sans-serif;
   box-shadow:
-    0 0 10px #00ff99,
-    0 0 20px #00ff99;
+    0 0 10px #01346A,
+    0 0 20px #01346A;
   transition: background-color 0.3s ease;
 }
 
@@ -336,19 +336,19 @@
 @keyframes neonPulse {
   0% {
     text-shadow:
-      0 0 5px #00ff99,
-      0 0 10px #00ff99,
-      0 0 20px #00ff99,
-      0 0 40px #00ff99;
-    color: #00ff99;
+      0 0 5px #01346A,
+      0 0 10px #01346A,
+      0 0 20px #01346A,
+      0 0 40px #01346A;
+    color: #01346A;
   }
   100% {
     text-shadow:
-      0 0 10px #00ff99,
-      0 0 20px #00ff99,
-      0 0 30px #00ff99,
-      0 0 50px #00ff99;
-    color: #00ff99;
+      0 0 10px #01346A,
+      0 0 20px #01346A,
+      0 0 30px #01346A,
+      0 0 50px #01346A;
+    color: #01346A;
   }
 }
 

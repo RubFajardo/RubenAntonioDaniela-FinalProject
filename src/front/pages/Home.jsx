@@ -11,7 +11,7 @@ export const Home = () => {
 
   const slides = [
     {
-      img: 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=1920&q=80',
+      img: 'https://rare-gallery.com/uploads/posts/878334-Men-Muscle-Dumbbells-Workout-Smoke-Beautiful.jpg',
       alt: 'Ejercicio',
       title: 'Ejercicio',
       description: 'Mantén tu cuerpo activo y saludable con ejercicios regulares.',

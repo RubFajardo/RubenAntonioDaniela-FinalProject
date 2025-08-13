@@ -1,45 +1,42 @@
 .login {
   color: #fff;
-  text-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99;
+  text-shadow: 0 0 5px #01346A, 0 0 15px #1E90FF; /* Electric blue glow */
   margin-bottom: 3rem;
   max-width: 500px;
   border: 1px solid #fff;
-  box-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99;
+  box-shadow: 0 0 8px #01346A, 0 0 20px #1E90FF;
   padding: 50px;
   border-radius: 10px;
+  background: radial-gradient(circle at top, #0A0F24, #000); /* Night-sky background */
 }
-
 .label {
   color: #fff;
-  text-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99;
+  text-shadow: 0 0 5px #01346A, 0 0 10px #1E90FF;
 }
-
 .input {
   background-color: #000;
   color: #fff;
-  text-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99;
+  text-shadow: 0 0 5px #01346A, 0 0 10px #1E90FF;
 }
-
 .input:focus,
 .input:-webkit-autofill,
 .input:-webkit-autofill:focus {
   outline: none;
   background-color: #000 !important;
   border-color: #fff !important;
-  box-shadow: 0 0 8px #00ff99 !important;
-  -webkit-box-shadow: 0 0 0px 1000px #000 inset, 0 0 8px #00ff99 !important;
+  box-shadow: 0 0 8px #01346A !important;
+  -webkit-box-shadow: 0 0 0px 1000px #000 inset, 0 0 8px #01346A !important;
   -webkit-text-fill-color: #fff !important;
-  text-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99;
-  caret-color: #00ff99;
+  text-shadow: 0 0 5px #01346A, 0 0 10px #1E90FF;
+  caret-color: #01346A;
 }
-
 .logInButton {
   font-weight: 400;
-  color: #00ff99;
+  color: #01346A;
   text-align: center;
   vertical-align: middle;
   background-color: transparent;
-  border: 1px solid #00ff99;
+  border: 1px solid #01346A;
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   line-height: 1.5;
@@ -48,33 +45,24 @@
     text-shadow 0.3s ease;
   cursor: pointer;
 }
-
 .logInButton:hover {
   border: 1px solid #fff;
-  box-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99;
-  text-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99;
+  box-shadow: 0 0 5px #01346A, 0 0 15px #1E90FF;
+  text-shadow: 0 0 5px #01346A, 0 0 15px #1E90FF;
 }
-
 .register {
-    color: #00ff99;
+  color: #1E90FF;
 }
-
 .forgottenPassword {
-    color: #00cc77;
+  color: #4682B4;
 }
-
-.register:hover, .forgottenPassword:hover {
-  color: #00ff99;
+.register:hover,
+.forgottenPassword:hover {
+  color: #01346A;
   text-shadow:
-    0 0 10px #00ff99,
-    0 0 20px #00ff99,
-    0 0 30px #00ff99;
+    0 0 10px #01346A,
+    0 0 20px #1E90FF,
+    0 0 30px #87CEFA; /* Layered blue glow */
   cursor: pointer;
   text-decoration: none;
 }
-
-
-
-
-
-
