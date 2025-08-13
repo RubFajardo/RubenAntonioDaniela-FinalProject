@@ -18,7 +18,7 @@ export const Agenda = () => {
             alert("Necesitas iniciar sesión para acceder a este campo");
             navigate("/login");
         }
-        loadProfilePic()
+        
     }, [token, navigate]);
 
     if (!token || !user) {
@@ -28,18 +28,19 @@ export const Agenda = () => {
     const [date, setDate] = useState(new Date());
     const [view, setView] = useState("month");
     const [habits, setHabits] = useState([]);
-    const [profilePic, setProfilePic] = useState("");
-    const loadProfilePic = () => {
-        const user = JSON.parse(localStorage.getItem("user"))
-        if (user.profile_pic) {
-            setProfilePic(user.profile_pic)
-        }
-    }
+    const [profilePic, setProfilePic] = useState(user.profile_pic);
 
-    const changeProfilePic = () => {
+
+    const changeProfilePic = async () => {
         const newUrl = prompt("Ingresa la URL de la nueva foto de perfil:");
         if (newUrl) {
             setProfilePic(newUrl);
+            const promise = await fetch(backendUrl + "api/edit_profile", {
+            method: "PUT",
+            headers: { "Content-type": "application/json",
+                "Authorization": "Bearer " + token },
+            body: JSON.stringify({"profile_pic": profilePic})
+        })
         }
     };
 
@@ -186,43 +187,6 @@ export const Agenda = () => {
     };
 
 
-
-
-
-    
-
-    const editProfilePic = async (params) => {
-        const response = await fetch (backendUrl+"api/edit_profile", {
-             method: "PUT",
-             headers: {
-                "Content-Type": "application/json",
-                 "Authorization": "Bearer " + token
-             },
-             body: JSON.stringify({"profile_pic": params})
-
-        })
-    }
-
-
-
-
-       useEffect(()=> {
-        if (profilePic) {
-           editProfilePic(profilePic)
-        }
-        
-       },[profilePic]) 
-
-
-
-
-
-
-
-
-
-
-
     return (
         <div className="container mt-5">
             <div className="row justify-content-around mb-4">
@@ -230,7 +194,7 @@ export const Agenda = () => {
                     <div className="card-body text-center">
                         {/* Usamos el estado para la foto */}
                         <img
-                            src={profilePic || "https://cdn-icons-png.flaticon.com/512/16/16480.png"}
+                            src={profilePic}
                             alt="Profile"
                             className="rounded-circle mb-3"
                             width="150"

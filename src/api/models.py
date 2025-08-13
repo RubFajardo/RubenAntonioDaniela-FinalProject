@@ -21,7 +21,7 @@ class User(db.Model):
     daily: Mapped[List["Daily"]] = relationship(back_populates="user")
 
 
-    profile_pic: Mapped[str] = mapped_column(String(255), nullable=True)
+    profile_pic: Mapped[str] = mapped_column(String(300), nullable=False)
 
     def serialize(self):
         return {

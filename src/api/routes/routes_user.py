@@ -79,19 +79,8 @@ def edit_profile():
         return jsonify({"error": "Usuario no encontrado"}), 404
 
     body = request.get_json()
-    if not body:
-        return jsonify({"error": "No se recibieron datos JSON"}), 400
 
-    if "name" in body:
-        user.name = body["name"]
-    if "email" in body:
-        user.email = body["email"]
-    if "password" in body:
-        coded_password = bcrypt.hashpw(
-            body["password"].encode(), bcrypt.gensalt())
-        user.password = coded_password.decode()
-    if "profile_pic" in body:
-        user.profile_pic = body["profile_pic"]
+    user.profile_pic = body["profile_pic"]
 
     db.session.commit()
     return jsonify(user.serialize()), 200
