@@ -21,6 +21,7 @@ export const Register = () => {
 			"password": password,
 			"secret_question": question,
 			"question_answer": questionAnswer,
+			"profile_pic": "https://cdn-icons-png.flaticon.com/512/16/16480.png"
 		}
 
 		let promise = await fetch(backendUrl + "api/register", {
