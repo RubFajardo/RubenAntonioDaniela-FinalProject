@@ -40,6 +40,7 @@ def new_user():
     new_user.is_active = True
     new_user.secret_question = body["secret_question"]
     new_user.question_answer = coded_question_answer.decode()
+    new_user.profile_pic = body["profile_pic"]
 
     db.session.add(new_user)
     db.session.commit()

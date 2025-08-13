@@ -19,7 +19,7 @@ export const Agenda = () => {
             alert("Necesitas iniciar sesión para acceder a este campo");
             navigate("/login");
         }
-        
+
     }, [token, navigate]);
 
     if (!token || !user) {
@@ -34,16 +34,29 @@ export const Agenda = () => {
 
     const changeProfilePic = async () => {
         const newUrl = prompt("Ingresa la URL de la nueva foto de perfil:");
-        if (newUrl) {
-            setProfilePic(newUrl);
+        if (!newUrl) return;
+
+        
             const promise = await fetch(backendUrl + "api/edit_profile", {
-            method: "PUT",
-            headers: { "Content-type": "application/json",
-                "Authorization": "Bearer " + token },
-            body: JSON.stringify({"profile_pic": profilePic})
-        })
-        }
+                method: "PUT",
+                headers: {
+                    "Content-type": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: JSON.stringify({ profile_pic: newUrl })
+            });
+
+            if (!promise.ok) {
+                const errorData = await promise.json();
+                alert(errorData.message || "Error al actualizar foto de perfil");
+                return;
+            }
+
+            setProfilePic(newUrl);
+            const updatedUser = { ...user, profile_pic: newUrl };
+            localStorage.setItem("user", JSON.stringify(updatedUser));        
     };
+
 
     const formatDate = (d) => {
         const year = d.getFullYear();
@@ -149,7 +162,7 @@ export const Agenda = () => {
         Calorias: h.habits?.calorias || 0,
         Proteinas: h.habits?.proteinas || 0,
     }));
-    
+
     const deleteUser = async () => {
         if (!token) {
             alert("Tu sesión ha caducado, inicia sesión antes de continuar.");
@@ -246,7 +259,7 @@ export const Agenda = () => {
                                 <XAxis dataKey="date" stroke="#fff" tick={{ fontSize: 12 }} axisLine={{ stroke: '#fff' }} />
                                 <YAxis stroke="#fff" tick={{ fontSize: 12 }} axisLine={{ stroke: '#fff' }} />
                                 <Tooltip contentStyle={{ backgroundColor: '#222', borderRadius: '8px', color: '#fff', border: "1px solid #ffcc00", boxShadow: "0 0 8px 2px #ff6f00" }} labelStyle={{ fontWeight: 'bold' }} cursor={{ stroke: '#fff', strokeWidth: 2 }} />
-                                <Legend verticalAlign="top" align="center" height={36} wrapperStyle={{ fontSize: '14px', fontWeight: 'bold'}} />
+                                <Legend verticalAlign="top" align="center" height={36} wrapperStyle={{ fontSize: '14px', fontWeight: 'bold' }} />
                                 <Line type="monotone" dataKey="Calorias" stroke="#ff6f00" dot={{ r: 3, strokeWidth: 0, fill: '#ff6f00' }} activeDot={{ r: 6, strokeWidth: 0, fill: "#ff6f00" }} />
                                 <Line type="monotone" dataKey="Proteinas" stroke="#ffcc00" dot={{ r: 3, strokeWidth: 0, fill: '#ffcc00' }} activeDot={{ r: 6, strokeWidth: 0, fill: "#ffcc00" }} />
                             </LineChart>

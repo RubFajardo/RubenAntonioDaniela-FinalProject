@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Boolean, ForeignKey, Integer, Date
+from sqlalchemy import String, Boolean, ForeignKey, Integer, Date, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import List
 import datetime
@@ -19,7 +19,7 @@ class User(db.Model):
 
     daily: Mapped[List["Daily"]] = relationship(back_populates="user")
 
-    profile_pic: Mapped[str] = mapped_column(String(300), nullable=False)
+    profile_pic: Mapped[str] = mapped_column(Text, nullable=True)
 
     def serialize(self):
         return {
