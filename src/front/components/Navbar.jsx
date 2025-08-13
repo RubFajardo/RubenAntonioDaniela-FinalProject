@@ -37,7 +37,7 @@ export const Navbar = () => {
               <Link className={`nav-link ${styles.navLink}`} to="/habits">Hábitos</Link>
             </li>
             <li className="nav-item">
-              <Link className={`nav-link ${styles.navLink}`} to="/agenda">Agenda</Link>
+              <Link className={`nav-link ${styles.navLink}`} to="/perfil">Mi Perfil</Link>
             </li>
           </ul>
 

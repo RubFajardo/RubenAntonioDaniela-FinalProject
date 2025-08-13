@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react"
 import { useNavigate, Link } from "react-router-dom";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import "../styles/agendaStyles.css";
+import styles from "../styles/Perfil.module.css"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { Modal } from 'bootstrap';
 
-export const Agenda = () => {
+export const Perfil = () => {
 
     const token = localStorage.getItem("token")
     const user = JSON.parse(localStorage.getItem("user"))

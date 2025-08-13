@@ -33,7 +33,7 @@ export const Login = () => {
 			localStorage.setItem("user", JSON.stringify(data.user));
 			window.dispatchEvent(new Event("userChanged"));
 
-            navigate("/")
+            navigate("/Perfil")
         };
     
 		

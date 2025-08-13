@@ -1,5 +1,5 @@
 nav {
-  background: linear-gradient(to bottom, #000 40%, #001D3A 80%, #01346A 100%);
+  background: linear-gradient(to bottom, #000 40%, #0A0F24 100%);
 }
 
 .navbarBrand,
@@ -13,12 +13,18 @@ nav {
 .navbarBrand:hover,
 .navLink:hover {
   color: #fff;
-  text-shadow: 0 0 5px #01346A, 0 0 10px #01346A;
+  text-shadow: 0 0 5px #027CFF, 0 0 10px #027CFF;
+}
+
+.navbarBrand:active,
+.navbarBrand:focus,
+.navLink:active,
+.navLink:focus {
+  color: #fff;
 }
 
 .user {
   color: #fff;
-  border-color: #01346A 1px solid;
   transition: color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease,
     text-shadow 0.3s ease;
   font-size: 1rem;
@@ -28,22 +34,22 @@ nav {
 .user:hover .logInOut,
 .logInOut:hover {
   color: #fff;
-  text-shadow: 0 0 5px #01346A, 0 0 10px #01346A;
+  text-shadow: 0 0 5px #027CFF, 0 0 10px #027CFF;
 }
 
 .user:hover .logInOut,
 .logInOut:hover {
   border: 1px solid #fff;
-  box-shadow: 0 0 5px #01346A, 0 0 10px #01346A;
+  box-shadow: 0 0 5px #027CFF, 0 0 10px #027CFF;
 }
 
 .logInOut {
   font-weight: 400;
-  color: #01346A;
+  color: #1E90FF;
   text-align: center;
   vertical-align: middle;
   background-color: transparent;
-  border: 1px solid #01346A;
+  border: 1px solid #1E90FF;
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   line-height: 1.5;
