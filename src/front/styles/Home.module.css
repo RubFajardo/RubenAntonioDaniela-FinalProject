@@ -147,7 +147,7 @@
 
 .tituloSobreCarruselOverlay {
   position: absolute;
-  top: 20vh;
+  top: 15vh;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 5;
@@ -173,7 +173,7 @@
 .carouselDescription {
   font-size: 1.2rem;
   font-family: "Orbitron", sans-serif;
-  color: #d1fbe6;
+  color: #d1f0fb;
 }
 
 .carouselControlPrev,
