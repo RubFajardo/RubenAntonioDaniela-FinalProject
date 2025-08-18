@@ -298,10 +298,10 @@ export const Perfil = () => {
 
             <div className={styles.viewType}>
                 {(view == "day" || view == "month") ? (
-                    <p className={styles.viewText}>
+                    <h2 className={styles.viewText}>
                         {view === "day" && `Tus hábitos del día ${date.toLocaleDateString("es-ES", { weekday: "long", day: "numeric", month: "long" })}:`}
                         {view === "month" && `Tus hábitos de ${date.toLocaleDateString("es-ES", { month: "long", year: "numeric" })}:`}
-                    </p>
+                    </h2>
                 ) : null
             }
 
@@ -320,9 +320,9 @@ export const Perfil = () => {
             <div className={`${styles.habitsContainer} ${view === "month" ? "month-view" : "day-view"}`}>
                 {(view === "day" || view === "month") && (
                     habits.length === 0 ? (
-                        <p>
+                        <h2>
                             No se encontraron hábitos para este {view === "day" ? "día" : "mes"}.
-                        </p>
+                        </h2>
                     ) : (
                         habits.sort((a, b) => new Date(a.date) - new Date(b.date)).map((habit, index) => (
                             <div key={index} className={styles.habitCard}>

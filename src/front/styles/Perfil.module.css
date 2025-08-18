@@ -189,14 +189,15 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  max-height: 500px;
+  max-height: calc(200px * 3 + 4rem);
+  max-width: 1010px;
   overflow-y: auto;
-  padding: 1rem;
   color: #fff;
   border-radius: 30px;
   background-blend-mode: soft-light;
   border: 1px solid #fff;
   box-shadow: 0 0 5px #027cff, 0 0 10px #027cff;
+  margin: auto;
 }
 
 .viewType {
@@ -205,8 +206,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
-  padding: 0;
+  text-align: center;
+  max-width: 1010px;
+  margin: auto;
+  margin-bottom: 2rem;
 }
 
 .viewText {
