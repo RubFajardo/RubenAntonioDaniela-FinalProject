@@ -199,8 +199,8 @@ export const Habits = () => {
               <input type="text" className="form-control neonInput mb-2" value={getMealState(meal).meal} onChange={(e) => handleMealChange(meal, "meal", e)} />
               <button type="button" className="btn btn-outline-success mb-2" onClick={() => getNutrientsAPI(meal)}>Calcular nutrientes automáticamente</button>
               <div className="d-flex gap-2">
-                <input type="number" className="form-control neonInput" placeholder="Calorías" value={getMealState(meal).calories} onChange={(e) => handleMealChange(meal, "calories", e)} />
-                <input type="number" className="form-control neonInput" placeholder="Proteínas" value={getMealState(meal).protein} onChange={(e) => handleMealChange(meal, "protein", e)} />
+                <input type="number" className="form-control neonInput" value={getMealState(meal).calories} onChange={(e) => handleMealChange(meal, "calories", e)} />
+                <input type="number" className="form-control neonInput" value={getMealState(meal).protein} onChange={(e) => handleMealChange(meal, "protein", e)} />
               </div>
             </div>
           ))}

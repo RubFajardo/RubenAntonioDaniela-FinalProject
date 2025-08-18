@@ -28,8 +28,8 @@
   color: #fff;
 }
 
-/*
-   Textos y labels blancos */
+/* Textos y labels blancos */
+
 .habitCard label,
 .habitCard h5,
 .habitCard h6,
@@ -40,8 +40,8 @@
   color: #fff !important;
 }
 
-/* 
-   Inputs y botones */
+/* Inputs y botones */
+
 .habitCard input.form-control,
 .habitCard .form-check-input {
   background-color: #0a0f24;
@@ -56,7 +56,14 @@
   box-shadow: 0 0 10px #027cff;
 }
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 /* Botones generales */
+
 .habitCard button,
 .habitCard .btn {
   border: 1px solid #027cff;
@@ -73,9 +80,8 @@
   box-shadow: 0 0 10px #027cff, 0 0 20px #027cff;
 }
 
-/* ===============================
-   Glow en botones y opciones activas
-   =============================== */
+/* Glow en botones y opciones activas */
+
 .habitCard input[type="radio"]:checked + label,
 .habitCard input[type="checkbox"]:checked + label {
   text-shadow: 0 0 8px #027cff, 0 0 16px #027cff;
@@ -90,6 +96,7 @@
 }
 
 /* Glow para botones*/
+
 .neonButton {
   color: #fff;
   border-radius: 12px;
