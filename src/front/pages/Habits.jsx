@@ -218,7 +218,7 @@ export const Habits = () => {
     },
     );
 
-    navigate("/agenda");
+    navigate("/perfil");
   }
 
 

@@ -60,6 +60,7 @@
 		"react-calendar": "^6.0.0",
 		"react-datepicker": "^8.4.0",
 		"react-dom": "^18.2.0",
-		"react-router-dom": "^6.18.0"
+		"react-router-dom": "^6.18.0",
+		"recharts": "^3.1.2"
 	}
 }

@@ -1,0 +1,65 @@
+.login {
+  color: #fff;
+  text-shadow: 0 0 5px #01346A, 0 0 15px #027CFF;
+  margin-bottom: 3rem;
+  max-width: 500px;
+  border: 1px solid #fff;
+  box-shadow: 0 0 8px #01346A, 0 0 20px #027CFF;
+  padding: 50px;
+  border-radius: 30px;
+  background: radial-gradient(circle at top, #0A0F24, #000);
+}
+.label {
+  color: #fff;
+  text-shadow: 0 0 5px #01346A, 0 0 10px #027CFF;
+}
+.input {
+  background-color: #000;
+  color: #fff;
+  text-shadow: 0 0 5px #01346A, 0 0 10px #027CFF;
+}
+.input:focus,
+.input:-webkit-autofill,
+.input:-webkit-autofill:focus {
+  outline: none;
+  background-color: #000 !important;
+  border-color: #fff !important;
+  box-shadow: 0 0 8px #027CFF !important;
+  -webkit-box-shadow: 0 0 0px 1000px #000 inset, 0 0 8px #027CFF !important;
+  -webkit-text-fill-color: #fff !important;
+  text-shadow: 0 0 5px #01346A, 0 0 10px #027CFF;
+  caret-color: #01346A;
+}
+.logInButton {
+  font-weight: 400;
+  color: #027CFF;
+  text-align: center;
+  vertical-align: middle;
+  background-color: transparent;
+  border: 1px solid #027CFF;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.375rem;
+  transition: color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease,
+    text-shadow 0.3s ease;
+  cursor: pointer;
+}
+.logInButton:hover {
+  border: 1px solid #fff;
+  box-shadow: 0 0 5px #01346A, 0 0 15px #027CFF;
+  text-shadow: 0 0 5px #01346A, 0 0 15px #027CFF;
+}
+.register {
+  color: #1E90FF;
+}
+.forgottenPassword {
+  color: #1E90FF;
+}
+.register:hover,
+.forgottenPassword:hover {
+  color: #fff;
+  text-shadow: 0 0 5px #027CFF, 0 0 10px #027CFF;
+  cursor: pointer;
+  text-decoration: none;
+}

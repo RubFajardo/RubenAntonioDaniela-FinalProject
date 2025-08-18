@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Boolean, ForeignKey, Integer, Date
+from sqlalchemy import String, Boolean, ForeignKey, Integer, Date, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import List
 import datetime
@@ -15,13 +15,11 @@ class User(db.Model):
     password: Mapped[str] = mapped_column(String(120), nullable=False)
     secret_question: Mapped[str] = mapped_column(String(100), nullable=False)
     question_answer: Mapped[str] = mapped_column(String(100), nullable=False)
-
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
 
     daily: Mapped[List["Daily"]] = relationship(back_populates="user")
 
-
-    profile_pic: Mapped[str] = mapped_column(String(255), nullable=True)
+    profile_pic: Mapped[str] = mapped_column(Text, nullable=True)
 
     def serialize(self):
         return {
@@ -60,10 +58,10 @@ class Habit(db.Model):
         db.CheckConstraint("calorias >= 0", name="check_calorias_positive"),
         db.CheckConstraint("proteinas >= 0", name="check_proteinas_positive")
     )
+
     id: Mapped[int] = mapped_column(primary_key=True)
 
-    daily_id: Mapped[int] = mapped_column(
-        ForeignKey("daily.id"), unique=True, nullable=False)
+    daily_id: Mapped[int] = mapped_column(ForeignKey("daily.id"), unique=True, nullable=False)
     daily: Mapped["Daily"] = relationship(back_populates="habits")
 
     entreno: Mapped[bool] = mapped_column(Boolean, nullable=True)

@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react"
 import { useNavigate, Link } from "react-router-dom";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import "../styles/agendaStyles.css";
+import styles from "../styles/Perfil.module.css"
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { Modal } from 'bootstrap';
 
-export const Agenda = () => {
+export const Perfil = () => {
 
     const token = localStorage.getItem("token")
     const user = JSON.parse(localStorage.getItem("user"))
@@ -18,7 +19,7 @@ export const Agenda = () => {
             alert("Necesitas iniciar sesión para acceder a este campo");
             navigate("/login");
         }
-        loadProfilePic()
+
     }, [token, navigate]);
 
     if (!token || !user) {
@@ -28,20 +29,34 @@ export const Agenda = () => {
     const [date, setDate] = useState(new Date());
     const [view, setView] = useState("month");
     const [habits, setHabits] = useState([]);
-    const [profilePic, setProfilePic] = useState("");
-    const loadProfilePic = () => {
-        const user = JSON.parse(localStorage.getItem("user"))
-        if (user.profile_pic) {
-            setProfilePic(user.profile_pic)
-        }
-    }
+    const [profilePic, setProfilePic] = useState(user.profile_pic);
 
-    const changeProfilePic = () => {
+
+    const changeProfilePic = async () => {
         const newUrl = prompt("Ingresa la URL de la nueva foto de perfil:");
-        if (newUrl) {
-            setProfilePic(newUrl);
+        if (!newUrl) return;
+
+
+        const promise = await fetch(backendUrl + "api/edit_profile", {
+            method: "PUT",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+            body: JSON.stringify({ profile_pic: newUrl })
+        });
+
+        if (!promise.ok) {
+            const errorData = await promise.json();
+            alert(errorData.message || "Error al actualizar foto de perfil");
+            return;
         }
+
+        setProfilePic(newUrl);
+        const updatedUser = { ...user, profile_pic: newUrl };
+        localStorage.setItem("user", JSON.stringify(updatedUser));
     };
+
 
     const formatDate = (d) => {
         const year = d.getFullYear();
@@ -139,6 +154,15 @@ export const Agenda = () => {
         return null;
     }
 
+    const chartData = habits.map((h) => ({
+        date: new Date(h.date).toLocaleDateString('es-ES', {
+            weekday: 'short',
+            day: '2-digit'
+        }),
+        Calorias: h.habits?.calorias || 0,
+        Proteinas: h.habits?.proteinas || 0,
+    }));
+
     const deleteUser = async () => {
         if (!token) {
             alert("Tu sesión ha caducado, inicia sesión antes de continuar.");
@@ -186,63 +210,27 @@ export const Agenda = () => {
     };
 
 
-
-
-
-    
-
-    const editProfilePic = async (params) => {
-        const response = await fetch (backendUrl+"api/edit_profile", {
-             method: "PUT",
-             headers: {
-                "Content-Type": "application/json",
-                 "Authorization": "Bearer " + token
-             },
-             body: JSON.stringify({"profile_pic": params})
-
-        })
-    }
-
-
-
-
-       useEffect(()=> {
-        if (profilePic) {
-           editProfilePic(profilePic)
-        }
-        
-       },[profilePic]) 
-
-
-
-
-
-
-
-
-
-
-
     return (
         <div className="container mt-5">
-            <div className="row justify-content-around mb-4">
-                <div className="card shadow" style={{ width: '400px', flexShrink: 0 }}>
-                    <div className="card-body text-center">
-                        {/* Usamos el estado para la foto */}
-                        <img
-                            src={profilePic || "https://cdn-icons-png.flaticon.com/512/16/16480.png"}
-                            alt="Profile"
-                            className="rounded-circle mb-3"
-                            width="150"
-                            height="150"
-                        />
-                        <button onClick={changeProfilePic}><i className="fa-solid fa-pencil"></i></button>
+            <div className={styles.profileAndChartContainer}>
+
+                {/* Perfil */}
+
+                <div className={styles.profileCard}>
+                    <div>
+                        <div className={styles.profilePicContainter}>
+                            <img src={profilePic} alt="Profile" className={styles.profilePic} />
+                            <button onClick={changeProfilePic} className={styles.editImage}><i className="fa-solid fa-pencil"></i></button>
+                        </div>
+
                         <h3 className="card-title">{user.name}</h3>
-                        <p className="card-text text-muted">{user.email}</p>
+                        <p className="card-text">{user.email}</p>
                     </div>
 
-                    <button type="button" className="btn btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#deleteUser">
-                        Eliminar Cuenta
+                    {/* boton de eliminar usuario */}
+
+                    <button type="button" className={styles.deleteUser} data-bs-toggle="modal" data-bs-target="#deleteUser">
+                        <i class="fa-solid fa-trash"></i>
                     </button>
                     <div className="modal fade" id="deleteUser" tabindex="-1" aria-labelledby="deleteUserLabel" aria-hidden="true">
                         <div className="modal-dialog">
@@ -263,50 +251,83 @@ export const Agenda = () => {
                     </div>
                 </div>
 
-                <div className="shadow px-0" style={{ width: '400px', flexShrink: 0 }}>
-                    <Calendar
-                        onClickDay={onSelectDay}
-                        prev2Label={null}
-                        minDetail="decade"
-                        next2Label={null}
-                        onActiveStartDateChange={({ activeStartDate }) => {
-                            setDate(activeStartDate);
-                            if (view === "month") {
-                                fetchMonthHabits(activeStartDate);
-                            } else if (view === "day") {
-                                fetchDayHabits(activeStartDate);
-                            }
-                            setView("month")
-                        }}
-                        onViewChange={({ view }) => {
-                            setView(view);
-                        }}
-                        tileClassName={tilesColor}
-                    />
-                </div>
-            </div>
-            {(view == "day" || view == "month") ? (
-                <p>
-                    {view === "day" && `Tus hábitos del día ${date.toLocaleDateString("es-ES", { weekday: "long", day: "numeric", month: "long" })}:`}
-                    {view === "month" && `Tus hábitos de ${date.toLocaleDateString("es-ES", { month: "long", year: "numeric" })}:`}
-                </p>
-            ) : null}
+                {/* Grafico */}
+
+                {view === "month" && chartData.length > 0 && (
+                    <div className={styles.monthlyChart}>
+                        <LineChart width={450} height={200} data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+                            <CartesianGrid strokeDasharray="4 4" stroke="#666" />
+                            <XAxis dataKey="date" stroke="#fff" tick={{ fontSize: 12 }} axisLine={{ stroke: '#fff' }} />
+                            <YAxis stroke="#fff" tick={{ fontSize: 12 }} axisLine={{ stroke: '#fff' }} />
+                            <Tooltip contentStyle={{ backgroundColor: '#0A0F24', borderRadius: '8px', color: '#fff', border: "1px solid #fff", boxShadow: "0 0 8px #01346A, 0 0 20px #027CFF" }} labelStyle={{ fontWeight: 'bold' }} cursor={{ stroke: '#fff', strokeWidth: 2 }} />
+                            <Legend verticalAlign="top" align="center" height={36} wrapperStyle={{ fontSize: '14px', fontWeight: 'bold' }} />
+                            <Line type="monotone" dataKey="Calorias" stroke="#fff" dot={{ r: 3, strokeWidth: 0, fill: '#fff' }} activeDot={{ r: 6, strokeWidth: 0, fill: "#fff" }} />
+                            <Line type="monotone" dataKey="Proteinas" stroke="#1E90FF" dot={{ r: 3, strokeWidth: 0, fill: '#1E90FF' }} activeDot={{ r: 6, strokeWidth: 0, fill: "#1E90FF" }} />
+                        </LineChart>
+                        <h4>Resumen mensual de calorías y proteínas</h4>
+                    </div>
+                )
+                }
+            </div >
+
+            {/* Calendario */}
+
+            < div className={styles.calendarContainer}>
+                <Calendar
+                    onClickDay={onSelectDay}
+                    prev2Label={null}
+                    minDetail="decade"
+                    next2Label={null}
+                    onActiveStartDateChange={({ activeStartDate }) => {
+                        setDate(activeStartDate);
+                        if (view === "month") {
+                            fetchMonthHabits(activeStartDate);
+                        } else if (view === "day") {
+                            fetchDayHabits(activeStartDate);
+                        }
+                        setView("month");
+                    }}
+                    onViewChange={({ view }) => {
+                        setView(view);
+                    }}
+                    tileClassName={tilesColor}
+                />
+            </div >
+
+            {/* Título de hábitos */}
+
+            <div className={styles.viewType}>
+                {(view == "day" || view == "month") ? (
+                    <p className={styles.viewText}>
+                        {view === "day" && `Tus hábitos del día ${date.toLocaleDateString("es-ES", { weekday: "long", day: "numeric", month: "long" })}:`}
+                        {view === "month" && `Tus hábitos de ${date.toLocaleDateString("es-ES", { month: "long", year: "numeric" })}:`}
+                    </p>
+                ) : null
+            }
+
+            {/* Botón volver al mes */}
+
             {view === "day" && (
-                <button className="btn btn-secondary mb-3" onClick={() => { setView("month") }}>
-                    Mostrar todo el mes
-                </button>
-            )}
-            <div className={`habits-container ${view === "month" ? "month-view" : ""}`}>
+                    <button className={`btn ${styles.showMonth}`} onClick={() => { setView("month") }}>
+                        Mostrar todo el mes
+                    </button>
+                )
+            }
+            </div>
+            
+            {/* Tarjetas de hábitos */}
+
+            <div className={`${styles.habitsContainer} ${view === "month" ? "month-view" : "day-view"}`}>
                 {(view === "day" || view === "month") && (
                     habits.length === 0 ? (
-                        <p className="text-muted">
+                        <p>
                             No se encontraron hábitos para este {view === "day" ? "día" : "mes"}.
                         </p>
                     ) : (
                         habits.sort((a, b) => new Date(a.date) - new Date(b.date)).map((habit, index) => (
-                            <div key={index} className="habit-card shadow">
-                                <div className="card-body">
-                                    <h5 className="card-title">{habit.date}</h5>
+                            <div key={index} className={styles.habitCard}>
+                                <div>
+                                    <h5 className={styles.cardTitle}>{habit.date}</h5>
                                     <ul className="list-unstyled mb-0">
                                         <li><strong>Entreno:</strong> {habit.habits?.entreno ? "Sí" : "No"}</li>
                                         <li><strong>Ejercicio:</strong> {habit.habits?.ejercicio || "N/A"}</li>
@@ -320,8 +341,6 @@ export const Agenda = () => {
                     )
                 )}
             </div>
-
-
-        </div>
+        </div >
     );
 };

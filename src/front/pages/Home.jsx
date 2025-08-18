@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import styles from "../styles/Home.module.css"
 
 
 export const Home = () => {
@@ -10,7 +11,7 @@ export const Home = () => {
 
   const slides = [
     {
-      img: 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=1920&q=80',
+      img: 'https://rare-gallery.com/uploads/posts/878334-Men-Muscle-Dumbbells-Workout-Smoke-Beautiful.jpg',
       alt: 'Ejercicio',
       title: 'Ejercicio',
       description: 'Mantén tu cuerpo activo y saludable con ejercicios regulares.',
@@ -53,62 +54,66 @@ export const Home = () => {
 
   return (
     <div>
+
       {/* SECCIÓN VISIÓN */}
+
       <section
         id="vision"
-        className="vision-section d-flex align-items-center justify-content-center text-center"
+        className={`${styles.visionSection} d-flex align-items-center justify-content-center text-center`}
         ref={visionRef}
       >
-        <div className="vision-overlay-transparent">
-          <h2 className="vision-title">Seguimiento de Hábitos Saludables</h2>
-          <p className="vision-text">
+        <div className={styles.visionOverlay}>
+          <h2 className={styles.visionTitle}>Seguimiento de Hábitos Saludables</h2>
+          <p className={styles.visionText}>
             Mejorar tu bienestar empieza por cuidar tus hábitos. Nuestro enfoque integral se centra en tres pilares fundamentales: una alimentación consciente, actividad física regular y un descanso reparador.
           </p>
         </div>
       </section>
 
       {/* CARRUSEL */}
-      <section id="carrusel-imagenes" className="carrusel-ruta-saludable no-gap">
-        <div className="carousel-container">
+
+      <section id="carrusel-imagenes" className={`${styles.carruselRutaSaludable} no-gap`}>
+        <div className={styles.carouselContainer}>
           {slides.map((slide, index) => (
             <div
               key={index}
-              className={`custom-carousel-item ${index === activeIndex ? 'active' : ''}`}
+              className={`${styles.customCarouselItem} ${index === activeIndex ? styles.customCarouselItemActive : ''}`}
               style={{ backgroundImage: `url(${slide.img})` }}
               aria-label={slide.alt}
               role="img"
             ></div>
           ))}
-          <div className="titulo-sobre-carrusel-overlay" aria-live="polite">
-            <h2 className="carousel-title">{slides[activeIndex].title}</h2>
-            <p className="carousel-description">{slides[activeIndex].description}</p>
+          <div className={styles.tituloSobreCarruselOverlay} aria-live="polite">
+            <h2 className={styles.carouselTitle}>{slides[activeIndex].title}</h2>
+            <p className={styles.carouselDescription}>{slides[activeIndex].description}</p>
           </div>
           <button
-            className="carousel-control-prev"
+            className={`carousel-control-prev ${styles.carouselControlPrev}`}
             onClick={prevSlide}
             aria-label="Slide anterior"
             type="button"
           >
-            <span className="carousel-control-prev-icon"></span>
+            <span className={`carousel-control-prev-icon ${styles.carouselControlPrevIcon}`}></span>
           </button>
           <button
-            className="carousel-control-next"
+            className={`carousel-control-next ${styles.carouselControlNext}`}
             onClick={nextSlide}
             aria-label="Slide siguiente"
             type="button"
           >
-            <span className="carousel-control-next-icon"></span>
+            <span className={`carousel-control-next-icon ${styles.carouselControlNextIcon}`}></span>
           </button>
         </div>
       </section>
 
       {/* TESTIMONIOS */}
-      <section id="testimonios" className="testimonios-section py-5" ref={testimoniosRef}>
+
+      <section id="testimonios" className={`${styles.testimoniosSection} py-5`} ref={testimoniosRef}>
         <h2 className="mb-4 text-center section-title">Testimonios Reales</h2>
         <div className="container">
           <div className="row justify-content-center g-4">
             <div className="col-md-4 d-flex">
-              <div className="card sticky-note w-100 d-flex flex-column justify-content-between">
+              <div className={`card ${styles.stickyNote} w-100 d-flex flex-column justify-content-between`}>
                 <div className="card-body">
                   <p className="card-text fst-italic">
                     "Desde que sigo sus consejos, tengo más energía y duermo mejor. ¡Gracias por tanto contenido útil!"
@@ -118,7 +123,7 @@ export const Home = () => {
               </div>
             </div>
             <div className="col-md-4 d-flex">
-              <div className="card sticky-note w-100 d-flex flex-column justify-content-between">
+              <div className={`card ${styles.stickyNote} w-100 d-flex flex-column justify-content-between`}>
                 <div className="card-body">
                   <p className="card-text fst-italic">
                     "Increíble lo fácil que es aplicar pequeños hábitos que cambian tu vida. ¡Muy recomendable!"
@@ -128,7 +133,7 @@ export const Home = () => {
               </div>
             </div>
             <div className="col-md-4 d-flex">
-              <div className="card sticky-note w-100 d-flex flex-column justify-content-between">
+              <div className={`card ${styles.stickyNote} w-100 d-flex flex-column justify-content-between`}>
                 <div className="card-body">
                   <p className="card-text fst-italic">
                     "Gracias a esta página, logré incorporar rutinas saludables que antes me parecían imposibles."
@@ -142,13 +147,15 @@ export const Home = () => {
       </section>
 
       {/* CONTACTO */}
-      <section id="contacto" className="contacto" ref={contactoRef}>
+
+      <section id="contacto" className={styles.contacto} ref={contactoRef}>
         <h2 className="mb-3">Contacto</h2>
-        <p className="lead">¿Tienes preguntas? ¡Estamos para ayudarte!</p>
-        <p>Email: <a href="mailto:contacto@habitosaludables.com" style={{color:'#00ff99'}}>contacto@habitosaludables.com</a></p>
+        <p className="lead mb-5">¿Tienes preguntas? ¡Estamos para ayudarte!</p>
         <p>Teléfono: +34 123 456 789</p>
+        <p>Email: <a href="mailto:contacto@habitosaludables.com" style={{color:'#fff', fontWeight: "bold"}}>contacto@habitosaludables.com</a></p>
         <p>Dirección: Calle Bienestar 123, Madrid, España</p>
       </section>
     </div>
   );
 };
+
