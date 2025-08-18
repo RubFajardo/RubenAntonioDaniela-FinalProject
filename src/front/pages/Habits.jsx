@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from "react"
-import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
-import { Navigate, useNavigate } from "react-router-dom";
-
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "../styles/habits.css";
 
 export const Habits = () => {
-
-
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
-  const backendUrl = import.meta.env.VITE_BACKEND_URL
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const today = new Date().toISOString().split('T')[0];
   const token = localStorage.getItem("token");
 
@@ -29,13 +26,9 @@ export const Habits = () => {
       alert("No has iniciado sesion");
       return;
     }
-
     const result = await fetch(backendUrl + "api/daily_habits/" + today, {
-      headers: {
-        "Authorization": "Bearer " + token
-      }
+      headers: { "Authorization": "Bearer " + token }
     });
-
     if (result.ok) {
       const data = await result.json();
       if (result.status === 401) {
@@ -45,12 +38,8 @@ export const Habits = () => {
         navigate("/login");
         return;
       }
-      if (!data.habits) {
-        console.log("No hay datos registrados para esta fecha");
-        return;
-      }
+      if (!data.habits) return;
       const habits = data.habits;
-
       setDidTrain(habits.entreno);
       setTrainingType(habits.ejercicio || '');
       setSleepQuality(habits.sueño || '');
@@ -67,215 +56,84 @@ export const Habits = () => {
   const [didTrain, setDidTrain] = useState(null);
   const [trainingType, setTrainingType] = useState('');
   const [sleepQuality, setSleepQuality] = useState('');
-  const [breakfast, setBreakfast] = useState({
-    meal: '',
-    calories: 0,
-    protein: 0,
-  });
-  const [lunch, setLunch] = useState({
-    meal: '',
-    calories: 0,
-    protein: 0,
-  });
-  const [dinner, setDinner] = useState({
-    meal: '',
-    calories: 0,
-    protein: 0,
-  });
-  const [foodTotal, setFoodTotal] = useState({
-    caloriesTotal: 0,
-    proteinTotal: 0
-  });
+  const [breakfast, setBreakfast] = useState({ meal: '', calories: 0, protein: 0 });
+  const [lunch, setLunch] = useState({ meal: '', calories: 0, protein: 0 });
+  const [dinner, setDinner] = useState({ meal: '', calories: 0, protein: 0 });
+  const [foodTotal, setFoodTotal] = useState({ caloriesTotal: 0, proteinTotal: 0 });
 
   useEffect(() => {
-    const totalCalories = breakfast.calories + lunch.calories + dinner.calories
-    const totalProtein = breakfast.protein + lunch.protein + dinner.protein
-
-    setFoodTotal({
-      caloriesTotal: totalCalories,
-      proteinTotal: totalProtein
-    });
+    const totalCalories = breakfast.calories + lunch.calories + dinner.calories;
+    const totalProtein = breakfast.protein + lunch.protein + dinner.protein;
+    setFoodTotal({ caloriesTotal: totalCalories, proteinTotal: totalProtein });
   }, [breakfast, lunch, dinner]);
 
   const handleMealChange = (mealType, field, e) => {
-
     const value = field === "calories" || field === "protein" ? parseInt(e.target.value) || 0 : e.target.value;
-    if (mealType === "desayunaste") {
-      setBreakfast({ ...breakfast, [field]: value })
-    }
-    else if (mealType === "almorzaste") {
-      setLunch({ ...lunch, [field]: value })
-    }
-    else {
-      setDinner({ ...dinner, [field]: value })
-    }
-  }
+    if (mealType === "desayunaste") setBreakfast({ ...breakfast, [field]: value });
+    else if (mealType === "almorzaste") setLunch({ ...lunch, [field]: value });
+    else setDinner({ ...dinner, [field]: value });
+  };
 
   const getMealState = (mealType) => {
     switch (mealType) {
-      case "desayunaste":
-        return breakfast;
-      case "almorzaste":
-        return lunch;
-      case "cenaste":
-        return dinner;
-      default:
-        return { meal: '', calories: 0, protein: 0 };
+      case "desayunaste": return breakfast;
+      case "almorzaste": return lunch;
+      case "cenaste": return dinner;
+      default: return { meal: '', calories: 0, protein: 0 };
     }
   };
 
   const dailyExists = async () => {
-    const result = await fetch(backendUrl + "api/daily_habits/" + today, {
-      headers: {
-        "Authorization": "Bearer " + token
-      }
-    })
-
+    const result = await fetch(backendUrl + "api/daily_habits/" + today, { headers: { "Authorization": "Bearer " + token } })
     if (!result.ok) return false;
-
     const data = await result.json()
     return data.habits !== null;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const exists = await dailyExists()
+    const exists = await dailyExists();
     if (exists) {
-      const confirmUpdate = window.confirm("Ya has registrado tus hábitos hoy. ¿Deseas actualizarlos?");
-      if (!confirmUpdate) {
-        return;
-      }
+      if (!window.confirm("Ya has registrado tus hábitos hoy. ¿Deseas actualizarlos?")) return;
     }
-
     const method = exists ? "PUT" : "POST";
-
-    if (!token) {
-      alert("No has iniciado sesion");
-      return;
-    }
-
-    if (didTrain === null) {
-      return alert("Por favor, indica si entrenaste hoy.");
-    }
-    if (didTrain === true && trainingType === '') {
-      return alert("Por favor, selecciona el tipo de entrenamiento.");
-    }
-    if (didTrain === false && trainingType !== '') {
-      return alert("Si no entrenaste, no es necesario seleccionar el tipo de entrenamiento.");
-    }
-    if (sleepQuality === '') {
-      return alert("Por favor, indica la calidad de tu sueño.");
-    }
-    if (breakfast.calories < 0 && lunch.calories < 0 && dinner.calories < 0) {
-      return alert("Las calorias no pueden ser negativas.");
-    }
-    if (breakfast.calories > 5000 || lunch.calories > 5000 || dinner.calories > 5000) {
-      return alert("Por favor, verifica las caalorias ingresadas, es un valor muy alto.");
-    }
-    if (breakfast.protein < 0 && lunch.protein < 0 && dinner.protein < 0) {
-      return alert("Las proteinas no pueden ser negativas.");
-    }
-    if (breakfast.protein > 500 || lunch.protein > 500 || dinner.protein > 500) {
-      return alert("Por favor, verifica las proteínas ingresadas, es un valor muy alto.");
-    }
-
-    const bodyData = {
-      date: today,
-      habits: {
-        entreno: didTrain,
-        ejercicio: trainingType,
-        sueño: sleepQuality,
-        calorias: foodTotal.caloriesTotal,
-        proteinas: foodTotal.proteinTotal,
-        breakfast: breakfast.meal,
-        lunch: lunch.meal,
-        dinner: dinner.meal
-      }
-    };
-
-    console.log("Body being sent:", JSON.stringify(bodyData));
-
+    if (!token) { alert("No has iniciado sesion"); return; }
+    if (didTrain === null) return alert("Por favor, indica si entrenaste hoy.");
+    if (didTrain && trainingType === '') return alert("Por favor, selecciona el tipo de entrenamiento.");
+    if (!didTrain && trainingType !== '') return alert("Si no entrenaste, no es necesario seleccionar el tipo de entrenamiento.");
+    if (sleepQuality === '') return alert("Por favor, indica la calidad de tu sueño.");
+    if (breakfast.calories < 0 && lunch.calories < 0 && dinner.calories < 0) return alert("Las calorias no pueden ser negativas.");
+    if (breakfast.calories > 5000 || lunch.calories > 5000 || dinner.calories > 5000) return alert("Por favor, verifica las caalorias ingresadas, es un valor muy alto.");
+    if (breakfast.protein < 0 && lunch.protein < 0 && dinner.protein < 0) return alert("Las proteinas no pueden ser negativas.");
+    if (breakfast.protein > 500 || lunch.protein > 500 || dinner.protein > 500) return alert("Por favor, verifica las proteínas ingresadas, es un valor muy alto.");
 
     await fetch(backendUrl + "api/daily_habits/" + today, {
       method: method,
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': 'Bearer ' + token
-      },
-      body: JSON.stringify({
-        date: today,
-        habits: {
-          entreno: didTrain,
-          ejercicio: trainingType,
-          sueño: sleepQuality,
-          calorias: foodTotal.caloriesTotal,
-          proteinas: foodTotal.proteinTotal,
-          breakfast: breakfast.meal,
-          lunch: lunch.meal,
-          dinner: dinner.meal
-        }
-      }),
-    },
-    );
-
+      headers: { "Content-Type": "application/json", 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ date: today, habits: { entreno: didTrain, ejercicio: trainingType, sueño: sleepQuality, calorias: foodTotal.caloriesTotal, proteinas: foodTotal.proteinTotal, breakfast: breakfast.meal, lunch: lunch.meal, dinner: dinner.meal } }),
+    });
     navigate("/perfil");
-  }
-
+  };
 
   const getNutrientsAPI = async (meal) => {
     const mealState = getMealState(meal);
-
     try {
-
       const translatedFood = await translatorAPI(mealState.meal);
-
       const res = await fetch("https://trackapi.nutritionix.com/v2/natural/nutrients", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-app-id": import.meta.env.VITE_NUTRITIONIX_APP_ID,
-          "x-app-key": import.meta.env.VITE_NUTRITIONIX_API_KEY,
-        },
+        headers: { "Content-Type": "application/json", "x-app-id": import.meta.env.VITE_NUTRITIONIX_APP_ID, "x-app-key": import.meta.env.VITE_NUTRITIONIX_API_KEY },
         body: JSON.stringify({ query: translatedFood })
       });
-
       const data = await res.json();
       const food = data.foods[0];
-
-      if (!data.foods || data.foods.length === 0) {
-        alert("No se encontró información para ese alimento.");
-        return;
-      }
-
+      if (!data.foods || data.foods.length === 0) { alert("No se encontró información para ese alimento."); return; }
       switch (meal) {
-        case "desayunaste":
-          setBreakfast(prev => ({
-            ...prev,
-            calories: food.nf_calories,
-            protein: food.nf_protein
-          }));
-          break;
-        case "almorzaste":
-          setLunch(prev => ({
-            ...prev,
-            calories: food.nf_calories,
-            protein: food.nf_protein
-          }));
-          break;
-        case "cenaste":
-          setDinner(prev => ({
-            ...prev,
-            calories: food.nf_calories,
-            protein: food.nf_protein
-          }));
-          break;
-        default:
-          break;
+        case "desayunaste": setBreakfast(prev => ({ ...prev, calories: food.nf_calories, protein: food.nf_protein })); break;
+        case "almorzaste": setLunch(prev => ({ ...prev, calories: food.nf_calories, protein: food.nf_protein })); break;
+        case "cenaste": setDinner(prev => ({ ...prev, calories: food.nf_calories, protein: food.nf_protein })); break;
+        default: break;
       }
-    } catch (err) {
-      console.error("Nutritionix error:", err);
-      alert("No se pudo obtener la info nutricional");
-    }
+    } catch (err) { alert("No se pudo obtener la info nutricional"); }
   };
 
   const translatorAPI = async (text) => {
@@ -283,19 +141,17 @@ export const Habits = () => {
       const res = await fetch("https://translate.googleapis.com/translate_a/single?client=gtx&sl=es&tl=en&dt=t&q=" + text);
       const data = await res.json()
       return data[0][0][0]
-    } catch (err) {
-      console.error("Translation error:", err);
-      return text;
-    }
+    } catch { return text; }
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="text-center mb-4">¡Tus hábitos saludables de hoy!</h2>
+    <div className="habitsContainer container mt-5">
+      <h2 className="text-center mb-4 habitsTitle neonTitle">¡Tus hábitos saludables de hoy!</h2>
 
       <form onSubmit={handleSubmit}>
-        <div className="card p-4 mb-4 shadow-sm">
-          <h5 className="mb-3">Hola {userName}, ¿Entrenaste hoy?</h5>
+        {/* Entrenamiento */}
+        <div className="habitCard card p-4 mb-4 shadow neonCard">
+          <h5 className="mb-3 cardTitle">Hola {userName}, ¿Entrenaste hoy?</h5>
           <div className="form-check form-check-inline">
             <input className="form-check-input" type="radio" name="didTrain" id="trainYes" onChange={() => setDidTrain(true)} value="true" checked={didTrain === true} />
             <label className="form-check-label" htmlFor="trainYes">Sí</label>
@@ -316,8 +172,9 @@ export const Habits = () => {
           ))}
         </div>
 
-        <div className="card p-4 mb-4 shadow-sm">
-          <h5 className="mb-3">¿Qué tal dormiste anoche?</h5>
+        {/* Sueño */}
+        <div className="habitCard card p-4 mb-4 shadow neonCard">
+          <h5 className="mb-3 cardTitle">¿Qué tal dormiste anoche?</h5>
           <div className="form-check form-check-inline">
             <input className="form-check-input" type="radio" name="sleep" id="sleepGood" value="Good" onChange={() => setSleepQuality("Good")} checked={sleepQuality === "Good"} />
             <label className="form-check-label" htmlFor="sleepGood">
@@ -332,63 +189,29 @@ export const Habits = () => {
           </div>
         </div>
 
-        <div className="card p-4 mb-4 shadow-sm">
-          <h5 className="mb-4">Hagamos un recuento de tus comidas</h5>
+        {/* Comidas */}
+        <div className="habitCard card p-4 mb-4 shadow neonCard">
+          <h5 className="mb-4 cardTitle">Hagamos un recuento de tus comidas</h5>
 
-          {["desayunaste", "almorzaste", "cenaste"].map((meal, idx) => {
-            const mealState = getMealState(meal);
-
-            return (
-              <div key={idx} className="mb-4">
-                <label htmlFor={`meal${idx}`} className="form-label">
-                  ¿Qué {meal} hoy?
-                </label>
-                <input
-                  type="text"
-                  className="form-control mb-3"
-                  id={`meal${idx}`}
-                  value={mealState.meal}
-                  onChange={(e) => handleMealChange(meal, "meal", e)}
-                />
-                <button type="button" onClick={() => getNutrientsAPI(meal)} className="btn btn-sm btn btn-warning mt-1 mb-3">
-                  Obtener calorías y proteínas
-                </button>
-
-                <div className="row g-3 align-items-center">
-                  <div className="col-md-4">
-                    <label htmlFor={`cal${idx}`} className="form-label">Calorías:</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      id={`cal${idx}`}
-                      value={mealState.calories}
-                      onChange={(e) => handleMealChange(meal, "calories", e)}
-                    />
-                  </div>
-                  <div className="col-md-4">
-                    <label htmlFor={`prot${idx}`} className="form-label">Proteínas:</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      id={`prot${idx}`}
-                      value={mealState.protein}
-                      onChange={(e) => handleMealChange(meal, "protein", e)}
-                    />
-                  </div>
-                </div>
+          {["desayunaste", "almorzaste", "cenaste"].map((meal, idx) => (
+            <div key={idx} className="mb-3">
+              <label className="form-label text-light">¿Qué {meal.replace('aste','aste') || 'comida'}?</label>
+              <input type="text" className="form-control neonInput mb-2" value={getMealState(meal).meal} onChange={(e) => handleMealChange(meal, "meal", e)} />
+              <button type="button" className="btn btn-outline-success mb-2" onClick={() => getNutrientsAPI(meal)}>Calcular nutrientes automáticamente</button>
+              <div className="d-flex gap-2">
+                <input type="number" className="form-control neonInput" placeholder="Calorías" value={getMealState(meal).calories} onChange={(e) => handleMealChange(meal, "calories", e)} />
+                <input type="number" className="form-control neonInput" placeholder="Proteínas" value={getMealState(meal).protein} onChange={(e) => handleMealChange(meal, "protein", e)} />
               </div>
-            );
-          })}
+            </div>
+          ))}
 
+          <div className="mt-3 text-end text-light fw-bold">
+            Total Calorías: {foodTotal.caloriesTotal} | Total Proteínas: {foodTotal.proteinTotal}g
+          </div>
         </div>
 
-        <div className="text-center mt-5 mb-3">
-          <h4>Total de Calorías y Proteinas hoy: <span className="text-success">{Math.round(foodTotal.caloriesTotal)} kcal y {Math.round(foodTotal.proteinTotal)} gr de Proteina</span></h4>
-          <button type="submit" className="btn btn-success btn-lg mt-3">
-            Guardar
-          </button>
-        </div>
+        <button type="submit" className="btn w-100 neonButton">Guardar hábitos</button>
       </form>
     </div>
   );
-}; 
+};
