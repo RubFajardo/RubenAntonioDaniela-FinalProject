@@ -5,39 +5,49 @@ import styles from "../styles/Login.module.css"
 
 export const Login = () => {
 
-        const [email, setEmail] = useState('')
-        const [password, setPassword] = useState('')
-		const backendUrl = import.meta.env.VITE_BACKEND_URL
-    
-        const navigate = useNavigate();
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
+	const backendUrl = import.meta.env.VITE_BACKEND_URL
 
-        const handleSubmit = async (e) => {
-            e.preventDefault();
-            let user_credentials = {
-                "email": email,
-                "password": password
-            }
-            let resp = await fetch(backendUrl + "api/login", {
-                method: "POST",
-                headers: {"Content-type": "application/json"},
-                body: JSON.stringify(user_credentials)
-            }) 
-			const data = await resp.json()
+	const navigate = useNavigate();
 
-			if (!resp.ok){
-				alert(data.error || "Contraseña incorrecta");
-				return;
-			}
-			
-			localStorage.setItem("token", data.token);
-			localStorage.setItem("user", JSON.stringify(data.user));
-			window.dispatchEvent(new Event("userChanged"));
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		let user_credentials = {
+			"email": email,
+			"password": password
+		}
+		let resp = await fetch(backendUrl + "api/login", {
+			method: "POST",
+			headers: { "Content-type": "application/json" },
+			body: JSON.stringify(user_credentials)
+		})
+		const data = await resp.json()
 
-            navigate("/Perfil")
-        };
-    
-		
-    return (
+		if (resp.status === 404) {
+			alert(data.error || "Usuario no encontrado");
+			return;
+		}
+
+		if (resp.status === 401) {
+			alert(data.error || "Contraseña incorrecta");
+			return;
+		}
+
+		if (!resp.ok) {
+			alert("Ocurrió un error inesperado");
+			return;
+		}
+
+		localStorage.setItem("token", data.token);
+		localStorage.setItem("user", JSON.stringify(data.user));
+		window.dispatchEvent(new Event("userChanged"));
+
+		navigate("/Perfil")
+	};
+
+
+	return (
 		<div className={`container mt-5 ${styles.login}`}>
 			<h2>Iniciar Sesión</h2>
 			<form onSubmit={handleSubmit} className="mt-4">
