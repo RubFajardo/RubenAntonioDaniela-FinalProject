@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
+import styles from "../styles/PasswordRecovery.module.css"
 
 export const PasswordRecovery = () => {
 
@@ -89,94 +90,88 @@ export const PasswordRecovery = () => {
     };
 
     return (
-        <div className="container d-flex justify-content-center align-items-center">
-            <div className="card p-4 mt-5 mb-5">
+        <div className={styles.recoverContainer}>
+            <div className={styles.recoverCard}>
 
-                {step === 1 ? (
+                {step === 1 && (
                     <div>
-                        <h5 className="card-title mb-3">Recuperar contraseña</h5>
-                        <p className="card-text">Por favor, introduce tu correo electrónico.</p>
+                        <h5 className={styles.title}>Recuperar contraseña</h5>
+                        <p className={styles.subtitle}>Por favor, introduce tu correo electrónico.</p>
                         <form onSubmit={handleEmailSubmit}>
-                            <div className="mb-3">
-                                <input
-                                    type="email"
-                                    className="form-control"
-                                    placeholder="Correo electrónico"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            {error ? <div className="text-danger mb-2">{error}</div> : null}
-                            <button type="submit" className="btn btn-primary w-100">
+                            <input
+                                type="email"
+                                className={styles.input}
+                                placeholder="Correo electrónico"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                            {error && <div className={styles.error}>{error}</div>}
+                            <button type="submit" className={styles.buttonPrimary}>
                                 Buscar cuenta
                             </button>
                         </form>
                     </div>
-                ) : null}
+                )}
 
-                {step === 2 ? (
+                {step === 2 && (
                     <div>
-                        <h5 className="card-title mb-3 text-center">Pregunta de seguridad</h5>
-                        <h4 className="card-text mt-4 mb-3 text-center">{question}</h4>
+                        <h5 className={styles.title}>Pregunta de seguridad</h5>
+                        <h4 className={styles.subtitle}>{question}</h4>
                         <form onSubmit={handleAnswerSubmit}>
-                            <div className="mb-3">
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Tu respuesta"
-                                    value={answer}
-                                    onChange={(e) => setAnswer(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            {error ? <div className="text-danger mb-2">{error} </div> : null}
-                            <button type="submit" className="btn btn-success w-100">
+                            <input
+                                type="text"
+                                className={styles.input}
+                                placeholder="Tu respuesta"
+                                value={answer}
+                                onChange={(e) => setAnswer(e.target.value)}
+                                required
+                            />
+                            {error && <div className={styles.error}>{error}</div>}
+                            <button type="submit" className={styles.buttonSuccess}>
                                 Verificar respuesta
                             </button>
                         </form>
                     </div>
-                ) : null}
+                )}
 
-                {step === 3 ? (
+                {step === 3 && (
                     <div>
-                        <h5 className="card-title mb-3">Restablecer contraseña</h5>
+                        <h5 className={styles.title}>Restablecer contraseña</h5>
                         <form onSubmit={handlePasswordReset}>
-                            <div className="mb-3">
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    placeholder="Nueva contraseña"
-                                    value={newPassword}
-                                    onChange={(e) => setNewPassword(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    placeholder="Confirmar nueva contraseña"
-                                    value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            {error ? <div className="text-danger mb-2">{error}</div> : null}
-                            <button type="submit" className="btn btn-warning w-100">
+                            <input
+                                type="password"
+                                className={styles.input}
+                                placeholder="Nueva contraseña"
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                required
+                            />
+                            <input
+                                type="password"
+                                className={styles.input}
+                                placeholder="Confirmar nueva contraseña"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                required
+                            />
+                            {error && <div className={styles.error}>{error}</div>}
+                            <button type="submit" className={styles.buttonWarning}>
                                 Cambiar contraseña
                             </button>
                         </form>
                     </div>
-                ) : null}
+                )}
 
-                {step === 4 ? (
+                {step === 4 && (
                     <div>
-                        <h5 className="card-title mb-3">Éxito</h5>
-                        <p className="text-success">{successMsg}</p>
-                        <Link className="btn btn-primary w-100" to="/login">Ir al Inicio de sesión</Link>
+                        <h5 className={styles.title}>Éxito</h5>
+                        <p className={styles.success}>{successMsg}</p>
+                        <Link className={styles.buttonPrimary} to="/login">
+                            Ir al Inicio de sesión
+                        </Link>
                     </div>
-                ) : null}
+                )}
             </div>
         </div>
     );

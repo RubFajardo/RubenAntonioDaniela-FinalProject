@@ -178,13 +178,13 @@ export const Habits = () => {
           <div className="form-check form-check-inline">
             <input className="form-check-input" type="radio" name="sleep" id="sleepGood" value="Good" onChange={() => setSleepQuality("Good")} checked={sleepQuality === "Good"} />
             <label className="form-check-label" htmlFor="sleepGood">
-              <i className="fa-solid fa-face-smile text-success fs-4"></i>
+              <i className="fa-solid fa-face-smile text-success me-2 fs-4"></i> ¡Dormí muy bien!
             </label>
           </div>
           <div className="form-check form-check-inline">
             <input className="form-check-input" type="radio" name="sleep" id="sleepBad" value="Bad" onChange={() => setSleepQuality("Bad")} checked={sleepQuality === "Bad"} />
             <label className="form-check-label" htmlFor="sleepBad">
-              <i className="fa-solid fa-face-frown text-danger fs-4"></i>
+              <i className="fa-solid fa-face-frown text-danger me-2 fs-4"></i> No pude dormir bien
             </label>
           </div>
         </div>
@@ -197,7 +197,7 @@ export const Habits = () => {
             <div key={idx} className="mb-3">
               <label className="form-label text-light">¿Qué {meal.replace('aste','aste') || 'comida'}?</label>
               <input type="text" className="form-control neonInput mb-2" value={getMealState(meal).meal} onChange={(e) => handleMealChange(meal, "meal", e)} />
-              <button type="button" className="btn btn-outline-success mb-2" onClick={() => getNutrientsAPI(meal)}>Calcular nutrientes automáticamente</button>
+              <button type="button" className="btn btn-outline-success mb-3 mt-1" onClick={() => getNutrientsAPI(meal)}>Calcular nutrientes</button>
               <div className="d-flex gap-2">
                 <input type="number" className="form-control neonInput" placeholder="Calorías" value={getMealState(meal).calories} onChange={(e) => handleMealChange(meal, "calories", e)} />
                 <input type="number" className="form-control neonInput" placeholder="Proteínas" value={getMealState(meal).protein} onChange={(e) => handleMealChange(meal, "protein", e)} />
