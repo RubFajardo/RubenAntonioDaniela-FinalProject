@@ -1,8 +1,10 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
+import styles from "../styles/Register.module.css"
+
 
 export const Register = () => {
-    
+
 	const backendUrl = import.meta.env.VITE_BACKEND_URL
 
 	const [name, setName] = useState('')
@@ -27,75 +29,83 @@ export const Register = () => {
 		let promise = await fetch(backendUrl + "api/register", {
 
 			method: "POST",
-			headers: {"Content-type": "application/json"},
+			headers: { "Content-type": "application/json" },
 			body: JSON.stringify(new_user)
 		});
 		navigate("/login")
 	};
 
 	return (
-		<div className="container mt-5">
-			<h2>Registro de Usuario</h2>
+		<div className={`${styles.registerContainer} container mt-5`}>
+			<h2 className={styles.title}>Registro de Usuario</h2>
 			<form onSubmit={handleSubmit} className="mt-4">
+
 				<div className="mb-3">
-					<label htmlFor="name" className="form-label">Nombre</label>
+					<label htmlFor="name" className={styles.label}>Nombre</label>
 					<input
 						type="text"
-						className="form-control"
 						id="name"
+						className={styles.input}
 						onChange={(e) => setName(e.target.value)}
 						value={name}
 						required
 					/>
 				</div>
+
 				<div className="mb-3">
-					<label htmlFor="email" className="form-label">Correo Electrónico</label>
+					<label htmlFor="email" className={styles.label}>Correo Electrónico</label>
 					<input
 						type="email"
-						className="form-control"
 						id="email"
+						className={styles.input}
 						onChange={(e) => setEmail(e.target.value)}
 						value={email}
 						required
 					/>
 				</div>
+
 				<div className="mb-3">
-					<label htmlFor="password" className="form-label">Contraseña</label>
+					<label htmlFor="password" className={styles.label}>Contraseña</label>
 					<input
 						type="password"
-						className="form-control"
-						onChange={(e) => setPassword(e.target.value)}
 						id="password"
+						className={styles.input}
+						onChange={(e) => setPassword(e.target.value)}
 						value={password}
 						required
 					/>
 				</div>
+
 				<div className="mb-3">
-					<label htmlFor="securityQuestion" className="form-label">Escoge una pregunta secreta</label>
+					<label htmlFor="securityQuestion" className={styles.label}>Escoge una pregunta secreta</label>
 					<select
 						id="securityQuestion"
-						className="form-control"
+						className={styles.select}
 						value={question}
-						onChange={(e) => setQuestion(e.target.value)}>
+						onChange={(e) => setQuestion(e.target.value)}
+					>
 						<option value="Nombre de la primera mascota">Nombre de la primera mascota</option>
 						<option value="Comida favorita">Comida favorita</option>
 						<option value="Ciudad donde naciste">Ciudad donde naciste</option>
 						<option value="Película favorita">Película favorita</option>
 					</select>
 				</div>
+
 				<div className="mb-3">
-					<label htmlFor="questionAnswer" className="form-label">Respuesta:</label>
+					<label htmlFor="questionAnswer" className={styles.label}>Respuesta:</label>
 					<input
 						type="text"
-						className="form-control"
-						onChange={(e) => setQuestionAnswer(e.target.value)}
 						id="questionAnswer"
+						className={styles.input}
+						onChange={(e) => setQuestionAnswer(e.target.value)}
 						value={questionAnswer}
 						required
 					/>
 				</div>
-				
-				<button type="submit" className="btn btn-primary">Registrarse</button>
+
+				<button type="submit" className={styles.registerButton}>
+					Registrarse
+				</button>
 			</form>
 		</div>
 	);
