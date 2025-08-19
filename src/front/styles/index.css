@@ -9,4 +9,38 @@
 body {
   font-family: 'Orbitron', sans-serif, Arial, sans-serif;
   overflow-x: hidden;
+  background: #0A0F24;
+}
+
+.modal-content {
+  background: #0a0f24;
+  border: 1px solid #027CFF;
+  box-shadow: 0 0 8px #01346A, 0 0 20px #027CFF;
+}
+
+.modal-body,
+.modal-title {
+  color: #fff;
+  text-shadow: none;
+  text-align: start;
+  border-bottom: none;
+}
+
+.modal-footer {
+  border-top: none !important;
+}
+
+.btn-primary {
+  background: #1E90FF;
+}
+
+.btn-secondary {
+  background: #444;
+}
+
+.btn-close,
+.btn-close:focus,
+.btn-close:active {
+  filter: invert(1) brightness(0.8);
+  outline: none !important;
 }

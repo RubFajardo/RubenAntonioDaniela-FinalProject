@@ -1,8 +1,22 @@
 nav {
-  background: linear-gradient(to bottom, #000 40%, #0A0F24 100%);
+  background: linear-gradient(to bottom, #000, transparent);
 }
 
-.navbarBrand,
+.navbarBrand {
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.logo {
+  width: 120px;
+  height: auto;
+  margin-right: 1rem;
+}
+
+.navbarBrand:hover .logo {
+  filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 5px #027CFF);
+}
+
 .navLink {
   color: #fff;
   font-size: 1rem;
@@ -10,14 +24,11 @@ nav {
   text-decoration: none;
 }
 
-.navbarBrand:hover,
 .navLink:hover {
   color: #fff;
   text-shadow: 0 0 5px #027CFF, 0 0 10px #027CFF;
 }
 
-.navbarBrand:active,
-.navbarBrand:focus,
 .navLink:active,
 .navLink:focus {
   color: #fff;

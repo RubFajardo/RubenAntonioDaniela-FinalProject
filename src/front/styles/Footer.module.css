@@ -1,6 +1,7 @@
 .footer {
-  background: linear-gradient(to top, #000 60%, #0A0F24 100%);
+  background: linear-gradient(to top, #000, transparent);
   color: #fff;
   padding: 1rem 0 0.5rem 0;
   font-size: 1rem;
+  margin-top: 3rem;
 }

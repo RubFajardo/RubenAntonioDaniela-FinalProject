@@ -317,7 +317,7 @@ export const Perfil = () => {
             
             {/* Tarjetas de hábitos */}
 
-            <div className={`${styles.habitsContainer} ${view === "month" ? "month-view" : "day-view"}`}>
+            <div className={`${styles.habitsContainer} ${styles.habitsScroll} ${view === "month" ? "month-view" : "day-view"}`}>
                 {(view === "day" || view === "month") && (
                     habits.length === 0 ? (
                         <h2>

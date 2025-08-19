@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/Navbar.module.css";
 import { Modal } from "bootstrap";
+import Logo from "../assets/img/Logo.png"
 
 export const Navbar = () => {
   const [user, setUser] = useState(null);
@@ -37,7 +38,9 @@ export const Navbar = () => {
     <>
       <nav className={`navbar navbar-expand-lg px-4 ${styles.nav}`}>
         <div className="container pt-2 pb-4">
-          <Link className={styles.navbarBrand} to="/">HOME</Link>
+          <Link className={styles.navbarBrand} to="/">
+            <img src={Logo} alt="Logo" className={styles.logo} />
+          </Link>
           <div className="collapse navbar-collapse" id="navbarContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
