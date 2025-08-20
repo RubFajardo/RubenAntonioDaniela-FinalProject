@@ -12,11 +12,14 @@ export const Register = () => {
 	const [password, setPassword] = useState('')
 	const [question, setQuestion] = useState('')
 	const [questionAnswer, setQuestionAnswer] = useState('')
+	const [error, setError] = useState('')
 
 	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setError('')
+
 		let new_user = {
 			"name": name,
 			"email": email,
@@ -32,12 +35,20 @@ export const Register = () => {
 			headers: { "Content-type": "application/json" },
 			body: JSON.stringify(new_user)
 		});
+
+		if (promise.status === 400) {
+			setError("Email ya registrado.");
+			return;
+		}
+
+
 		navigate("/login")
 	};
 
 	return (
 		<div className={`${styles.registerContainer} container mt-5`}>
 			<h2 className={styles.title}>Registro de Usuario</h2>
+			{error ? <div className="text-danger h5 mt-2 mb-2">{error}</div> : null}
 			<form onSubmit={handleSubmit} className="mt-4">
 
 				<div className="mb-3">
