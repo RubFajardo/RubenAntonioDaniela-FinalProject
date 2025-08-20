@@ -228,11 +228,12 @@ export const Perfil = () => {
                     </div>
 
                     {/* boton de eliminar usuario */}
-
+                    
                     <button type="button" className={styles.deleteUser} data-bs-toggle="modal" data-bs-target="#deleteUser">
                         <i class="fa-solid fa-trash"></i>
                     </button>
-                    <div className="modal fade" id="deleteUser" tabindex="-1" aria-labelledby="deleteUserLabel" aria-hidden="true">
+                </div>
+                <div className="modal fade" id="deleteUser" tabindex="-1" aria-labelledby="deleteUserLabel" aria-hidden="true">
                         <div className="modal-dialog">
                             <div className="modal-content">
                                 <div className="modal-header">
@@ -249,7 +250,6 @@ export const Perfil = () => {
                             </div>
                         </div>
                     </div>
-                </div>
 
                 {/* Grafico */}
 
