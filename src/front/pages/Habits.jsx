@@ -195,7 +195,7 @@ export const Habits = () => {
 
           {["desayunaste", "almorzaste", "cenaste"].map((meal, idx) => (
             <div key={idx} className="mb-3">
-              <label className="form-label text-light">¿Qué {meal.replace('aste','aste') || 'comida'}?</label>
+              <label className="form-label text-light">¿Qué {meal}?</label>
               <input type="text" className="form-control neonInput mb-2" value={getMealState(meal).meal} onChange={(e) => handleMealChange(meal, "meal", e)} />
               <button type="button" className="btn btn-outline-success mb-3 mt-1" onClick={() => getNutrientsAPI(meal)}>Calcular nutrientes</button>
               <div className="d-flex gap-2">
