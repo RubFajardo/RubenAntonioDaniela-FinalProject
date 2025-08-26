@@ -209,6 +209,38 @@ export const Perfil = () => {
         }
     };
 
+    const countUsageDays = () => {
+        const today = new Date();
+        const past30 = new Date();
+        past30.setDate(today.getDate() - 30);
+
+        const recentHabits = habits.filter(habit => {
+            const habitsDate = new Date(habit.date);
+            return habitsDate >= past30 && habitsDate <= today;
+        });
+
+        return recentHabits.length;
+    }
+
+    const getMedal = (countUsageDays) => {
+        if (countUsageDays >= 30) return "🎉";
+        if (countUsageDays >= 21) return "🥇";
+        if (countUsageDays >= 14) return "🥈";
+        if (countUsageDays >= 7) return "🥉";
+        return null;
+    }
+
+    const daysUsed = countUsageDays(habits);
+    const medal = getMedal(daysUsed);
+
+    const allMedals = [
+        { icon: "fa-medal", minDays: 7, color: "#cd7f32"},
+        { icon: "fa-medal", minDays: 14, color: "#c0c0c0" },
+        { icon: "fa-medal", minDays: 21, color: "#ffd700" },
+        { icon: "fa-trophy", minDays: 30, color: "#ff7f00" },
+    ];
+
+    const unlockedMedals = allMedals.filter(medal => daysUsed >= medal.minDays).sort((a, b) => b.minDays - a.minDays);
 
     return (
         <div className="container mt-5">
@@ -217,39 +249,56 @@ export const Perfil = () => {
                 {/* Perfil */}
 
                 <div className={styles.profileCard}>
+
+                    {/* Foto y datos del perfil */}
+
                     <div>
                         <div className={styles.profilePicContainter}>
                             <img src={profilePic} alt="Profile" className={styles.profilePic} />
-                            <button onClick={changeProfilePic} className={styles.editImage}><i className="fa-solid fa-pencil"></i></button>
+                            <button onClick={changeProfilePic} className={styles.editImage}>
+                                <i className="fa-solid fa-pencil"></i>
+                            </button>
                         </div>
-
                         <h3 className="card-title">{user.name}</h3>
                         <p className="card-text">{user.email}</p>
                     </div>
 
-                    {/* boton de eliminar usuario */}
-                    
+                    {/* Medalla */}
+
+                    {unlockedMedals.length > 0 && (
+                        <div className={styles.medalsContainer}>
+                            {unlockedMedals.map((medal, index) => (
+                                <div key={index} className={styles.medal}>
+                                    <i className={`fa-solid ${medal.icon}`} style={{color: medal.color}}></i>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Botón eliminar usuario */}
+
                     <button type="button" className={styles.deleteUser} data-bs-toggle="modal" data-bs-target="#deleteUser">
-                        <i class="fa-solid fa-trash"></i>
+                        <i className="fa-solid fa-trash"></i>
                     </button>
                 </div>
+
                 <div className="modal fade" id="deleteUser" tabindex="-1" aria-labelledby="deleteUserLabel" aria-hidden="true">
-                        <div className="modal-dialog">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h1 className="modal-title fs-5" id="deleteUserLabel">Eliminar Cuenta</h1>
-                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div className="modal-body">
-                                    ¿Estas seguro de que deseas eliminar tu cuenta? !No podrás recuperarla!
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="button" onClick={() => deleteUser()} className="btn btn-danger">Sí, deseo eliminar mi cuenta</button>
-                                </div>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h1 className="modal-title fs-5" id="deleteUserLabel">Eliminar Cuenta</h1>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div className="modal-body">
+                                ¿Estas seguro de que deseas eliminar tu cuenta? !No podrás recuperarla!
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" onClick={() => deleteUser()} className="btn btn-danger">Sí, deseo eliminar mi cuenta</button>
                             </div>
                         </div>
                     </div>
+                </div>
 
                 {/* Grafico */}
 
@@ -303,18 +352,18 @@ export const Perfil = () => {
                         {view === "month" && `Tus hábitos de ${date.toLocaleDateString("es-ES", { month: "long", year: "numeric" })}:`}
                     </h2>
                 ) : null
-            }
+                }
 
-            {/* Botón volver al mes */}
+                {/* Botón volver al mes */}
 
-            {view === "day" && (
+                {view === "day" && (
                     <button className={`btn ${styles.showMonth}`} onClick={() => { setView("month") }}>
                         Mostrar todo el mes
                     </button>
                 )
-            }
+                }
             </div>
-            
+
             {/* Tarjetas de hábitos */}
 
             <div className={`${styles.habitsContainer} ${styles.habitsScroll} ${view === "month" ? "month-view" : "day-view"}`}>
