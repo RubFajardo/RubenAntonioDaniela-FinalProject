@@ -29,7 +29,11 @@ export const Register = () => {
         "password": password,
         "secret_question": question,
         "question_answer": questionAnswer,
-        "profile_pic": "https://cdn-icons-png.flaticon.com/512/16/16480.png"
+        "profile_pic": "https://cdn-icons-png.flaticon.com/512/16/16480.png",
+        "chest_pr": 0,
+        "back_pr": 0,
+        "legs_pr": 0,
+        "arms_pr": 0
       }
 
       let response = await fetch(backendUrl + "api/register", {

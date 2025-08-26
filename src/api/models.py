@@ -15,6 +15,10 @@ class User(db.Model):
     password: Mapped[str] = mapped_column(String(120), nullable=False)
     secret_question: Mapped[str] = mapped_column(String(100), nullable=False)
     question_answer: Mapped[str] = mapped_column(String(100), nullable=False)
+    chest_pr: Mapped[int] = mapped_column(Integer, nullable=True)
+    back_pr: Mapped[int] = mapped_column(Integer, nullable=True)
+    legs_pr: Mapped[int] = mapped_column(Integer, nullable=True)
+    arms_pr: Mapped[int] = mapped_column(Integer, nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
 
     daily: Mapped[List["Daily"]] = relationship(back_populates="user")
@@ -27,6 +31,10 @@ class User(db.Model):
             "name": self.name,
             "email": self.email,
             "secret_question": self.secret_question,
+            "chest_pr": self.chest_pr,
+            "back_pr": self.back_pr,
+            "legs_pr": self.legs_pr,
+            "arms_pr": self.arms_pr,
             "profile_pic": self.profile_pic
             # do not serialize the password, its a security breach
             }

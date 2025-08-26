@@ -1,0 +1,42 @@
+.goalsRecordsContainer {
+  background-color: #0A0F24;
+  min-height: 100vh;
+}
+
+.neonCard {
+  background-color: #001D3A;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(2, 124, 255, 0.4);
+}
+
+.neonInput {
+  background-color: #0A0F24;
+  border: 1px solid #027CFF;
+  color: white;
+}
+.neonInput:focus {
+  background-color: #0A0F24;
+  color: white;
+  border-color: #027CFF;
+  box-shadow: 0 0 10px #027CFF;
+}
+
+.neonBtn {
+  background-color: #01346A;
+  color: white;
+  border: 1px solid #027CFF;
+  transition: 0.3s ease-in-out;
+}
+.neonBtn:hover {
+  background-color: #027CFF;
+  color: #0A0F24;
+  box-shadow: 0 0 15px #027CFF;
+}
+
+.neonList {
+  border-bottom: 1px solid rgba(2, 124, 255, 0.2);
+}
+.neonList:last-child {
+  border-bottom: none;
+}
+

@@ -176,13 +176,13 @@ export const Habits = () => {
         <div className="habitCard card p-4 mb-4 shadow neonCard">
           <h5 className="mb-3 cardTitle">¿Qué tal dormiste anoche?</h5>
           <div className="form-check form-check-inline">
-            <input className="form-check-input" type="radio" name="sleep" id="sleepGood" value="Good" onChange={() => setSleepQuality("Good")} checked={sleepQuality === "Good"} />
+            <input className="form-check-input" type="radio" name="sleep" id="sleepGood" value="Dormí bien" onChange={() => setSleepQuality("Dormí bien")} checked={sleepQuality === "Dormí bien"} />
             <label className="form-check-label" htmlFor="sleepGood">
               <i className="fa-solid fa-face-smile text-success me-2 fs-4"></i> ¡Dormí muy bien!
             </label>
           </div>
           <div className="form-check form-check-inline">
-            <input className="form-check-input" type="radio" name="sleep" id="sleepBad" value="Bad" onChange={() => setSleepQuality("Bad")} checked={sleepQuality === "Bad"} />
+            <input className="form-check-input" type="radio" name="sleep" id="sleepBad" value="Dormí mal" onChange={() => setSleepQuality("Dormí mal")} checked={sleepQuality === "Dormí mal"} />
             <label className="form-check-label" htmlFor="sleepBad">
               <i className="fa-solid fa-face-frown text-danger me-2 fs-4"></i> No pude dormir bien
             </label>

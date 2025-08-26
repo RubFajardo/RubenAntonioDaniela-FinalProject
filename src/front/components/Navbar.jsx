@@ -67,6 +67,15 @@ export const Navbar = () => {
                   Mi Perfil
                 </a>
               </li>
+              <li className="nav-item">
+                <a
+                  href="/progreso"
+                  className={`nav-link ${styles.navLink}`}
+                  onClick={(e) => handleRestrictedClick(e, "/progreso")}
+                >
+                  Mi Progreso
+                </a>
+              </li>
             </ul>
 
             <div className={styles.user}>
