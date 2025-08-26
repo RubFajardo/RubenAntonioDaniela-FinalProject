@@ -41,6 +41,10 @@ def new_user():
     new_user.secret_question = body["secret_question"]
     new_user.question_answer = coded_question_answer.decode()
     new_user.profile_pic = body["profile_pic"]
+    new_user.chest_pr = body["chest_pr"]
+    new_user.back_pr = body["back_pr"]
+    new_user.legs_pr = body["legs_pr"]
+    new_user.arms_pr = body["arms_pr"]
 
     db.session.add(new_user)
     db.session.commit()
@@ -73,6 +77,22 @@ def login():
 @api.route("/edit_profile", methods=["PUT"])
 @jwt_required()
 def edit_profile():
+    current_user = get_jwt_identity()
+    user = User.query.get(current_user)
+
+    if not user:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+
+    body = request.get_json()
+
+    user.profile_pic = body["profile_pic"]
+
+    db.session.commit()
+    return jsonify(user.serialize()), 200
+
+@api.route("/edit_prs", methods=["PUT"])
+@jwt_required()
+def edit_PRs():
     current_user = get_jwt_identity()
     user = User.query.get(current_user)
 
