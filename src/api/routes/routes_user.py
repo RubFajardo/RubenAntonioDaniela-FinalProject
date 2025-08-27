@@ -90,9 +90,9 @@ def edit_profile():
     db.session.commit()
     return jsonify(user.serialize()), 200
 
-@api.route("/edit_prs", methods=["PUT"])
+@api.route("/editPR/chest_pr", methods=["PUT"])
 @jwt_required()
-def edit_PRs():
+def edit_PR_chest():
     current_user = get_jwt_identity()
     user = User.query.get(current_user)
 
@@ -101,7 +101,55 @@ def edit_PRs():
 
     body = request.get_json()
 
-    user.profile_pic = body["profile_pic"]
+    user.chest_pr = body["chest_pr"]
+
+    db.session.commit()
+    return jsonify(user.serialize()), 200
+
+@api.route("/editPR/back_pr", methods=["PUT"])
+@jwt_required()
+def edit_PR_back():
+    current_user = get_jwt_identity()
+    user = User.query.get(current_user)
+
+    if not user:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+
+    body = request.get_json()
+
+    user.back_pr = body["back_pr"]
+
+    db.session.commit()
+    return jsonify(user.serialize()), 200
+
+@api.route("/editPR/legs_pr", methods=["PUT"])
+@jwt_required()
+def edit_PR_legs():
+    current_user = get_jwt_identity()
+    user = User.query.get(current_user)
+
+    if not user:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+
+    body = request.get_json()
+
+    user.legs_pr = body["legs_pr"]
+
+    db.session.commit()
+    return jsonify(user.serialize()), 200
+
+@api.route("/editPR/arms_pr", methods=["PUT"])
+@jwt_required()
+def edit_PR_arms():
+    current_user = get_jwt_identity()
+    user = User.query.get(current_user)
+
+    if not user:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+
+    body = request.get_json()
+
+    user.arms_pr = body["arms_pr"]
 
     db.session.commit()
     return jsonify(user.serialize()), 200
