@@ -25,6 +25,8 @@ class User(db.Model):
 
     profile_pic: Mapped[str] = mapped_column(Text, nullable=True)
 
+    goals: Mapped[List["Goals"]] = relationship(back_populates="user")
+
     def serialize(self):
         return {
             "id": self.id,
@@ -93,4 +95,27 @@ class Habit(db.Model):
             "breakfast": self.breakfast,
             "lunch": self.lunch,
             "dinner": self.dinner,
+        }
+    
+class Goals(db.Model):
+    
+    id: Mapped[int] = mapped_column(Primary_key=True)
+
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
+    user: Mapped["User"] = relationship(back_populates="goals")
+
+    type: Mapped[str] = mapped_column(String(30), nullable=True)
+    value: Mapped[int] = mapped_column(Integer, nullable=True)
+
+    start_date: Mapped[datetime.date] = mapped_column(Date, nullable=False)
+    end_date: Mapped[datetime.date] = mapped_column(Date, nullable=False)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "type": self.type,
+            "value": self.value,
+            "start_date": self.start_date,
+            "end_date": self.end_date,
         }

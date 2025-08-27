@@ -34,14 +34,33 @@ export const Progreso = () => {
     return null;
   }
 
+  const fetchGoals = async () => {
+    try {
+      const resp = await fetch(backendUrl + "api/goals", {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    });
+    const data = await resp.json()
+    console.log(data)
+  } catch (error) {
+      console.log("Error al traer las metas:", error);     
+    }
+    
 
-
+  useEffect(() => {
+    fetchGoals()
+  }, [])
 
 
   return (
     <div className={`container ${styles.goalsRecordsContainer}`}>
       <div className="row">
+
         {/* Columna Izquierda - Metas */}
+
         <div className="col-md-5 me-5 mt-4">
           <div className={`card p-4 ${styles.neonCard}`}>
             <h3 className="text-center text-light mb-4">Metas</h3>
@@ -64,6 +83,7 @@ export const Progreso = () => {
         </div>
 
         {/* Columna Derecha - Records */}
+        
         <div className="col-md-6 mt-4">
           <div className={`p-3 ${styles.neonCard}`}>
             <h2 className="text-center mb-4 text-white">Records</h2>
@@ -97,5 +117,6 @@ export const Progreso = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
+}
