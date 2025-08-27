@@ -60,20 +60,20 @@ export const Navbar = () => {
               </li>
               <li className="nav-item">
                 <a
-                  href="/perfil"
-                  className={`nav-link ${styles.navLink}`}
-                  onClick={(e) => handleRestrictedClick(e, "/perfil")}
-                >
-                  Mi Perfil
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
                   href="/progreso"
                   className={`nav-link ${styles.navLink}`}
                   onClick={(e) => handleRestrictedClick(e, "/progreso")}
                 >
                   Mi Progreso
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  href="/perfil"
+                  className={`nav-link ${styles.navLink}`}
+                  onClick={(e) => handleRestrictedClick(e, "/perfil")}
+                >
+                  Mi Perfil
                 </a>
               </li>
             </ul>
