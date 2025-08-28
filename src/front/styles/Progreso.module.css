@@ -10,6 +10,7 @@
   background-color: #0A0F24;
   border: 1px solid #027CFF;
   color: white;
+  text-shadow: 0 0 5px #027CFF, 0 0 10px #027CFF;
 }
 
 .neonInput::placeholder {
@@ -42,6 +43,13 @@
   margin-left: 0.5rem;
 }
 .neonBtn:hover {
+  border: 1px solid #fff;
+  box-shadow: 0 0 5px #027CFF, 0 0 10px #027CFF;
+  background: transparent;
+  color: #fff;
+}
+
+.neonBtn:focus {
   border: 1px solid #fff;
   box-shadow: 0 0 5px #027CFF, 0 0 10px #027CFF;
   background: transparent;

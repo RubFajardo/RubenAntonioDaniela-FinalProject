@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "../styles/Progreso.module.css";
 import { useNavigate, Link } from "react-router-dom";
 import confetti from "canvas-confetti";
+import dayjs from "dayjs";
 
 export const Progreso = () => {
 
@@ -167,7 +168,7 @@ useEffect(() => {
 
 const weeklyProgress = async () => {
   const startOfWeek = dayjs().startOf("week").format("YYYY-MM-DD");
-  const endOfWeek = dayjs().endOF("week").format("YYYY-MM-DD");
+  const endOfWeek = dayjs().endOf("week").format("YYYY-MM-DD");
 
   try {
     const resp = await fetch(backendUrl + "api/daily_habits/" + startOfWeek + "/" + endOfWeek, {
@@ -188,6 +189,7 @@ const weeklyProgress = async () => {
         proteinas += record.habits.proteinas || 0;
         if (record.habits.entrenamientos) entrenamientos += 1;
       }
+
     });
 
     setProgress({calorias, proteinas, entrenamientos})
@@ -241,6 +243,7 @@ return (
                   type="number"
                   className={`form-control form-control-sm ${styles.neonInput}`}
                   value={progress.calorias}
+                  tabIndex={-1}
                   readOnly />
               </div>
             </div>
@@ -264,6 +267,7 @@ return (
                   type="number"
                   className={`form-control form-control-sm ${styles.neonInput}`}
                   value={progress.proteinas}
+                  tabIndex={-1}
                   readOnly />
               </div>
             </div>
@@ -287,6 +291,7 @@ return (
                   type="number"
                   className={`form-control form-control-sm ${styles.neonInput}`}
                   value={progress.entrenamientos}
+                  tabIndex={-1}
                   readOnly />
               </div>
             </div>
