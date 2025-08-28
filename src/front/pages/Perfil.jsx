@@ -149,8 +149,8 @@ export const Perfil = () => {
         const hasHabits = habits.find(h => h.date === formattedDate);
         if (!hasHabits || !hasHabits.habits) return null;
 
-        if (hasHabits.habits.entreno === true) return "tile-with-entreno"
-        if (hasHabits.habits.entreno === false) return "tile-with-habits"
+        if (hasHabits.habits.entrenamientos === true) return "tile-with-entrenamientos"
+        if (hasHabits.habits.entrenamientos === false) return "tile-with-habits"
         return null;
     }
 
@@ -378,7 +378,7 @@ export const Perfil = () => {
                                 <div>
                                     <h5 className={styles.cardTitle}>{habit.date}</h5>
                                     <ul className="list-unstyled mb-0">
-                                        <li><strong>Entreno:</strong> {habit.habits?.entreno ? "Sí" : "No"}</li>
+                                        <li><strong>entrenamientos:</strong> {habit.habits?.entrenamientos ? "Sí" : "No"}</li>
                                         <li><strong>Ejercicio:</strong> {habit.habits?.ejercicio || "N/A"}</li>
                                         <li><strong>Sueño:</strong> {habit.habits?.sueño || "N/A"}</li>
                                         <li><strong>Calorías:</strong> {habit.habits?.calorias || "N/A"}</li>

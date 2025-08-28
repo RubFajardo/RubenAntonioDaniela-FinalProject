@@ -40,7 +40,7 @@ export const Habits = () => {
       }
       if (!data.habits) return;
       const habits = data.habits;
-      setDidTrain(habits.entreno);
+      setDidTrain(habits.entrenamientos);
       setTrainingType(habits.ejercicio || '');
       setSleepQuality(habits.sueño || '');
       setFoodTotal({
@@ -110,7 +110,7 @@ export const Habits = () => {
     await fetch(backendUrl + "api/daily_habits/" + today, {
       method: method,
       headers: { "Content-Type": "application/json", 'Authorization': 'Bearer ' + token },
-      body: JSON.stringify({ date: today, habits: { entreno: didTrain, ejercicio: trainingType, sueño: sleepQuality, calorias: foodTotal.caloriesTotal, proteinas: foodTotal.proteinTotal, breakfast: breakfast.meal, lunch: lunch.meal, dinner: dinner.meal } }),
+      body: JSON.stringify({ date: today, habits: { entrenamientos: didTrain, ejercicio: trainingType, sueño: sleepQuality, calorias: foodTotal.caloriesTotal, proteinas: foodTotal.proteinTotal, breakfast: breakfast.meal, lunch: lunch.meal, dinner: dinner.meal } }),
     });
     navigate("/perfil");
   };

@@ -32,7 +32,7 @@ def new_daily(date):
 
     habit = Habit(
         daily_id=new_daily.id,
-        entreno=habits["entreno"],
+        entrenamientos=habits["entrenamientos"],
         ejercicio=habits["ejercicio"],
         sueño=habits["sueño"],
         calorias=habits["calorias"],
@@ -69,7 +69,7 @@ def edit_habit(date):
     if not habit:
         return jsonify({"message": "No hay habitos registrados para esta fecha"}), 404
     
-    habit.entreno = habits["entreno"]
+    habit.entrenamientos = habits["entrenamientos"]
     habit.ejercicio = habits["ejercicio"]
     habit.sueño = habits["sueño"]
     habit.calorias = habits["calorias"]
