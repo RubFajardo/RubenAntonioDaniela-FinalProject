@@ -269,7 +269,7 @@ export const Perfil = () => {
                         <div className={styles.medalsContainer}>
                             {unlockedMedals.map((medal, index) => (
                                 <div key={index} className={styles.medal}>
-                                    <i className={`fa-solid ${medal.icon}`} style={{color: medal.color}}></i>
+                                    <i className={`fa-solid h1 ${medal.icon}`} style={{color: medal.color}}></i>
                                 </div>
                             ))}
                         </div>
