@@ -72,7 +72,7 @@ export const Progreso = () => {
     }
 
     if (newValue > user[currentRecord]) {
-      setMessage("¡Felicidades! 🥳🥳 Has logrado un nuevo PR 💪💪 ¡Sigue así! 🥳");
+      setMessage("¡Felicidades! 🥳🥳 Has logrado un nuevo PR 💪💪 ¡Sigue así!");
       confetti({
         particleCount: 150,
         spread: 80,
