@@ -1,10 +1,13 @@
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
+from flask_cors import CORS
 import bcrypt
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 api = Blueprint('user_api', __name__)
+
+CORS(api)
 
 @api.route("/register", methods=["POST"])
 def new_user():
