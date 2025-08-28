@@ -41,6 +41,23 @@ export const Navbar = () => {
           <Link className={styles.navbarBrand} to="/">
             <img src={Logo} alt="Logo" className={styles.logo} />
           </Link>
+
+          {/* Botón hamburguesa */}
+          
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarContent"
+            aria-controls="navbarContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          {/* Menú colapsable */}
+
           <div className="collapse navbar-collapse" id="navbarContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
@@ -78,9 +95,9 @@ export const Navbar = () => {
               </li>
             </ul>
 
-            <div className={styles.user}>
+            <div className="d-flex align-items-center">
               {user ? (
-                <span>
+                <span className="text-white">
                   Bienvenido, {user.name}{" "}
                   <button
                     className={`btn ${styles.logInOut}`}
