@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/Progreso.module.css";
 import { useNavigate, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 import confetti from "canvas-confetti";
 
 export const Progreso = () => {
@@ -23,6 +22,10 @@ export const Progreso = () => {
   const [calorias, setCalorias] = useState("")
   const [proteinas, setProteinas] = useState("")
   const [entrenamientos, setEntrenamientos] = useState("")
+  const [goalId, setGoalId] = useState(null)
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [pendingGoals, setPendingGoals] = useState({ calorias: 0, proteinas: 0, entrenamientos: 0 });
+
 
   useEffect(() => {
     if (!token) {
@@ -82,54 +85,74 @@ export const Progreso = () => {
 
 
     setModalOpen(false);
-};
+  };
 
   const saveGoals = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
+    if (goalId) {
+      setPendingGoals({ calorias, proteinas, entrenamientos });
+      setConfirmModalOpen(true);
+      return;
+    }
+
+    await saveOrUpdateGoals({ calorias, proteinas, entrenamientos }, goalId);
+  };
+
+  const saveOrUpdateGoals = async (goals, id = null) => {
     try {
-      const resp = await fetch (backendUrl + "api/goals",{
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-            "Authorization": "Bearer " + token,
-          },
-          body: JSON.stringify({
-            calorias: parseInt(calorias) || 0,
-            proteinas: parseInt(proteinas) || 0,
-            entrenamientos: parseInt(entrenamientos) || 0
-          }),
-        });
+      const url = id ? backendUrl + "api/goals/" + id : backendUrl + "api/goals";
+      const method = id ? "PUT" : "POST";
+
+      const resp = await fetch(url, {
+        method,
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + token,
+        },
+        body: JSON.stringify({
+          calorias: parseInt(goals.calorias) || 0,
+          proteinas: parseInt(goals.proteinas) || 0,
+          entrenamientos: parseInt(goals.entrenamientos) || 0
+        }),
+      });
 
       const data = await resp.json();
 
       if (!resp.ok) {
         alert(data.message || "Error al guardar las metas");
-        return;
+        return null;
       }
 
+      setGoalId(data.id || id);
+      setCalorias(data.calorias || calorias);
+      setProteinas(data.proteinas || proteinas);
+      setEntrenamientos(data.entrenamientos || entrenamientos);
+
     } catch (error) {
-      console.log("Error al guardar las metas:", error)
+      console.log("Error al guardar las metas:", error);
+      return null;
     }
-  }
+  };
 
   const getGoals = async () => {
-    
+
     try {
       const resp = await fetch(backendUrl + "api/goals", {
         headers: {
-          "Authorization": "Bearer " + token 
+          "Authorization": "Bearer " + token
         }
-    });
-    if (resp.ok){
-      const data = await resp.json()
-      if (data.goals && data.goals.length > 0){
-        const goal = data.goals[0];
-        setCalorias(goal.calorias);
-        setProteinas(goal.proteinas);
-        setEntrenamientos(goal.entrenamientos)
+      });
+      if (resp.ok) {
+        const data = await resp.json()
+        if (data.goals && data.goals.length > 0) {
+          const goal = data.goals[0];
+          setCalorias(goal.calorias);
+          setProteinas(goal.proteinas);
+          setEntrenamientos(goal.entrenamientos)
+          setGoalId(goal.id)
+        }
       }
-    }
     } catch (error) {
       console.log("Error al traer las metas", error)
     }
@@ -141,51 +164,105 @@ export const Progreso = () => {
 
 
   return (
-    <div className={`container ${styles.goalsRecordsContainer}`}>
-      <div className="row">
+    <div className="container">
+      <div className="row d-flex align-items-stretch">
 
         {/* Columna Izquierda - Metas */}
 
-        <div className="col-md-5 me-5 mt-4">
-          <div className={`card p-4 ${styles.neonCard}`}>
-            <h3 className="text-center text-light mb-4">Metas</h3>
+        <div className="col-md-5 mt-4 mx-auto" key={goalId}>
+          <div className={`card p-4 h-100 ${styles.neonCard}`}>
+            <h3 className="text-center text-light mb-3">Establece tus metas semanales</h3>
+
+            <div className="row mb-2">
+              <div className="col-4"></div>
+              <div className="col-4 text-center">
+                <h6 className="text-light mb-1">Tus metas actuales</h6>
+              </div>
+              <div className="col-4 text-center">
+                <h6 className="text-light mb-1">Tu progreso actual</h6>
+              </div>
+            </div>
+
             <form onSubmit={saveGoals}>
-              <div className="mb-3">
-                <label className="form-label text-light">Calorías semanales</label>
-                <input 
-                type="number" 
-                className={`form-control ${styles.neonInput}`} 
-                value={calorias || ""} 
-                placeholder={calorias ? "" : "Ej: 20000"}
-                onChange={(e) => setCalorias(e.target.value)}/>
+
+              {/* Fila Calorías */}
+
+              <div className="row mb-2 align-items-center">
+                <div className="col-4 text-light text-start d-flex justify-content-start align-items-center">
+                  Calorías:
+                </div>
+                <div className="col-4">
+                  <input
+                    type="number"
+                    className={`form-control form-control-sm ${styles.neonInput}`}
+                    placeholder="Ej: 20000"
+                    value={calorias}
+                    onChange={(e) => setCalorias(e.target.value)} />
+                </div>
+                <div className="col-4">
+                  <input
+                    type="number"
+                    className={`form-control form-control-sm ${styles.neonInput}`}
+                    readOnly />
+                </div>
               </div>
-              <div className="mb-3">
-                <label className="form-label text-light">Proteínas semanales (g)</label>
-                <input 
-                type="number" 
-                className={`form-control ${styles.neonInput}`} 
-                value={proteinas || ""}
-                placeholder={proteinas ? "" : "Ej: 500"}
-                onChange={(e) => setProteinas(e.target.value)}/>
+
+              {/* Fila Proteínas */}
+
+              <div className="row mb-2 align-items-center">
+                <div className="col-4 text-light text-start d-flex justify-content-start align-items-center">
+                  Proteínas (g):
+                </div>
+                <div className="col-4">
+                  <input
+                    type="number"
+                    className={`form-control form-control-sm ${styles.neonInput}`}
+                    placeholder="Ej: 500"
+                    value={proteinas}
+                    onChange={(e) => setProteinas(e.target.value)} />
+                </div>
+                <div className="col-4">
+                  <input
+                    type="number"
+                    className={`form-control form-control-sm ${styles.neonInput}`}
+                    readOnly />
+                </div>
               </div>
-              <div className="mb-3">
-                <label className="form-label text-light">Entrenamientos</label>
-                <input 
-                type="number" 
-                className={`form-control ${styles.neonInput}`}
-                value={entrenamientos || ""}
-                placeholder={entrenamientos ? "" : "Ej: 4"}
-                onChange={(e) => setEntrenamientos(e.target.value)}/>
+
+              {/* Fila Entrenamientos */}
+
+              <div className="row mb-2 align-items-center">
+                <div className="col-4 text-light text-start d-flex justify-content-start align-items-center">
+                  Entrenamientos:
+                </div>
+                <div className="col-4">
+                  <input
+                    type="number"
+                    className={`form-control form-control-sm ${styles.neonInput}`}
+                    placeholder="Ej: 4"
+                    value={entrenamientos}
+                    onChange={(e) => setEntrenamientos(e.target.value)} />
+                </div>
+                <div className="col-4">
+                  <input
+                    type="number"
+                    className={`form-control form-control-sm ${styles.neonInput}`}
+                    readOnly />
+                </div>
               </div>
-              <button type="submit" className={`btn w-100 mt-3 ${styles.neonBtn}`}>Guardar</button>
+              <div className="col-4 d-block mx-auto mt-3">
+                <button type="submit" className={`btn btn-sm btn-primary w-100 ${styles.neonBtn}`}>
+                  Guardar
+                </button>
+              </div>
             </form>
           </div>
         </div>
 
         {/* Columna Derecha - Records */}
-        
-        <div className="col-md-6 mt-4">
-          <div className={`p-3 ${styles.neonCard}`}>
+
+        <div className="col-md-6 mt-4 mx-auto">
+          <div className={`p-3 h-100 ${styles.neonCard}`}>
             <h2 className="text-center mb-4 text-white">Records Personales</h2>
             <ul className="list-group list-group-flush">
               <li className={`list-group-item d-flex justify-content-between align-items-center bg-transparent text-light ${styles.neonList}`}>
@@ -215,7 +292,7 @@ export const Progreso = () => {
             </ul>
             {message ? <div className="text-success h5 mt-4 mb-2">{message}</div> : null}
           </div>
-          
+
           {modalOpen && (
             <div className="modal fade show d-block" tabIndex="-1">
               <div className="modal-dialog modal-dialog-centered">
@@ -246,6 +323,45 @@ export const Progreso = () => {
             </div>
           )}
         </div>
+
+        {/* Modal de confirmación de sobrescribir metas */}
+
+        {confirmModalOpen && (
+          <div className="modal fade show d-block" tabIndex="-1">
+            <div className="modal-dialog modal-dialog-centered">
+              <div className={`modal-content ${styles.neonCard}`}>
+                <div className="modal-header">
+                  <h5 className="modal-title">Ya existe una meta para esta semana</h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    onClick={() => setConfirmModalOpen(false)}
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <p>¿Deseas sobrescribirla con los nuevos valores?</p>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    className={`btn ${styles.neonBtn}`}
+                    onClick={() => {
+                      saveOrUpdateGoals()
+                      setConfirmModalOpen(false);
+                    }}
+                  >
+                    Sí
+                  </button>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => setConfirmModalOpen(false)}
+                  >
+                    No
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
