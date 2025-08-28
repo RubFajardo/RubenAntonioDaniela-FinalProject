@@ -3,7 +3,7 @@ from api.models import db, Goals, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
-from datetime import datetime
+from datetime import date, timedelta
 
 api = Blueprint('goals_api', __name__)
 
@@ -17,28 +17,30 @@ def new_goal():
     current_user_id = get_jwt_identity()
     body = request.get_json()
 
-    today = datetime.date.today()
-    start_of_the_week = today - datetime.timedelta(days=today.weekday())
-    end_of_the_week = start_of_the_week + datetime.timedelta(days=6)
+    today = date.today()
+    start_of_the_week = today - timedelta(days=today.weekday())
+    end_of_the_week = start_of_the_week + timedelta(days=6)
 
     existing_goal = Goals.query.filter(
         Goals.user_id == current_user_id,
-        Goals.type == body["type"],
-        Goals.value == body["value"],
+        Goals.calorias == body["calorias"],
+        Goals.proteinas == body["proteinas"],
+        Goals.entrenamientos == body["entrenamientos"],
         Goals.start_date == start_of_the_week,
-        Goals.end_end == end_of_the_week,
+        Goals.end_date == end_of_the_week,
     ).first()
 
     if existing_goal:
         return jsonify({
             "message": "Ya hay una meta establecida para esta semana",
             "goal": existing_goal.serialize()
-        }), 200
+        }), 400
     
     new_goal = Goals(
         user_id=current_user_id,
-        type = body["type"],
-        value = body["value"],
+        calorias = body["calorias"],
+        proteinas = body["proteinas"],
+        entrenamientos = body["entrenamientos"],
         start_date = start_of_the_week,
         end_date = end_of_the_week
     )
@@ -57,25 +59,22 @@ def new_goal():
 def get_goal():
     current_user_id = get_jwt_identity()
 
-    today = datetime.date.today()
-    start_of_the_week = today - datetime.timedelta(days=today.weekday())
-    end_of_the_week = start_of_the_week + datetime.timedelta(days=6)
+    today = date.today()
+    start_of_the_week = today - timedelta(days=today.weekday())
+    end_of_the_week = start_of_the_week + timedelta(days=6)
 
     goals = Goals.query.filter(
-        Goals.week_start == start_of_the_week, 
-        Goals.week_end == end_of_the_week, 
+        Goals.start_date == start_of_the_week, 
+        Goals.end_date == end_of_the_week, 
         Goals.user_id == current_user_id
     ).all()
 
-    if not goals:
-        return jsonify({"goals": None}), 200
-    
-    result = [
-        for goal in goals:
+    result = []
+    for goal in goals:
         result.append(goal.serialize())
-    ]
-
+    
     return jsonify({"goals": result}), 200
+
 
 @api.route("/goals/<int:goal_id>", methods=["PUT"])
 @jwt_required()
@@ -83,14 +82,16 @@ def edit_goal(goal_id):
     current_user = get_jwt_identity()
     body = request.get_json()
 
-    goal = Goals.query.filter_by(id = goal_id, user_id=current_user_id).first()
+    goal = Goals.query.filter_by(id = goal_id, user_id=current_user).first()
     if not goal:
         return jsonify({"message": "Meta no encontrada"}), 404
     
-    if "type" in body:
-        goal.type = body["type"]
-    if "value" in body:
-        goal.value = body["value"]
+    if "calorias" in body:
+        goal.calorias = body["calorias"]
+    if "proteinas" in body:
+        goal.proteinas = body["proteinas"]
+    if "entrenamientos" in body:
+        goal.entrenamientos = body["entrenamientos"]
 
     db.session.commit()
 

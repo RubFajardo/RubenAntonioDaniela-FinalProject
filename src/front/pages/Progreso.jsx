@@ -20,6 +20,9 @@ export const Progreso = () => {
   const [currentRecord, setCurrentRecord] = useState("")
   const [newValue, setNewValue] = useState(0)
   const [message, setMessage] = useState("")
+  const [calorias, setCalorias] = useState("")
+  const [proteinas, setProteinas] = useState("")
+  const [entrenamientos, setEntrenamientos] = useState("")
 
   useEffect(() => {
     if (!token) {
@@ -81,25 +84,60 @@ export const Progreso = () => {
     setModalOpen(false);
 };
 
-  const fetchGoals = async () => {
+  const saveGoals = async (e) => {
+    e.preventDefault()
+
+    try {
+      const resp = await fetch (backendUrl + "api/goals",{
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            "Authorization": "Bearer " + token,
+          },
+          body: JSON.stringify({
+            calorias: parseInt(calorias) || 0,
+            proteinas: parseInt(proteinas) || 0,
+            entrenamientos: parseInt(entrenamientos) || 0
+          }),
+        });
+
+      const data = await resp.json();
+
+      if (!resp.ok) {
+        alert(data.message || "Error al guardar las metas");
+        return;
+      }
+
+    } catch (error) {
+      console.log("Error al guardar las metas:", error)
+    }
+  }
+
+  const getGoals = async () => {
+    
     try {
       const resp = await fetch(backendUrl + "api/goals", {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        "Authorization": "Bearer " + token
-      }
+        headers: {
+          "Authorization": "Bearer " + token 
+        }
     });
-    const data = await resp.json()
-    console.log(data)
-  } catch (error) {
-      console.log("Error al traer las metas:", error);     
+    if (resp.ok){
+      const data = await resp.json()
+      if (data.goals && data.goals.length > 0){
+        const goal = data.goals[0];
+        setCalorias(goal.calorias);
+        setProteinas(goal.proteinas);
+        setEntrenamientos(goal.entrenamientos)
+      }
     }
-    
+    } catch (error) {
+      console.log("Error al traer las metas", error)
+    }
+  }
 
   useEffect(() => {
-    fetchGoals()
-  }, [])
+    getGoals()
+  }, []);
 
 
   return (
@@ -111,18 +149,33 @@ export const Progreso = () => {
         <div className="col-md-5 me-5 mt-4">
           <div className={`card p-4 ${styles.neonCard}`}>
             <h3 className="text-center text-light mb-4">Metas</h3>
-            <form>
+            <form onSubmit={saveGoals}>
               <div className="mb-3">
                 <label className="form-label text-light">Calorías semanales</label>
-                <input type="number" className={`form-control ${styles.neonInput}`} placeholder="Ej: 20,000" />
+                <input 
+                type="number" 
+                className={`form-control ${styles.neonInput}`} 
+                value={calorias || ""} 
+                placeholder={calorias ? "" : "Ej: 20000"}
+                onChange={(e) => setCalorias(e.target.value)}/>
               </div>
               <div className="mb-3">
                 <label className="form-label text-light">Proteínas semanales (g)</label>
-                <input type="number" className={`form-control ${styles.neonInput}`} placeholder="Ej: 1,000" />
+                <input 
+                type="number" 
+                className={`form-control ${styles.neonInput}`} 
+                value={proteinas || ""}
+                placeholder={proteinas ? "" : "Ej: 500"}
+                onChange={(e) => setProteinas(e.target.value)}/>
               </div>
               <div className="mb-3">
                 <label className="form-label text-light">Entrenamientos</label>
-                <input type="number" className={`form-control ${styles.neonInput}`} placeholder="Ej: 4" />
+                <input 
+                type="number" 
+                className={`form-control ${styles.neonInput}`}
+                value={entrenamientos || ""}
+                placeholder={entrenamientos ? "" : "Ej: 4"}
+                onChange={(e) => setEntrenamientos(e.target.value)}/>
               </div>
               <button type="submit" className={`btn w-100 mt-3 ${styles.neonBtn}`}>Guardar</button>
             </form>
@@ -196,5 +249,4 @@ export const Progreso = () => {
       </div>
     </div>
   )
-}
 }

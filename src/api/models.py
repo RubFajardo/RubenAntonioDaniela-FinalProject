@@ -74,7 +74,7 @@ class Habit(db.Model):
     daily_id: Mapped[int] = mapped_column(ForeignKey("daily.id"), unique=True, nullable=False)
     daily: Mapped["Daily"] = relationship(back_populates="habits")
 
-    entreno: Mapped[bool] = mapped_column(Boolean, nullable=True)
+    entrenamientos: Mapped[bool] = mapped_column(Boolean, nullable=True)
     ejercicio: Mapped[str] = mapped_column(String(20), nullable=False)
     sueño: Mapped[str] = mapped_column(String(20), nullable=False)
     calorias: Mapped[int] = mapped_column(Integer, nullable=False)
@@ -87,7 +87,7 @@ class Habit(db.Model):
         return {
             "id": self.id,
             "daily": self.daily_id,
-            "entreno": self.entreno,
+            "entrenamientos": self.entrenamientos,
             "ejercicio": self.ejercicio,
             "sueño": self.sueño,
             "calorias": self.calorias,
@@ -99,13 +99,14 @@ class Habit(db.Model):
     
 class Goals(db.Model):
     
-    id: Mapped[int] = mapped_column(Primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
 
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
     user: Mapped["User"] = relationship(back_populates="goals")
 
-    type: Mapped[str] = mapped_column(String(30), nullable=True)
-    value: Mapped[int] = mapped_column(Integer, nullable=True)
+    calorias: Mapped[int] = mapped_column(Integer, nullable=True)
+    proteinas: Mapped[int] = mapped_column(Integer, nullable=True)
+    entrenamientos: Mapped[int] = mapped_column(Integer, nullable=True)
 
     start_date: Mapped[datetime.date] = mapped_column(Date, nullable=False)
     end_date: Mapped[datetime.date] = mapped_column(Date, nullable=False)
@@ -114,8 +115,9 @@ class Goals(db.Model):
         return {
             "id": self.id,
             "user_id": self.user_id,
-            "type": self.type,
-            "value": self.value,
-            "start_date": self.start_date,
-            "end_date": self.end_date,
+            "calorias": self.calorias,
+            "proteinas": self.proteinas,
+            "entrenamientos": self.entrenamientos,
+            "start_date": self.start_date.isoformat(),
+            "end_date": self.end_date.isoformat(),
         }

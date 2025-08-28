@@ -9,11 +9,22 @@
   box-shadow: 0 0 15px rgba(2, 124, 255, 0.4);
 }
 
+.goalsContainer {
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
+}
+
+.progress {
+  color: #fff;
+}
+
 .neonInput {
   background-color: #0A0F24;
   border: 1px solid #027CFF;
   color: white;
 }
+
 .neonInput:focus {
   background-color: #0A0F24;
   color: white;
