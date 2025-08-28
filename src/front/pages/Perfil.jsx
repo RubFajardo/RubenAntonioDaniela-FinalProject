@@ -378,7 +378,7 @@ export const Perfil = () => {
                                 <div>
                                     <h5 className={styles.cardTitle}>{habit.date}</h5>
                                     <ul className="list-unstyled mb-0">
-                                        <li><strong>entrenamientos:</strong> {habit.habits?.entrenamientos ? "Sí" : "No"}</li>
+                                        <li><strong>¿Entrenaste?:</strong> {habit.habits?.entrenamientos ? "Sí" : "No"}</li>
                                         <li><strong>Ejercicio:</strong> {habit.habits?.ejercicio || "N/A"}</li>
                                         <li><strong>Sueño:</strong> {habit.habits?.sueño || "N/A"}</li>
                                         <li><strong>Calorías:</strong> {habit.habits?.calorias || "N/A"}</li>
